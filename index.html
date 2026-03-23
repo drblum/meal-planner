@@ -7,19 +7,17 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Georgia, serif; background: #FAFAF8; color: #1a1a1a; min-height: 100vh; }
-
   .header { background: #1a1a1a; color: #fff; padding: 18px 28px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.15); }
-  .header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .header-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
   .header h1 { font-size: 18px; letter-spacing: -0.5px; }
   .header .sub { font-family: sans-serif; font-size: 11px; color: #aaa; margin-top: 2px; }
-  .tabs { display: flex; gap: 5px; }
+  .tabs { display: flex; gap: 5px; flex-wrap: wrap; }
   .tab { padding: 6px 13px; border-radius: 20px; border: none; background: transparent; color: #aaa; font-family: sans-serif; font-size: 12px; cursor: pointer; }
   .tab.active { background: #fff; color: #1a1a1a; font-weight: 700; }
+  .main { max-width: 960px; margin: 0 auto; padding: 22px 16px; }
+  .panel { display: none; } .panel.active { display: block; }
 
-  .main { max-width: 900px; margin: 0 auto; padding: 22px 16px; }
-  .panel { display: none; }
-  .panel.active { display: block; }
-
+  /* Anchor banner */
   .anchor-banner { display: flex; align-items: center; justify-content: space-between; border-radius: 12px; padding: 12px 18px; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; border: 1px solid rgba(0,0,0,0.1); }
   .anchor-info { display: flex; align-items: center; gap: 10px; }
   .anchor-emoji { font-size: 24px; }
@@ -29,7 +27,6 @@
   .btn-dark { background: #1a1a1a; color: #fff; }
   .btn-green { background: #27AE60; color: #fff; }
   .btn-row { display: flex; gap: 7px; flex-wrap: wrap; }
-
   .cuisine-picker { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 14px 18px; margin-bottom: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.07); display: none; }
   .cuisine-picker.open { display: block; }
   .picker-label { font-family: sans-serif; font-size: 10px; color: #999; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; }
@@ -39,13 +36,12 @@
   /* Day rows */
   .day-row { background: #fff; border-radius: 12px; margin-bottom: 9px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
   .day-row.is-locked { border-width: 2px; }
-  .day-row.is-blank { opacity: 0.6; background: #f7f7f7; }
+  .day-row.is-blank { opacity: 0.55; background: #f7f7f7; }
   .day-note { padding: 5px 14px; font-family: sans-serif; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid rgba(0,0,0,0.06); }
   .locked-badge { color: #fff; border-radius: 8px; padding: 1px 7px; font-size: 9px; font-weight: 700; }
   .day-inner { display: flex; align-items: stretch; flex-wrap: wrap; }
   .day-label { width: 86px; min-height: 72px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 9px 5px; flex-shrink: 0; color: #fff; }
-  .day-label .emoji { font-size: 17px; }
-  .day-label .dname { font-family: sans-serif; font-size: 12px; font-weight: 700; margin-top: 3px; }
+  .day-label .emoji { font-size: 17px; } .day-label .dname { font-family: sans-serif; font-size: 12px; font-weight: 700; margin-top: 3px; }
   .day-label .cuisine-sub { font-family: sans-serif; font-size: 8px; opacity: 0.85; margin-top: 1px; text-align: center; line-height: 1.2; }
   .day-main { flex: 1 1 150px; padding: 10px 13px; border-right: 1px solid #f0f0f0; }
   .day-sides { flex: 2 1 190px; padding: 10px 13px; }
@@ -60,25 +56,22 @@
   .add-side-btn { background: none; border: 1px dashed #ddd; border-radius: 20px; padding: 3px 9px; font-family: sans-serif; font-size: 11px; color: #ccc; cursor: pointer; }
   .action-btn { padding: 4px 8px; border-radius: 20px; border: 1px solid #eee; background: #fafafa; font-family: sans-serif; font-size: 10px; color: #888; cursor: pointer; white-space: nowrap; width: 72px; text-align: center; }
   .action-btn.locked-style { background: #fff3e0; border-color: #E67E22; color: #E67E22; }
-  .action-btn.blank-style  { background: #f0f0f0; border-color: #bbb; color: #888; }
-
-  /* Blank day display */
+  .action-btn.blank-style { background: #f0f0f0; border-color: #bbb; color: #888; }
   .blank-day-content { flex: 1; padding: 10px 13px; display: flex; align-items: center; }
   .blank-day-label { font-family: sans-serif; font-size: 12px; color: #bbb; font-style: italic; }
-
   .trip-banner { margin-top: 18px; background: #FFF9F0; border: 1px solid #F0C080; border-radius: 12px; padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
   .trip-banner .flag { font-size: 26px; }
   .trip-title { font-weight: 700; color: #B8600A; font-family: sans-serif; font-size: 13px; }
   .trip-sub { color: #999; font-size: 12px; margin-top: 2px; font-family: sans-serif; }
-
+  .archive-btn-row { display: flex; justify-content: flex-end; margin-bottom: 10px; }
   .swap-toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 11px 20px; border-radius: 30px; font-family: sans-serif; font-size: 12px; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 200; white-space: nowrap; display: none; }
   .swap-toast.visible { display: block; }
   .swap-toast button { margin-left: 12px; background: #333; border: none; color: #fff; border-radius: 20px; padding: 3px 11px; cursor: pointer; font-size: 11px; }
 
+  /* Library */
   .filters { display: flex; gap: 7px; margin-bottom: 15px; flex-wrap: wrap; }
   .filters input { padding: 7px 13px; border-radius: 20px; border: 1px solid #ddd; font-family: sans-serif; font-size: 12px; flex: 1; min-width: 120px; outline: none; }
   .filters select { padding: 7px 11px; border-radius: 20px; border: 1px solid #ddd; font-family: sans-serif; font-size: 12px; outline: none; background: #fff; }
-
   .dish-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 9px; }
   .dish-card { background: #fff; border-radius: 10px; padding: 11px 13px; border: 1px solid #eee; box-shadow: 0 1px 4px rgba(0,0,0,0.04); transition: border-color 0.15s; cursor: pointer; }
   .dish-card:hover { border-color: #ddd; }
@@ -88,20 +81,22 @@
   .dish-badges { display: flex; gap: 4px; flex-wrap: wrap; }
   .badge { border-radius: 10px; padding: 2px 7px; font-family: sans-serif; font-size: 10px; font-weight: 700; }
   .badge-type { background: #f5f5f5; color: #999; font-weight: 400; }
-  .dish-delete { background: none; border: none; color: #ddd; cursor: pointer; font-size: 12px; padding: 0; }
+  .dish-card-btns { display: flex; gap: 2px; }
+  .dish-icon-btn { background: none; border: none; cursor: pointer; font-size: 13px; padding: 0 2px; color: #ccc; line-height: 1; }
+  .dish-icon-btn:hover { color: #666; }
   .dish-name { margin-top: 6px; font-size: 13px; font-weight: bold; line-height: 1.3; }
   .dish-notes { font-family: sans-serif; font-size: 10px; color: #bbb; margin-top: 2px; }
   .dish-served { font-family: sans-serif; font-size: 10px; color: #ccc; margin-top: 4px; }
   .dish-confirm-btn { margin-top: 8px; padding: 5px 14px; border-radius: 20px; border: none; font-family: sans-serif; font-size: 11px; font-weight: 700; cursor: pointer; color: #fff; display: block; width: 100%; }
-
   .lib-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
   .lib-header h2 { font-size: 18px; }
+  .lib-header-btns { display: flex; gap: 8px; }
   .swap-context { font-size: 12px; font-family: sans-serif; font-weight: 400; margin-left: 8px; color: #E74C3C; }
 
+  /* By Cuisine */
   .cuisine-section { margin-bottom: 26px; }
   .cuisine-header { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; border-bottom-width: 2px; border-bottom-style: solid; padding-bottom: 7px; }
-  .cuisine-header .ce { font-size: 20px; }
-  .cuisine-header .cn { font-size: 16px; font-weight: bold; }
+  .cuisine-header .ce { font-size: 20px; } .cuisine-header .cn { font-size: 16px; font-weight: bold; }
   .cuisine-header .cc { font-family: sans-serif; font-size: 11px; color: #bbb; }
   .this-week-badge { color: #fff; border-radius: 10px; padding: 2px 8px; font-family: sans-serif; font-size: 10px; font-weight: 700; }
   .cuisine-sublabel { font-family: sans-serif; font-size: 9px; color: #bbb; font-weight: 700; letter-spacing: 1px; margin-bottom: 5px; margin-top: 7px; }
@@ -109,27 +104,70 @@
   .cuisine-main-chip { border-radius: 20px; padding: 4px 12px; font-family: sans-serif; font-size: 12px; font-weight: 600; border: 1px solid rgba(0,0,0,0.08); }
   .cuisine-side-chip { background: #f8f8f8; color: #888; border-radius: 20px; padding: 4px 12px; font-family: sans-serif; font-size: 12px; border: 1px solid #eee; }
 
+  /* History */
+  .history-controls { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .history-controls h2 { font-size: 18px; flex: 1; }
+  .view-toggle { display: flex; background: #f0f0f0; border-radius: 20px; padding: 3px; gap: 2px; }
+  .view-toggle button { padding: 5px 14px; border-radius: 17px; border: none; font-family: sans-serif; font-size: 12px; cursor: pointer; background: transparent; color: #888; font-weight: 600; }
+  .view-toggle button.active { background: #fff; color: #1a1a1a; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  .history-week-block { background: #fff; border-radius: 12px; margin-bottom: 18px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .history-week-header { padding: 12px 18px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #f0f0f0; background: #fafafa; }
+  .history-week-label { font-size: 14px; font-weight: bold; flex: 1; }
+  .history-anchor-badge { font-family: sans-serif; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .history-day-row { display: flex; align-items: flex-start; padding: 10px 18px; border-bottom: 1px solid #f9f9f9; gap: 12px; }
+  .history-day-row:last-child { border-bottom: none; }
+  .history-day-name { font-family: sans-serif; font-size: 11px; font-weight: 700; color: #bbb; width: 32px; flex-shrink: 0; padding-top: 2px; }
+  .history-day-emoji { font-size: 16px; flex-shrink: 0; }
+  .history-main-wrap { flex: 1; }
+  .history-main { font-size: 13px; font-weight: bold; }
+  .history-sides { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+  .history-side-chip { background: #f5f5f5; color: #888; border-radius: 10px; padding: 2px 8px; font-family: sans-serif; font-size: 10px; }
+  .history-cal-block { margin-bottom: 28px; }
+  .history-cal-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .history-cal-label { font-size: 15px; font-weight: bold; }
+  .history-cal-anchor { font-family: sans-serif; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .history-cal-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .history-cal-cell { background: #fff; border-radius: 10px; padding: 10px; border: 1px solid #eee; min-height: 80px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .history-cal-cell.blank-cell { background: #f7f7f7; opacity: 0.55; }
+  .history-cal-day { font-family: sans-serif; font-size: 9px; font-weight: 700; color: #bbb; letter-spacing: 1px; margin-bottom: 5px; }
+  .history-cal-flag { font-size: 20px; display: block; margin-bottom: 4px; }
+  .history-cal-dish { font-size: 12px; font-weight: bold; line-height: 1.3; }
+  .history-empty { font-family: sans-serif; font-size: 13px; color: #bbb; text-align: center; padding: 40px; }
+
+  /* Modals */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300; display: none; align-items: center; justify-content: center; padding: 16px; }
   .modal-overlay.open { display: flex; }
-  .modal { background: #fff; border-radius: 16px; padding: 24px; width: 100%; max-width: 400px; box-shadow: 0 8px 40px rgba(0,0,0,0.2); }
+  .modal { background: #fff; border-radius: 16px; padding: 24px; width: 100%; max-width: 400px; box-shadow: 0 8px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
   .modal h3 { font-size: 16px; margin-bottom: 6px; }
   .modal-sub { font-family: sans-serif; font-size: 12px; color: #999; margin-bottom: 14px; }
   .form-group { margin-bottom: 11px; }
   .form-group label { font-family: sans-serif; font-size: 11px; color: #888; display: block; margin-bottom: 3px; }
-  .form-group input, .form-group select { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; }
-  .form-row { display: flex; gap: 9px; margin-bottom: 14px; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; }
+  .form-row { display: flex; gap: 9px; margin-bottom: 11px; }
   .form-row .form-group { flex: 1; margin-bottom: 0; }
-  .modal-btns { display: flex; gap: 8px; }
+  .modal-btns { display: flex; gap: 8px; margin-top: 4px; }
   .modal-btns button { flex: 1; padding: 10px; border: none; border-radius: 8px; font-family: sans-serif; cursor: pointer; }
-
-  /* Lock modal specifics */
   .lock-search { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; margin-bottom: 8px; }
   .lock-dish-list { max-height: 200px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; margin-bottom: 10px; }
   .lock-dish-item { padding: 9px 13px; cursor: pointer; border-bottom: 1px solid #f5f5f5; font-family: sans-serif; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
   .lock-dish-item:hover { background: #f9f9f9; }
   .lock-dish-item.active { font-weight: 700; }
   .lock-dish-item:last-child { border-bottom: none; }
-  .lock-note-input { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; }
+
+  /* Cuisine manager */
+  .cuisine-manage-list { border: 1px solid #eee; border-radius: 8px; margin-bottom: 12px; max-height: 220px; overflow-y: auto; }
+  .cuisine-manage-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid #f5f5f5; font-family: sans-serif; font-size: 13px; }
+  .cuisine-manage-item:last-child { border-bottom: none; }
+  .cuisine-color-swatch { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+  .cuisine-manage-item span { flex: 1; }
+  .cuisine-delete-btn { background: none; border: none; color: #ddd; cursor: pointer; font-size: 12px; }
+  .cuisine-delete-btn:hover { color: #E74C3C; }
+  .add-cuisine-row { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; }
+  .add-cuisine-row input { flex: 1; min-width: 100px; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; }
+  .add-cuisine-row input[type="text"].emoji-input { max-width: 70px; text-align: center; font-size: 18px; }
+  .color-presets { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
+  .color-preset { width: 22px; height: 22px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
+  .color-preset.selected { border-color: #1a1a1a; }
 
   .status-bar { font-family: sans-serif; font-size: 11px; color: #aaa; text-align: center; padding: 8px; min-height: 28px; }
   .status-bar.error { color: #E74C3C; }
@@ -150,6 +188,7 @@
       <button class="tab active" onclick="switchTab('week')">Week</button>
       <button class="tab" onclick="switchTab('library')">Library</button>
       <button class="tab" onclick="switchTab('cuisine')">By Cuisine</button>
+      <button class="tab" onclick="switchTab('history')">History</button>
     </div>
   </div>
 </div>
@@ -163,6 +202,9 @@
     <div id="cuisine-picker" class="cuisine-picker">
       <div class="picker-label">PICK THIS WEEK'S ANCHOR CUISINE</div>
       <div id="cuisine-chips" class="cuisine-chips"></div>
+    </div>
+    <div class="archive-btn-row">
+      <button class="btn" style="background:#5D6D7E;color:#fff;font-size:11px;" onclick="archiveCurrentWeek()">📦 Save Week to History</button>
     </div>
     <div id="day-rows"></div>
     <div class="trip-banner">
@@ -178,7 +220,10 @@
   <div id="panel-library" class="panel">
     <div class="lib-header">
       <h2>Dish Library <span id="swap-context" class="swap-context"></span></h2>
-      <button class="btn btn-green" onclick="openAddModal()">+ Add Dish</button>
+      <div class="lib-header-btns">
+        <button class="btn" style="background:#f0f0f0;color:#555;font-size:11px;" onclick="openCuisineManager()">🏷 Cuisines</button>
+        <button class="btn btn-green" onclick="openAddModal()">+ Add Dish</button>
+      </div>
     </div>
     <div class="filters">
       <input id="search-input" type="text" placeholder="Search…" oninput="renderLibrary()">
@@ -197,6 +242,18 @@
     <h2 style="margin-bottom:20px;font-size:18px;">Dishes by Cuisine</h2>
     <div id="cuisine-sections"></div>
   </div>
+
+  <!-- HISTORY -->
+  <div id="panel-history" class="panel">
+    <div class="history-controls">
+      <h2>Past Weeks</h2>
+      <div class="view-toggle">
+        <button id="view-btn-list" class="active" onclick="setHistoryView('list')">☰ Weekly</button>
+        <button id="view-btn-cal" onclick="setHistoryView('calendar')">📅 Calendar</button>
+      </div>
+    </div>
+    <div id="history-content"></div>
+  </div>
 </div>
 
 <!-- Swap toast -->
@@ -205,10 +262,10 @@
   <button onclick="cancelSwap()">Cancel</button>
 </div>
 
-<!-- Add Dish Modal -->
+<!-- Add / Edit Dish Modal -->
 <div id="add-modal" class="modal-overlay">
   <div class="modal">
-    <h3>Add New Dish</h3>
+    <h3 id="dish-modal-title">Add New Dish</h3>
     <div class="form-group"><label>Dish Name *</label><input id="new-name" type="text" placeholder="e.g. Pad Thai"></div>
     <div class="form-group"><label>Notes</label><input id="new-notes" type="text" placeholder="Optional"></div>
     <div class="form-row">
@@ -218,13 +275,13 @@
       </div>
     </div>
     <div class="modal-btns">
-      <button style="background:#1a1a1a;color:#fff;font-weight:700;" onclick="addDish()">Add</button>
+      <button id="dish-modal-save-btn" style="background:#1a1a1a;color:#fff;font-weight:700;" onclick="saveDishModal()">Add</button>
       <button style="background:#f5f5f5;color:#666;" onclick="closeAddModal()">Cancel</button>
     </div>
   </div>
 </div>
 
-<!-- Lock Meal Modal -->
+<!-- Lock Modal -->
 <div id="lock-modal" class="modal-overlay">
   <div class="modal">
     <h3 id="lock-modal-title">🔒 Lock a Meal</h3>
@@ -233,27 +290,47 @@
     <div class="lock-dish-list" id="lock-dish-list"></div>
     <div class="form-group">
       <label>Note (optional)</label>
-      <input class="lock-note-input" id="lock-note" type="text" placeholder="e.g. Emily's mom arrives 🏠">
+      <input id="lock-note" type="text" placeholder="e.g. Emily's mom arrives 🏠">
     </div>
-    <div class="modal-btns" style="margin-top:4px;">
+    <div class="modal-btns">
       <button style="background:#1a1a1a;color:#fff;font-weight:700;" onclick="confirmLock()">Lock This Meal</button>
       <button style="background:#f5f5f5;color:#666;" onclick="closeLockModal()">Cancel</button>
     </div>
   </div>
 </div>
 
-<!-- Blank Day Modal -->
+<!-- Blank Modal -->
 <div id="blank-modal" class="modal-overlay">
   <div class="modal">
     <h3 id="blank-modal-title">Mark Day as Blank</h3>
-    <div class="modal-sub" id="blank-modal-sub"></div>
+    <div class="modal-sub">This day won't have a planned meal.</div>
     <div class="form-group">
       <label>Reason (optional)</label>
-      <input id="blank-reason" type="text" placeholder="e.g. Traveling ✈️, Eating out, etc.">
+      <input id="blank-reason" type="text" placeholder="e.g. Traveling ✈️, Eating out 🍜">
     </div>
-    <div class="modal-btns" style="margin-top:4px;">
+    <div class="modal-btns">
       <button style="background:#888;color:#fff;font-weight:700;" onclick="confirmBlank()">Mark as Blank</button>
       <button style="background:#f5f5f5;color:#666;" onclick="closeBlankModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Cuisine Manager Modal -->
+<div id="cuisine-modal" class="modal-overlay">
+  <div class="modal">
+    <h3>🏷 Manage Cuisines</h3>
+    <div class="modal-sub">Add or remove cuisine types.</div>
+    <div class="cuisine-manage-list" id="cuisine-manage-list"></div>
+    <div style="font-family:sans-serif;font-size:11px;color:#999;font-weight:700;letter-spacing:1px;margin-bottom:8px;">ADD NEW CUISINE</div>
+    <div class="add-cuisine-row">
+      <input type="text" class="emoji-input" id="new-cuisine-emoji" placeholder="🍽️" maxlength="4">
+      <input type="text" id="new-cuisine-name" placeholder="Cuisine name (e.g. Mediterranean)">
+    </div>
+    <div style="font-family:sans-serif;font-size:11px;color:#999;margin-top:10px;margin-bottom:6px;">Pick a colour:</div>
+    <div class="color-presets" id="color-presets"></div>
+    <div class="modal-btns" style="margin-top:14px;">
+      <button style="background:#1a1a1a;color:#fff;font-weight:700;" onclick="addCuisineType()">Add Cuisine</button>
+      <button style="background:#f5f5f5;color:#666;" onclick="closeCuisineManager()">Done</button>
     </div>
   </div>
 </div>
@@ -261,26 +338,54 @@
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbyDhhfVM244e_5IHcPsorXi9LcqZxfLG0WAAb6_KnemeVxp-EBwNYjobjdoYp8B0cCq/exec";
 
-const CUISINES = {
-  Korean:            { color: "#C0392B", light: "#FDEDEC", emoji: "🇰🇷" },
-  Japanese:          { color: "#2C3E50", light: "#EAF0F6", emoji: "🇯🇵" },
-  Italian:           { color: "#27AE60", light: "#EAFAF1", emoji: "🇮🇹" },
-  American:          { color: "#2980B9", light: "#EBF5FB", emoji: "🇺🇸" },
-  Chinese:           { color: "#E67E22", light: "#FEF9E7", emoji: "🇨🇳" },
-  "Southeast Asian": { color: "#8E44AD", light: "#F5EEF8", emoji: "🌏" },
-  Other:             { color: "#7F8C8D", light: "#F2F3F4", emoji: "🍽️" },
+// ── CUISINE REGISTRY ─────────────────────────────────────────
+// Stored in localStorage so both users can extend it
+const DEFAULT_CUISINES = {
+  Korean:          { color: "#C0392B", light: "#FDEDEC", emoji: "🇰🇷" },
+  Japanese:        { color: "#2C3E50", light: "#EAF0F6", emoji: "🇯🇵" },
+  Italian:         { color: "#27AE60", light: "#EAFAF1", emoji: "🇮🇹" },
+  American:        { color: "#2980B9", light: "#EBF5FB", emoji: "🇺🇸" },
+  Chinese:         { color: "#E67E22", light: "#FEF9E7", emoji: "🇨🇳" },
+  Mediterranean:   { color: "#16A085", light: "#E8F8F5", emoji: "🫒" },
+  "Southeast Asian":{ color: "#8E44AD", light: "#F5EEF8", emoji: "🌏" },
+  Other:           { color: "#7F8C8D", light: "#F2F3F4", emoji: "🍽️" },
 };
-const CUISINE_KEYS = Object.keys(CUISINES);
+const COLOR_OPTIONS = ["#C0392B","#2980B9","#27AE60","#E67E22","#8E44AD","#16A085","#2C3E50","#D35400","#1ABC9C","#E91E63","#795548","#607D8B"];
+
+function loadCuisines() {
+  try {
+    const saved = localStorage.getItem("mp_cuisines");
+    return saved ? JSON.parse(saved) : { ...DEFAULT_CUISINES };
+  } catch { return { ...DEFAULT_CUISINES }; }
+}
+function saveCuisines() {
+  localStorage.setItem("mp_cuisines", JSON.stringify(CUISINES));
+}
+function computeLight(hex) {
+  // Make a very light tint from the hex color
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},0.08)`;
+}
+function getCuisineData(name) {
+  return CUISINES[name] || { color: "#7F8C8D", light: "#F2F3F4", emoji: "🍽️" };
+}
+
+let CUISINES = loadCuisines();
+let selectedColor = COLOR_OPTIONS[0];
+
 const WEEKDAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
 const DAY_SHORT = { Monday:"MON", Tuesday:"TUE", Wednesday:"WED", Thursday:"THU", Friday:"FRI" };
 
 // ── STATE ────────────────────────────────────────────────────
 let dishes = [];
 let weekData = { plan: {}, anchorCuisine: "Chinese" };
+let history = [];
+let historyView = "list";
 let swapDay = null, swapSlot = null;
-let selectedDishId = null;   // for library single-click highlight
+let selectedDishId = null;
 let lockTargetDay = null, lockSelectedDish = null;
 let blankTargetDay = null;
+let editingDishId = null; // null = adding new, id = editing
 
 // ── API ──────────────────────────────────────────────────────
 async function apiGet(action) {
@@ -289,36 +394,34 @@ async function apiGet(action) {
   return r.json();
 }
 async function apiPost(body) {
-  const r = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "text/plain" },
-    body: JSON.stringify(body),
-  });
+  const r = await fetch(API_URL, { method:"POST", headers:{"Content-Type":"text/plain"}, body: JSON.stringify(body) });
   if (!r.ok) throw new Error("HTTP " + r.status);
   return r.json();
 }
-
 function setStatus(msg, type="") {
   const el = document.getElementById("status-bar");
-  el.innerHTML = msg;
-  el.className = "status-bar " + type;
-  if (type === "success") setTimeout(() => { el.textContent = ""; el.className = "status-bar"; }, 3000);
+  el.innerHTML = msg; el.className = "status-bar " + type;
+  if (type==="success") setTimeout(()=>{ el.textContent=""; el.className="status-bar"; }, 3000);
 }
 
 // ── INIT ─────────────────────────────────────────────────────
 async function init() {
   populateCuisineSelects();
+  renderColorPresets();
   setStatus('<span class="spinner"></span> Loading from Google Sheets…');
   try {
-    const [dishRes, weekRes] = await Promise.all([apiGet("getDishes"), apiGet("getWeekPlan")]);
+    const [dishRes, weekRes, histRes] = await Promise.all([
+      apiGet("getDishes"), apiGet("getWeekPlan"), apiGet("getHistory")
+    ]);
     if (dishRes.error) throw new Error(dishRes.error);
     dishes = dishRes.dishes || [];
-    if (weekRes.weekData && weekRes.weekData.plan && Object.keys(weekRes.weekData.plan).length > 0) {
+    if (weekRes.weekData && Object.keys(weekRes.weekData.plan||{}).length > 0) {
       weekData = weekRes.weekData;
     } else {
       weekData = generateWeekPlan(dishes, "Chinese");
       await saveWeekToSheets();
     }
+    history = histRes.history || [];
     setStatus("✓ Synced with Google Sheets", "success");
   } catch(e) {
     setStatus("⚠️ Could not load: " + e.message, "error");
@@ -326,342 +429,136 @@ async function init() {
   renderAll();
 }
 
-// ── GENERATE WEEK PLAN ───────────────────────────────────────
+// ── WEEK PLAN GENERATION ─────────────────────────────────────
 function generateWeekPlan(dishList, anchorCuisine) {
   const anchor = anchorCuisine || weekData?.anchorCuisine || "Chinese";
   const currentPlan = weekData?.plan || {};
-
-  // Preserve locked and blank days
   const preservedDays = {};
   WEEKDAYS.forEach(day => {
-    if (currentPlan[day]?.locked || currentPlan[day]?.blank) {
-      preservedDays[day] = currentPlan[day];
-    }
+    if (currentPlan[day]?.locked || currentPlan[day]?.blank) preservedDays[day] = currentPlan[day];
   });
-  const lockedIds = new Set(
-    Object.values(preservedDays).filter(d => d.main).map(d => Number(d.main.id))
-  );
-
-  const anchorMains = dishList.filter(d => d.type==="main" && d.cuisine===anchor && !lockedIds.has(Number(d.id)))
-    .sort(() => Math.random()-0.5);
-  const fillMains = dishList.filter(d => d.type==="main" && d.cuisine!==anchor && !lockedIds.has(Number(d.id)))
-    .sort((a,b) => {
-      if (!a.lastServed && !b.lastServed) return Math.random()-0.5;
-      if (!a.lastServed) return -1; if (!b.lastServed) return 1;
-      return new Date(a.lastServed)-new Date(b.lastServed);
-    });
-
-  const pool = [...anchorMains, ...fillMains];
-  const used = new Set(lockedIds);
-  const plan = {};
-
+  const lockedIds = new Set(Object.values(preservedDays).filter(d=>d.main).map(d=>Number(d.main.id)));
+  const anchorMains = dishList.filter(d=>d.type==="main"&&d.cuisine===anchor&&!lockedIds.has(Number(d.id))).sort(()=>Math.random()-0.5);
+  const fillMains = dishList.filter(d=>d.type==="main"&&d.cuisine!==anchor&&!lockedIds.has(Number(d.id))).sort((a,b)=>{
+    if(!a.lastServed&&!b.lastServed) return Math.random()-0.5;
+    if(!a.lastServed) return -1; if(!b.lastServed) return 1;
+    return new Date(a.lastServed)-new Date(b.lastServed);
+  });
+  const pool = [...anchorMains,...fillMains], used = new Set(lockedIds), plan = {};
   WEEKDAYS.forEach(day => {
-    if (preservedDays[day]) { plan[day] = preservedDays[day]; return; }
-    let main = null;
-    for (const m of pool) {
-      if (!used.has(Number(m.id))) { main = m; used.add(Number(m.id)); break; }
-    }
-    const sides = dishList
-      .filter(d => d.type==="side" && (d.cuisine===main?.cuisine || d.cuisine==="American" || d.cuisine==="Other"))
-      .sort(() => Math.random()-0.5).slice(0, 2);
-    plan[day] = { main, sides, note: null, locked: false, blank: false };
+    if(preservedDays[day]){ plan[day]=preservedDays[day]; return; }
+    let main=null;
+    for(const m of pool){ if(!used.has(Number(m.id))){ main=m; used.add(Number(m.id)); break; } }
+    const sides = dishList.filter(d=>d.type==="side"&&(d.cuisine===main?.cuisine||d.cuisine==="American"||d.cuisine==="Other")).sort(()=>Math.random()-0.5).slice(0,2);
+    plan[day] = { main, sides, note:null, locked:false, blank:false };
   });
-
   return { plan, anchorCuisine: anchor };
 }
 
 // ── RENDER ALL ───────────────────────────────────────────────
-function renderAll() { renderWeek(); renderLibrary(); renderByCuisine(); }
+function renderAll() { renderWeek(); renderLibrary(); renderByCuisine(); renderHistory(); }
 
 // ── RENDER WEEK ──────────────────────────────────────────────
 function renderWeek() {
   const anchor = weekData.anchorCuisine || "Chinese";
-  const c = CUISINES[anchor] || CUISINES["Other"];
-
+  const c = getCuisineData(anchor);
   document.getElementById("anchor-banner").style.background = c.light;
-  document.getElementById("anchor-banner").style.borderColor = c.color + "44";
+  document.getElementById("anchor-banner").style.borderColor = c.color+"44";
   document.getElementById("anchor-banner").innerHTML = `
     <div class="anchor-info">
       <span class="anchor-emoji">${c.emoji}</span>
-      <div>
-        <div class="anchor-label">THIS WEEK'S ANCHOR CUISINE</div>
-        <div class="anchor-name" style="color:${c.color}">${anchor}</div>
-      </div>
+      <div><div class="anchor-label">THIS WEEK'S ANCHOR CUISINE</div>
+      <div class="anchor-name" style="color:${c.color}">${anchor}</div></div>
     </div>
     <div class="btn-row">
       <button class="btn" style="background:${c.color};color:#fff" onclick="toggleCuisinePicker()">🔀 Change</button>
       <button class="btn btn-dark" onclick="regenPlan()">↻ Regenerate</button>
     </div>`;
-
-  document.getElementById("cuisine-chips").innerHTML = CUISINE_KEYS.filter(k=>k!=="Other").map(k => {
-    const col = CUISINES[k];
-    const count = dishes.filter(d=>d.cuisine===k && d.type==="main").length;
-    const isActive = k === anchor;
-    return `<button class="cuisine-chip" style="background:${isActive?col.color:col.light};color:${isActive?"#fff":col.color};border-color:${col.color}44"
-      onclick="pickCuisine('${k}')">${col.emoji} ${k} <span style="opacity:0.6;font-size:10px">(${count})</span></button>`;
+  document.getElementById("cuisine-chips").innerHTML = Object.keys(CUISINES).filter(k=>k!=="Other").map(k=>{
+    const col=getCuisineData(k), count=dishes.filter(d=>d.cuisine===k&&d.type==="main").length, isActive=k===anchor;
+    return `<button class="cuisine-chip" style="background:${isActive?col.color:col.light};color:${isActive?"#fff":col.color};border-color:${col.color}44" onclick="pickCuisine('${k}')">${col.emoji} ${k} <span style="opacity:0.6;font-size:10px">(${count})</span></button>`;
   }).join("");
-
-  document.getElementById("day-rows").innerHTML = WEEKDAYS.map(day => {
-    const dp = weekData.plan[day] || {};
-    const isBlank = !!dp.blank;
-    const isLocked = !!dp.locked && !isBlank;
-    const cuisine = dp.main?.cuisine;
-    const col = isBlank ? { color: "#aaa", light: "#f5f5f5", emoji: "—" } : (CUISINES[cuisine] || CUISINES["Other"]);
-    const isAnchor = !isBlank && cuisine === anchor;
-
-    // Action buttons
-    const servedBtn = !isBlank
-      ? `<button class="action-btn" onclick="markServed('${day}')">✓ Done</button>` : "";
-
-    const lockBtn = isLocked
-      ? `<button class="action-btn locked-style" onclick="unlockDay('${day}')">🔓 Unlock</button>`
-      : (!isBlank ? `<button class="action-btn" onclick="openLockModal('${day}')">🔒 Lock</button>` : "");
-
-    const blankBtn = isBlank
-      ? `<button class="action-btn blank-style" onclick="unblankDay('${day}')">↩ Restore</button>`
-      : `<button class="action-btn" onclick="openBlankModal('${day}')" style="color:#bbb">✕ Blank</button>`;
-
-    // Note banner
-    const noteHtml = dp.note ? `
-      <div class="day-note" style="background:${col.light};color:${col.color}">
-        ${isLocked ? `<span class="locked-badge" style="background:${col.color}">LOCKED</span>` : ""}
-        ${isBlank ? `<span class="locked-badge" style="background:#aaa">BLANK</span>` : ""}
-        ${dp.note}
-      </div>` : (isBlank && !dp.note ? `
-      <div class="day-note" style="background:#f5f5f5;color:#bbb">
-        <span class="locked-badge" style="background:#bbb">BLANK</span>
-        No meal planned
-      </div>` : "");
-
-    if (isBlank) {
-      return `
-        <div class="day-row is-blank">
-          ${noteHtml}
-          <div class="day-inner">
-            <div class="day-label" style="background:#ccc">
-              <span class="emoji">⬜</span>
-              <span class="dname">${DAY_SHORT[day]}</span>
-            </div>
-            <div class="blank-day-content">
-              <span class="blank-day-label">${dp.note || "No meal planned"}</span>
-            </div>
-            <div class="day-actions">${blankBtn}</div>
-          </div>
-        </div>`;
-    }
-
-    const sidesHtml = (dp.sides||[]).map((s,i) => `
-      <span class="side-chip" style="background:${col.light};color:${col.color}">
-        ${s.name}
-        ${!isLocked ? `<button onclick="startSwap('${day}',${i})">⇄</button><button onclick="removeSide('${day}',${i})">✕</button>` : ""}
-      </span>`).join("");
-    const addSideBtn = (!isLocked && (dp.sides||[]).length < 4)
-      ? `<button class="add-side-btn" onclick="startSwap('${day}',${(dp.sides||[]).length})">+ side</button>` : "";
-
-    return `
-      <div class="day-row ${isLocked?"is-locked":""}" style="border-color:${isLocked?col.color+"88":isAnchor?col.color+"44":"#eee"}">
-        ${noteHtml}
-        <div class="day-inner">
-          <div class="day-label" style="background:${isLocked?col.color:col.color+"cc"}">
-            <span class="emoji">${col.emoji}</span>
-            <span class="dname">${DAY_SHORT[day]}</span>
-            ${!isAnchor && cuisine ? `<span class="cuisine-sub">${cuisine}</span>` : ""}
-          </div>
-          <div class="day-main">
-            <div class="section-label">MAIN</div>
-            <div class="main-name">${dp.main?.name || "<span style='color:#ccc'>Not set</span>"}</div>
-            ${dp.main?.notes ? `<div class="main-notes">${dp.main.notes}</div>` : ""}
-            ${!isLocked ? `<button class="icon-btn" style="color:${col.color}" onclick="startSwap('${day}','main')">⇄ swap</button>` : ""}
-          </div>
-          <div class="day-sides">
-            <div class="section-label">SIDES</div>
-            <div class="sides-row">${sidesHtml}${addSideBtn}</div>
-          </div>
-          <div class="day-actions">
-            ${servedBtn}
-            ${lockBtn}
-            ${blankBtn}
-          </div>
+  document.getElementById("day-rows").innerHTML = WEEKDAYS.map(day=>{
+    const dp=weekData.plan[day]||{}, isBlank=!!dp.blank, isLocked=!!dp.locked&&!isBlank;
+    const cuisine=dp.main?.cuisine, col=isBlank?{color:"#aaa",light:"#f5f5f5",emoji:"⬜"}:getCuisineData(cuisine||"Other");
+    const isAnchor=!isBlank&&cuisine===anchor;
+    const servedBtn=!isBlank?`<button class="action-btn" onclick="markServed('${day}')">✓ Done</button>`:"";
+    const lockBtn=isLocked?`<button class="action-btn locked-style" onclick="unlockDay('${day}')">🔓 Unlock</button>`
+      :(!isBlank?`<button class="action-btn" onclick="openLockModal('${day}')">🔒 Lock</button>`:"");
+    const blankBtn=isBlank?`<button class="action-btn blank-style" onclick="unblankDay('${day}')">↩ Restore</button>`
+      :`<button class="action-btn" style="color:#bbb" onclick="openBlankModal('${day}')">✕ Blank</button>`;
+    const noteHtml=dp.note?`<div class="day-note" style="background:${col.light};color:${col.color}">
+      ${isLocked?`<span class="locked-badge" style="background:${col.color}">LOCKED</span>`:""}
+      ${isBlank?`<span class="locked-badge" style="background:#aaa">BLANK</span>`:""}${dp.note}</div>`
+      :(isBlank?`<div class="day-note" style="background:#f5f5f5;color:#bbb"><span class="locked-badge" style="background:#bbb">BLANK</span> No meal planned</div>`:"");
+    if(isBlank) return `<div class="day-row is-blank">${noteHtml}<div class="day-inner">
+      <div class="day-label" style="background:#ccc"><span class="emoji">⬜</span><span class="dname">${DAY_SHORT[day]}</span></div>
+      <div class="blank-day-content"><span class="blank-day-label">${dp.note||"No meal planned"}</span></div>
+      <div class="day-actions">${blankBtn}</div></div></div>`;
+    const sidesHtml=(dp.sides||[]).map((s,i)=>`<span class="side-chip" style="background:${col.light};color:${col.color}">${s.name}
+      ${!isLocked?`<button onclick="startSwap('${day}',${i})">⇄</button><button onclick="removeSide('${day}',${i})">✕</button>`:""}</span>`).join("");
+    const addSideBtn=(!isLocked&&(dp.sides||[]).length<4)?`<button class="add-side-btn" onclick="startSwap('${day}',${(dp.sides||[]).length})">+ side</button>`:"";
+    return `<div class="day-row ${isLocked?"is-locked":""}" style="border-color:${isLocked?col.color+"88":isAnchor?col.color+"44":"#eee"}">
+      ${noteHtml}<div class="day-inner">
+        <div class="day-label" style="background:${isLocked?col.color:col.color+"cc"}">
+          <span class="emoji">${col.emoji}</span><span class="dname">${DAY_SHORT[day]}</span>
+          ${!isAnchor&&cuisine?`<span class="cuisine-sub">${cuisine}</span>`:""}
         </div>
-      </div>`;
+        <div class="day-main"><div class="section-label">MAIN</div>
+          <div class="main-name">${dp.main?.name||"<span style='color:#ccc'>Not set</span>"}</div>
+          ${dp.main?.notes?`<div class="main-notes">${dp.main.notes}</div>`:""}
+          ${!isLocked?`<button class="icon-btn" style="color:${col.color}" onclick="startSwap('${day}','main')">⇄ swap</button>`:""}
+        </div>
+        <div class="day-sides"><div class="section-label">SIDES</div>
+          <div class="sides-row">${sidesHtml}${addSideBtn}</div>
+        </div>
+        <div class="day-actions">${servedBtn}${lockBtn}${blankBtn}</div>
+      </div></div>`;
   }).join("");
-}
-
-// ── BLANK DAY ────────────────────────────────────────────────
-function openBlankModal(day) {
-  blankTargetDay = day;
-  document.getElementById("blank-modal-title").textContent = `Mark ${day} as Blank`;
-  document.getElementById("blank-modal-sub").textContent = "This day won't have a planned meal.";
-  document.getElementById("blank-reason").value = "";
-  document.getElementById("blank-modal").classList.add("open");
-}
-function closeBlankModal() {
-  document.getElementById("blank-modal").classList.remove("open");
-  blankTargetDay = null;
-}
-async function confirmBlank() {
-  if (!blankTargetDay) return;
-  const reason = document.getElementById("blank-reason").value.trim();
-  weekData.plan[blankTargetDay] = {
-    main: null, sides: [], locked: false, blank: true,
-    note: reason || null,
-  };
-  closeBlankModal();
-  renderWeek();
-  await saveWeekToSheets();
-  setStatus(`✓ ${blankTargetDay} marked as blank`, "success");
-}
-async function unblankDay(day) {
-  // Restore with a fresh auto-picked meal
-  const anchor = weekData.anchorCuisine || "Chinese";
-  const usedIds = new Set(
-    WEEKDAYS.filter(d => d !== day && weekData.plan[d]?.main)
-      .map(d => Number(weekData.plan[d].main.id))
-  );
-  const pool = dishes.filter(d => d.type==="main" && !usedIds.has(Number(d.id)))
-    .sort(() => Math.random()-0.5);
-  const main = pool[0] || null;
-  const sides = dishes.filter(d => d.type==="side" && (d.cuisine===main?.cuisine || d.cuisine==="American"))
-    .sort(() => Math.random()-0.5).slice(0,2);
-  weekData.plan[day] = { main, sides, note: null, locked: false, blank: false };
-  renderWeek();
-  await saveWeekToSheets();
-  setStatus(`✓ ${day} restored`, "success");
-}
-
-// ── LOCK / UNLOCK ────────────────────────────────────────────
-function openLockModal(day) {
-  lockTargetDay = day;
-  // Default selection = whatever is currently on that day
-  lockSelectedDish = weekData.plan[day]?.main || null;
-  document.getElementById("lock-modal-title").textContent = `🔒 Lock Meal for ${day}`;
-  document.getElementById("lock-modal-sub").textContent = lockSelectedDish
-    ? `Currently: ${lockSelectedDish.name}. Confirm or search to change.`
-    : "Choose a dish to lock in.";
-  document.getElementById("lock-search").value = "";
-  document.getElementById("lock-note").value = weekData.plan[day]?.note || "";
-  renderLockList();
-  document.getElementById("lock-modal").classList.add("open");
-}
-function closeLockModal() {
-  document.getElementById("lock-modal").classList.remove("open");
-  lockTargetDay = null;
-  lockSelectedDish = null;
-}
-function renderLockList() {
-  const search = document.getElementById("lock-search").value.toLowerCase();
-  const mains = dishes.filter(d => d.type==="main" && (!search || d.name.toLowerCase().includes(search)));
-  document.getElementById("lock-dish-list").innerHTML = mains.map(d => {
-    const isActive = lockSelectedDish && Number(lockSelectedDish.id) === Number(d.id);
-    const c = CUISINES[d.cuisine] || CUISINES["Other"];
-    return `<div class="lock-dish-item ${isActive?"active":""}"
-      style="${isActive ? `background:${c.light}` : ""}"
-      onclick="selectLockDish(${d.id})">
-      <span>${d.name} <span style="color:${c.color};font-size:11px">${d.cuisine}</span></span>
-      ${isActive ? `<span style="color:${c.color}">✓</span>` : ""}
-    </div>`;
-  }).join("") || `<div style="padding:12px;font-family:sans-serif;font-size:12px;color:#bbb">No dishes found</div>`;
-}
-function selectLockDish(id) {
-  lockSelectedDish = dishes.find(d => Number(d.id) === Number(id));
-  document.getElementById("lock-modal-sub").textContent = `Selected: ${lockSelectedDish?.name}`;
-  renderLockList();
-}
-async function confirmLock() {
-  if (!lockTargetDay || !lockSelectedDish) { alert("Please select a dish."); return; }
-  const note = document.getElementById("lock-note").value.trim();
-  weekData.plan[lockTargetDay] = {
-    ...(weekData.plan[lockTargetDay] || {}),
-    main: lockSelectedDish,
-    sides: weekData.plan[lockTargetDay]?.sides || [],
-    note: note || null,
-    locked: true,
-    blank: false,
-  };
-  closeLockModal();
-  renderWeek();
-  await saveWeekToSheets();
-  setStatus(`✓ ${lockTargetDay} locked to ${lockSelectedDish.name}`, "success");
-}
-async function unlockDay(day) {
-  weekData.plan[day] = { ...weekData.plan[day], locked: false, note: null };
-  renderWeek();
-  await saveWeekToSheets();
-  setStatus(`✓ ${day} unlocked`, "success");
 }
 
 // ── RENDER LIBRARY ───────────────────────────────────────────
 function renderLibrary() {
-  const search = document.getElementById("search-input").value.toLowerCase();
-  const filterC = document.getElementById("filter-cuisine").value;
-  const filterT = document.getElementById("filter-type").value;
-  const filtered = dishes.filter(d =>
-    (!filterC || d.cuisine===filterC) &&
-    (!filterT || d.type===filterT) &&
-    (!search || d.name.toLowerCase().includes(search))
-  );
-
-  const inSwapMode = !!swapDay;
-  document.getElementById("swap-context").textContent = inSwapMode
-    ? `— tap to swap ${swapSlot==="main"?"main":"side"} for ${swapDay}` : "";
-
-  document.getElementById("dish-grid").innerHTML = filtered.map(dish => {
-    const c = CUISINES[dish.cuisine] || CUISINES["Other"];
-    const canSwap = inSwapMode && ((swapSlot==="main" && dish.type==="main") || (swapSlot!=="main" && dish.type==="side"));
-    const isSelected = !inSwapMode && selectedDishId === Number(dish.id);
-
-    // In normal (non-swap) mode: first click highlights, shows confirm button
-    // In swap mode: first click confirms immediately
-    const cardClick = inSwapMode
-      ? (canSwap ? `doSwap(${dish.id})` : "")
-      : `selectDish(${dish.id})`;
-
-    const confirmBtn = (isSelected && !inSwapMode)
-      ? `<button class="dish-confirm-btn" style="background:${c.color}" onclick="event.stopPropagation();confirmDishSelection(${dish.id})">✓ Use this dish</button>`
-      : "";
-
-    return `
-      <div class="dish-card ${canSwap?"swappable":""} ${isSelected?"selected":""}"
-        style="${(canSwap||isSelected)?`border-color:${c.color};box-shadow:0 2px 12px ${c.color}22`:""}"
-        onclick="${cardClick}">
-        <div class="dish-card-top">
-          <div class="dish-badges">
-            <span class="badge" style="background:${c.light};color:${c.color}">${dish.cuisine}</span>
-            <span class="badge badge-type">${dish.type}</span>
-          </div>
-          <button class="dish-delete" onclick="event.stopPropagation();deleteDish(${dish.id})">✕</button>
+  const search=document.getElementById("search-input").value.toLowerCase();
+  const filterC=document.getElementById("filter-cuisine").value;
+  const filterT=document.getElementById("filter-type").value;
+  const filtered=dishes.filter(d=>(!filterC||d.cuisine===filterC)&&(!filterT||d.type===filterT)&&(!search||d.name.toLowerCase().includes(search)));
+  document.getElementById("swap-context").textContent=swapDay?`— tap to swap ${swapSlot==="main"?"main":"side"} for ${swapDay}`:"";
+  const inSwapMode=!!swapDay;
+  document.getElementById("dish-grid").innerHTML=filtered.map(dish=>{
+    const c=getCuisineData(dish.cuisine);
+    const canSwap=inSwapMode&&((swapSlot==="main"&&dish.type==="main")||(swapSlot!=="main"&&dish.type==="side"));
+    const isSelected=!inSwapMode&&selectedDishId===Number(dish.id);
+    const cardClick=inSwapMode?(canSwap?`doSwap(${dish.id})`:""):`selectDish(${dish.id})`;
+    const confirmBtn=(isSelected&&!inSwapMode)?`<button class="dish-confirm-btn" style="background:${c.color}" onclick="event.stopPropagation()">✓ Selected</button>`:"";
+    return `<div class="dish-card ${canSwap?"swappable":""} ${isSelected?"selected":""}"
+      style="${(canSwap||isSelected)?`border-color:${c.color};box-shadow:0 2px 12px ${c.color}22`:""}"
+      onclick="${cardClick}">
+      <div class="dish-card-top">
+        <div class="dish-badges">
+          <span class="badge" style="background:${c.light};color:${c.color}">${c.emoji} ${dish.cuisine}</span>
+          <span class="badge badge-type">${dish.type}</span>
         </div>
-        <div class="dish-name">${dish.name}</div>
-        ${dish.notes ? `<div class="dish-notes">${dish.notes}</div>` : ""}
-        ${dish.lastServed ? `<div class="dish-served">Last: ${dish.lastServed}</div>` : ""}
-        ${canSwap ? `<div class="dish-tap" style="color:${c.color}">Tap to swap →</div>` : ""}
-        ${confirmBtn}
-      </div>`;
-  }).join("");
-}
-
-function selectDish(id) {
-  // Toggle selection — clicking same card again deselects
-  selectedDishId = (selectedDishId === Number(id)) ? null : Number(id);
-  renderLibrary();
-}
-
-async function confirmDishSelection(id) {
-  // Used when not in swap mode — currently just deselects (placeholder for future use)
-  // Could be extended to e.g. assign to a day
-  selectedDishId = null;
-  renderLibrary();
+        <div class="dish-card-btns">
+          <button class="dish-icon-btn" title="Edit" onclick="event.stopPropagation();openEditModal(${dish.id})">✏️</button>
+          <button class="dish-icon-btn" title="Delete" onclick="event.stopPropagation();deleteDish(${dish.id})">✕</button>
+        </div>
+      </div>
+      <div class="dish-name">${dish.name}</div>
+      ${dish.notes?`<div class="dish-notes">${dish.notes}</div>`:""}
+      ${dish.lastServed?`<div class="dish-served">Last: ${dish.lastServed}</div>`:""}
+      ${canSwap?`<div style="font-family:sans-serif;font-size:11px;font-weight:700;margin-top:5px;color:${c.color}">Tap to use →</div>`:""}
+      ${confirmBtn}
+    </div>`;
+  }).join("") || `<div style="font-family:sans-serif;color:#bbb;padding:20px;grid-column:1/-1">No dishes found.</div>`;
 }
 
 // ── RENDER BY CUISINE ────────────────────────────────────────
 function renderByCuisine() {
-  const anchor = weekData.anchorCuisine;
-  document.getElementById("cuisine-sections").innerHTML = CUISINE_KEYS.map(cuisine => {
-    const ds = dishes.filter(d => d.cuisine===cuisine);
-    if (!ds.length) return "";
-    const c = CUISINES[cuisine];
-    const mains = ds.filter(d => d.type==="main");
-    const sides = ds.filter(d => d.type==="side");
+  const anchor=weekData.anchorCuisine;
+  document.getElementById("cuisine-sections").innerHTML=Object.keys(CUISINES).map(cuisine=>{
+    const ds=dishes.filter(d=>d.cuisine===cuisine); if(!ds.length) return "";
+    const c=getCuisineData(cuisine), mains=ds.filter(d=>d.type==="main"), sides=ds.filter(d=>d.type==="side");
     return `<div class="cuisine-section">
       <div class="cuisine-header" style="border-color:${c.color}">
         <span class="ce">${c.emoji}</span><span class="cn">${cuisine}</span>
@@ -678,130 +575,328 @@ function renderByCuisine() {
   }).join("");
 }
 
-// ── TAB / PICKER ─────────────────────────────────────────────
-function switchTab(tab) {
-  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  document.getElementById("panel-" + (tab==="cuisine"?"cuisine":tab==="library"?"library":"week")).classList.add("active");
-  document.querySelectorAll(".tab")[["week","library","cuisine"].indexOf(tab)].classList.add("active");
-  if (tab !== "library") { if (swapDay) cancelSwap(); selectedDishId = null; }
-}
-function toggleCuisinePicker() { document.getElementById("cuisine-picker").classList.toggle("open"); }
-async function pickCuisine(cuisine) {
-  weekData = generateWeekPlan(dishes, cuisine);
-  weekData.anchorCuisine = cuisine;
-  document.getElementById("cuisine-picker").classList.remove("open");
-  renderAll();
-  await saveWeekToSheets();
-}
-async function regenPlan() {
-  weekData = generateWeekPlan(dishes, weekData.anchorCuisine);
-  renderAll();
-  await saveWeekToSheets();
+// ── HISTORY ──────────────────────────────────────────────────
+function setHistoryView(v) {
+  historyView=v;
+  document.getElementById("view-btn-list").classList.toggle("active",v==="list");
+  document.getElementById("view-btn-cal").classList.toggle("active",v==="calendar");
+  renderHistory();
 }
 
-// ── SWAP ─────────────────────────────────────────────────────
-function startSwap(day, slot) {
-  swapDay = day; swapSlot = slot; selectedDishId = null;
-  document.getElementById("swap-toast-text").textContent =
-    `🔄 Swapping ${slot==="main"?"main dish":"side"} for ${day} — pick from Library`;
-  document.getElementById("swap-toast").classList.add("visible");
-  switchTab("library");
-}
-function cancelSwap() {
-  swapDay = null; swapSlot = null;
-  document.getElementById("swap-toast").classList.remove("visible");
-  document.getElementById("swap-context").textContent = "";
-  renderLibrary();
-}
-async function doSwap(dishId) {
-  if (!swapDay) return;
-  const dish = dishes.find(d => Number(d.id)===Number(dishId));
-  const dp = { ...(weekData.plan[swapDay]||{}) };
-  if (swapSlot === "main") {
-    dp.main = dish;
+function renderHistory() {
+  const el=document.getElementById("history-content");
+  if(!history.length){ el.innerHTML=`<div class="history-empty">No past weeks saved yet.<br>Use "📦 Save Week to History" on the Week tab when you're done planning a week.</div>`; return; }
+  if(historyView==="list") {
+    el.innerHTML=history.map(entry=>{
+      const wd=entry.weekData||{}, plan=wd.plan||{}, anchor=wd.anchorCuisine||"";
+      const c=getCuisineData(anchor);
+      const dayRows=WEEKDAYS.map(day=>{
+        const dp=plan[day]||{};
+        if(dp.blank) return `<div class="history-day-row"><span class="history-day-name">${DAY_SHORT[day]}</span>
+          <span class="history-day-emoji">⬜</span>
+          <div class="history-main-wrap"><div class="history-main" style="color:#ccc;font-weight:400">${dp.note||"No meal"}</div></div></div>`;
+        if(!dp.main) return "";
+        const dc=getCuisineData(dp.main.cuisine);
+        return `<div class="history-day-row">
+          <span class="history-day-name">${DAY_SHORT[day]}</span>
+          <span class="history-day-emoji">${dc.emoji}</span>
+          <div class="history-main-wrap">
+            <div class="history-main">${dp.main.name}</div>
+            ${(dp.sides||[]).length?`<div class="history-sides">${dp.sides.map(s=>`<span class="history-side-chip">${s.name}</span>`).join("")}</div>`:""}
+          </div>
+        </div>`;
+      }).join("");
+      return `<div class="history-week-block">
+        <div class="history-week-header">
+          <span class="history-week-label">${entry.weekLabel}</span>
+          ${anchor?`<span class="history-anchor-badge" style="background:${c.light};color:${c.color}">${c.emoji} ${anchor}</span>`:""}
+        </div>${dayRows}</div>`;
+    }).join("");
   } else {
-    const sides = [...(dp.sides||[])];
-    if (swapSlot < sides.length) sides[swapSlot] = dish; else sides.push(dish);
-    dp.sides = sides;
+    el.innerHTML=history.map(entry=>{
+      const wd=entry.weekData||{}, plan=wd.plan||{}, anchor=wd.anchorCuisine||"";
+      const c=getCuisineData(anchor);
+      const cells=WEEKDAYS.map(day=>{
+        const dp=plan[day]||{};
+        if(dp.blank) return `<div class="history-cal-cell blank-cell">
+          <div class="history-cal-day">${DAY_SHORT[day]}</div>
+          <span style="font-size:18px">⬜</span>
+          <div style="font-family:sans-serif;font-size:10px;color:#bbb;margin-top:4px">${dp.note||"Blank"}</div>
+        </div>`;
+        if(!dp.main) return `<div class="history-cal-cell blank-cell"><div class="history-cal-day">${DAY_SHORT[day]}</div></div>`;
+        const dc=getCuisineData(dp.main.cuisine);
+        return `<div class="history-cal-cell" style="border-color:${dc.color}22">
+          <div class="history-cal-day">${DAY_SHORT[day]}</div>
+          <span class="history-cal-flag">${dc.emoji}</span>
+          <div class="history-cal-dish">${dp.main.name}</div>
+        </div>`;
+      }).join("");
+      return `<div class="history-cal-block">
+        <div class="history-cal-header">
+          <span class="history-cal-label">${entry.weekLabel}</span>
+          ${anchor?`<span class="history-cal-anchor" style="background:${c.light};color:${c.color}">${c.emoji} ${anchor}</span>`:""}
+        </div>
+        <div class="history-cal-grid">${cells}</div>
+      </div>`;
+    }).join("");
   }
-  weekData.plan[swapDay] = dp;
-  cancelSwap();
-  renderAll();
-  switchTab("week");
-  await saveWeekToSheets();
-}
-async function removeSide(day, idx) {
-  const dp = { ...(weekData.plan[day]||{}) };
-  const sides = [...(dp.sides||[])];
-  sides.splice(idx, 1);
-  weekData.plan[day] = { ...dp, sides };
-  renderWeek();
-  await saveWeekToSheets();
-}
-async function markServed(day) {
-  const dp = weekData.plan[day];
-  if (!dp || dp.blank) return;
-  const today = new Date().toISOString().split("T")[0];
-  const idsToUpdate = [dp.main?.id, ...(dp.sides||[]).map(s=>s.id)].filter(Boolean).map(Number);
-  dishes = dishes.map(d => idsToUpdate.includes(Number(d.id)) ? { ...d, lastServed: today } : d);
-  renderAll();
-  setStatus("Saving…");
-  for (const id of idsToUpdate) {
-    const d = dishes.find(d => Number(d.id)===id);
-    if (d) await saveDishToSheets(d);
-  }
-  setStatus(`✓ Marked ${day} as served`, "success");
 }
 
-// ── ADD / DELETE ─────────────────────────────────────────────
-function openAddModal() { document.getElementById("add-modal").classList.add("open"); }
-function closeAddModal() { document.getElementById("add-modal").classList.remove("open"); }
-async function addDish() {
-  const name = document.getElementById("new-name").value.trim();
-  if (!name) return;
-  const dish = {
-    id: Date.now(), name,
-    cuisine: document.getElementById("new-cuisine").value,
-    type: document.getElementById("new-type").value,
-    notes: document.getElementById("new-notes").value.trim(),
-    lastServed: "",
-  };
-  dishes.push(dish);
-  closeAddModal();
-  document.getElementById("new-name").value = "";
-  document.getElementById("new-notes").value = "";
-  renderAll();
-  await saveDishToSheets(dish);
-  setStatus("✓ Dish added to Google Sheets", "success");
+async function archiveCurrentWeek() {
+  const now=new Date();
+  const monday=new Date(now); monday.setDate(now.getDate()-((now.getDay()+6)%7));
+  const friday=new Date(monday); friday.setDate(monday.getDate()+4);
+  const fmt=d=>d.toLocaleDateString("en-US",{month:"short",day:"numeric"});
+  const weekLabel=`${fmt(monday)} – ${fmt(friday)}, ${friday.getFullYear()}`;
+  const startDate=monday.toISOString().split("T")[0];
+  const record={ weekLabel, startDate, weekData };
+  // Add to local history (deduplicate)
+  const idx=history.findIndex(h=>h.startDate===startDate);
+  if(idx>=0) history[idx]=record; else history.unshift(record);
+  renderHistory();
+  try {
+    await apiPost({ action:"archiveWeek", weekRecord: record });
+    setStatus("✓ Week saved to history", "success");
+  } catch(e) { setStatus("⚠️ Could not save to Sheets: "+e.message,"error"); }
+}
+
+// ── BLANK DAY ────────────────────────────────────────────────
+function openBlankModal(day) {
+  blankTargetDay=day;
+  document.getElementById("blank-modal-title").textContent=`Mark ${day} as Blank`;
+  document.getElementById("blank-reason").value="";
+  document.getElementById("blank-modal").classList.add("open");
+}
+function closeBlankModal(){ document.getElementById("blank-modal").classList.remove("open"); blankTargetDay=null; }
+async function confirmBlank() {
+  if(!blankTargetDay) return;
+  const reason=document.getElementById("blank-reason").value.trim();
+  weekData.plan[blankTargetDay]={ main:null,sides:[],locked:false,blank:true,note:reason||null };
+  closeBlankModal(); renderWeek(); await saveWeekToSheets();
+  setStatus(`✓ ${blankTargetDay} marked as blank`,"success");
+}
+async function unblankDay(day) {
+  const usedIds=new Set(WEEKDAYS.filter(d=>d!==day&&weekData.plan[d]?.main).map(d=>Number(weekData.plan[d].main.id)));
+  const pool=dishes.filter(d=>d.type==="main"&&!usedIds.has(Number(d.id))).sort(()=>Math.random()-0.5);
+  const main=pool[0]||null;
+  const sides=dishes.filter(d=>d.type==="side"&&(d.cuisine===main?.cuisine||d.cuisine==="American")).sort(()=>Math.random()-0.5).slice(0,2);
+  weekData.plan[day]={ main,sides,note:null,locked:false,blank:false };
+  renderWeek(); await saveWeekToSheets(); setStatus(`✓ ${day} restored`,"success");
+}
+
+// ── LOCK / UNLOCK ─────────────────────────────────────────────
+function openLockModal(day) {
+  lockTargetDay=day; lockSelectedDish=weekData.plan[day]?.main||null;
+  document.getElementById("lock-modal-title").textContent=`🔒 Lock Meal for ${day}`;
+  document.getElementById("lock-modal-sub").textContent=lockSelectedDish?`Currently: ${lockSelectedDish.name}. Confirm or search to change.`:"Choose a dish to lock in.";
+  document.getElementById("lock-search").value="";
+  document.getElementById("lock-note").value=weekData.plan[day]?.note||"";
+  renderLockList(); document.getElementById("lock-modal").classList.add("open");
+}
+function closeLockModal(){ document.getElementById("lock-modal").classList.remove("open"); lockTargetDay=null; lockSelectedDish=null; }
+function renderLockList() {
+  const search=document.getElementById("lock-search").value.toLowerCase();
+  const mains=dishes.filter(d=>d.type==="main"&&(!search||d.name.toLowerCase().includes(search)));
+  document.getElementById("lock-dish-list").innerHTML=mains.map(d=>{
+    const isActive=lockSelectedDish&&Number(lockSelectedDish.id)===Number(d.id);
+    const c=getCuisineData(d.cuisine);
+    return `<div class="lock-dish-item ${isActive?"active":""}" style="${isActive?`background:${c.light}`:""}" onclick="selectLockDish(${d.id})">
+      <span>${d.name} <span style="color:${c.color};font-size:11px">${d.cuisine}</span></span>
+      ${isActive?`<span style="color:${c.color}">✓</span>`:""}
+    </div>`;
+  }).join("")||`<div style="padding:12px;font-family:sans-serif;font-size:12px;color:#bbb">No dishes found</div>`;
+}
+function selectLockDish(id) {
+  lockSelectedDish=dishes.find(d=>Number(d.id)===Number(id));
+  document.getElementById("lock-modal-sub").textContent=`Selected: ${lockSelectedDish?.name}`;
+  renderLockList();
+}
+async function confirmLock() {
+  if(!lockTargetDay||!lockSelectedDish){ alert("Please select a dish."); return; }
+  const note=document.getElementById("lock-note").value.trim();
+  weekData.plan[lockTargetDay]={ ...(weekData.plan[lockTargetDay]||{}), main:lockSelectedDish, sides:weekData.plan[lockTargetDay]?.sides||[], note:note||null, locked:true, blank:false };
+  closeLockModal(); renderWeek(); await saveWeekToSheets();
+  setStatus(`✓ ${lockTargetDay} locked to ${lockSelectedDish.name}`,"success");
+}
+async function unlockDay(day) {
+  weekData.plan[day]={ ...weekData.plan[day], locked:false, note:null };
+  renderWeek(); await saveWeekToSheets(); setStatus(`✓ ${day} unlocked`,"success");
+}
+
+// ── ADD / EDIT DISH ──────────────────────────────────────────
+function openAddModal() {
+  editingDishId=null;
+  document.getElementById("dish-modal-title").textContent="Add New Dish";
+  document.getElementById("dish-modal-save-btn").textContent="Add";
+  document.getElementById("new-name").value="";
+  document.getElementById("new-notes").value="";
+  document.getElementById("new-cuisine").value=Object.keys(CUISINES)[0]||"Korean";
+  document.getElementById("new-type").value="main";
+  document.getElementById("add-modal").classList.add("open");
+}
+function openEditModal(id) {
+  const dish=dishes.find(d=>Number(d.id)===Number(id));
+  if(!dish) return;
+  editingDishId=Number(id);
+  document.getElementById("dish-modal-title").textContent="Edit Dish";
+  document.getElementById("dish-modal-save-btn").textContent="Save Changes";
+  document.getElementById("new-name").value=dish.name;
+  document.getElementById("new-notes").value=dish.notes||"";
+  document.getElementById("new-cuisine").value=dish.cuisine;
+  document.getElementById("new-type").value=dish.type;
+  document.getElementById("add-modal").classList.add("open");
+}
+function closeAddModal(){ document.getElementById("add-modal").classList.remove("open"); editingDishId=null; }
+async function saveDishModal() {
+  const name=document.getElementById("new-name").value.trim();
+  if(!name) return;
+  const cuisine=document.getElementById("new-cuisine").value;
+  const type=document.getElementById("new-type").value;
+  const notes=document.getElementById("new-notes").value.trim();
+  if(editingDishId!==null) {
+    // Edit existing
+    dishes=dishes.map(d=>Number(d.id)===editingDishId?{...d,name,cuisine,type,notes}:d);
+    // Also update any references in week plan
+    WEEKDAYS.forEach(day=>{
+      const dp=weekData.plan[day];
+      if(!dp) return;
+      if(dp.main&&Number(dp.main.id)===editingDishId) dp.main={...dp.main,name,cuisine,notes};
+      if(dp.sides) dp.sides=dp.sides.map(s=>Number(s.id)===editingDishId?{...s,name,cuisine,notes}:s);
+    });
+    closeAddModal(); renderAll();
+    const updated=dishes.find(d=>Number(d.id)===editingDishId);
+    await saveDishToSheets(updated);
+    await saveWeekToSheets();
+    setStatus("✓ Dish updated","success");
+  } else {
+    // Add new
+    const dish={ id:Date.now(), name, cuisine, type, notes, lastServed:"" };
+    dishes.push(dish); closeAddModal();
+    document.getElementById("new-name").value=""; document.getElementById("new-notes").value="";
+    renderAll(); await saveDishToSheets(dish);
+    setStatus("✓ Dish added to Google Sheets","success");
+  }
 }
 async function deleteDish(id) {
-  if (!confirm("Delete this dish?")) return;
-  dishes = dishes.filter(d => Number(d.id)!==Number(id));
-  selectedDishId = null;
+  if(!confirm("Delete this dish?")) return;
+  dishes=dishes.filter(d=>Number(d.id)!==Number(id)); selectedDishId=null;
   renderAll();
-  try { await apiPost({ action: "deleteDish", id: String(id) }); setStatus("✓ Deleted", "success"); }
-  catch(e) { setStatus("⚠️ Delete error", "error"); }
+  try { await apiPost({action:"deleteDish",id:String(id)}); setStatus("✓ Deleted","success"); }
+  catch(e){ setStatus("⚠️ Delete error","error"); }
+}
+
+// ── CUISINE MANAGER ──────────────────────────────────────────
+function openCuisineManager() {
+  renderCuisineManageList(); renderColorPresets();
+  document.getElementById("new-cuisine-emoji").value="";
+  document.getElementById("new-cuisine-name").value="";
+  document.getElementById("cuisine-modal").classList.add("open");
+}
+function closeCuisineManager(){
+  document.getElementById("cuisine-modal").classList.remove("open");
+  populateCuisineSelects(); renderAll();
+}
+function renderCuisineManageList() {
+  document.getElementById("cuisine-manage-list").innerHTML=Object.entries(CUISINES).map(([name,c])=>`
+    <div class="cuisine-manage-item">
+      <div class="cuisine-color-swatch" style="background:${c.color}"></div>
+      <span style="font-size:16px">${c.emoji}</span>
+      <span>${name}</span>
+      ${name==="Other"?"":`<button class="cuisine-delete-btn" onclick="deleteCuisineType('${name}')">✕</button>`}
+    </div>`).join("");
+}
+function renderColorPresets() {
+  document.getElementById("color-presets").innerHTML=COLOR_OPTIONS.map(col=>`
+    <div class="color-preset ${selectedColor===col?"selected":""}" style="background:${col}" onclick="selectColor('${col}')"></div>`).join("");
+}
+function selectColor(col){ selectedColor=col; renderColorPresets(); }
+function addCuisineType() {
+  const name=document.getElementById("new-cuisine-name").value.trim();
+  const emoji=document.getElementById("new-cuisine-emoji").value.trim()||"🍽️";
+  if(!name){ alert("Please enter a cuisine name."); return; }
+  if(CUISINES[name]){ alert("That cuisine already exists."); return; }
+  CUISINES[name]={ color:selectedColor, light:computeLight(selectedColor), emoji };
+  saveCuisines();
+  document.getElementById("new-cuisine-name").value="";
+  document.getElementById("new-cuisine-emoji").value="";
+  renderCuisineManageList();
+  setStatus(`✓ ${emoji} ${name} added`,"success");
+}
+function deleteCuisineType(name) {
+  if(dishes.some(d=>d.cuisine===name)){ alert(`Can't delete "${name}" — it has dishes assigned to it. Reassign those dishes first.`); return; }
+  if(!confirm(`Remove cuisine "${name}"?`)) return;
+  delete CUISINES[name]; saveCuisines(); renderCuisineManageList();
+}
+
+// ── TAB / SWAP / SERVE ───────────────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  const panelId=tab==="history"?"history":tab==="cuisine"?"cuisine":tab==="library"?"library":"week";
+  document.getElementById("panel-"+panelId).classList.add("active");
+  document.querySelectorAll(".tab")[["week","library","cuisine","history"].indexOf(tab)].classList.add("active");
+  if(tab!=="library"){ if(swapDay) cancelSwap(); selectedDishId=null; }
+  if(tab==="history") renderHistory();
+}
+function toggleCuisinePicker(){ document.getElementById("cuisine-picker").classList.toggle("open"); }
+async function pickCuisine(cuisine) {
+  weekData=generateWeekPlan(dishes,cuisine); weekData.anchorCuisine=cuisine;
+  document.getElementById("cuisine-picker").classList.remove("open");
+  renderAll(); await saveWeekToSheets();
+}
+async function regenPlan(){ weekData=generateWeekPlan(dishes,weekData.anchorCuisine); renderAll(); await saveWeekToSheets(); }
+function startSwap(day,slot) {
+  swapDay=day; swapSlot=slot; selectedDishId=null;
+  document.getElementById("swap-toast-text").textContent=`🔄 Swapping ${slot==="main"?"main dish":"side"} for ${day} — pick from Library`;
+  document.getElementById("swap-toast").classList.add("visible"); switchTab("library");
+}
+function cancelSwap() {
+  swapDay=null; swapSlot=null;
+  document.getElementById("swap-toast").classList.remove("visible");
+  document.getElementById("swap-context").textContent=""; renderLibrary();
+}
+async function doSwap(dishId) {
+  if(!swapDay) return;
+  const dish=dishes.find(d=>Number(d.id)===Number(dishId));
+  const dp={...(weekData.plan[swapDay]||{})};
+  if(swapSlot==="main"){ dp.main=dish; } else {
+    const sides=[...(dp.sides||[])];
+    if(swapSlot<sides.length) sides[swapSlot]=dish; else sides.push(dish);
+    dp.sides=sides;
+  }
+  weekData.plan[swapDay]=dp; cancelSwap(); renderAll(); switchTab("week"); await saveWeekToSheets();
+}
+function selectDish(id){ selectedDishId=(selectedDishId===Number(id))?null:Number(id); renderLibrary(); }
+async function removeSide(day,idx) {
+  const dp={...(weekData.plan[day]||{})}; const sides=[...(dp.sides||[])]; sides.splice(idx,1);
+  weekData.plan[day]={...dp,sides}; renderWeek(); await saveWeekToSheets();
+}
+async function markServed(day) {
+  const dp=weekData.plan[day]; if(!dp||dp.blank) return;
+  const today=new Date().toISOString().split("T")[0];
+  const ids=[dp.main?.id,...(dp.sides||[]).map(s=>s.id)].filter(Boolean).map(Number);
+  dishes=dishes.map(d=>ids.includes(Number(d.id))?{...d,lastServed:today}:d);
+  renderAll(); setStatus("Saving…");
+  for(const id of ids){ const d=dishes.find(d=>Number(d.id)===id); if(d) await saveDishToSheets(d); }
+  setStatus(`✓ Marked ${day} as served`,"success");
 }
 
 // ── SHEETS SYNC ──────────────────────────────────────────────
 async function saveDishToSheets(dish) {
-  try { await apiPost({ action: "saveDish", dish }); }
-  catch(e) { setStatus("⚠️ Sync error: " + e.message, "error"); }
+  try { await apiPost({action:"saveDish",dish}); } catch(e){ setStatus("⚠️ Sync error: "+e.message,"error"); }
 }
 async function saveWeekToSheets() {
-  try { await apiPost({ action: "saveWeekPlan", weekData }); }
-  catch(e) { setStatus("⚠️ Sync error: " + e.message, "error"); }
+  try { await apiPost({action:"saveWeekPlan",weekData}); } catch(e){ setStatus("⚠️ Sync error: "+e.message,"error"); }
 }
 
 // ── UTILS ────────────────────────────────────────────────────
 function populateCuisineSelects() {
-  ["filter-cuisine","new-cuisine"].forEach(id => {
-    const sel = document.getElementById(id);
-    CUISINE_KEYS.forEach(c => {
-      const opt = document.createElement("option");
-      opt.value = c; opt.textContent = c; sel.appendChild(opt);
-    });
+  ["filter-cuisine","new-cuisine"].forEach(id=>{
+    const sel=document.getElementById(id);
+    const current=sel.value;
+    sel.innerHTML=id==="filter-cuisine"?`<option value="">All Cuisines</option>`:"";
+    Object.keys(CUISINES).forEach(c=>{ const opt=document.createElement("option"); opt.value=c; opt.textContent=c; sel.appendChild(opt); });
+    if(current&&CUISINES[current]) sel.value=current;
   });
 }
 

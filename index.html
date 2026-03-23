@@ -8,7 +8,6 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Georgia, serif; background: #FAFAF8; color: #1a1a1a; min-height: 100vh; }
 
-  /* Header */
   .header { background: #1a1a1a; color: #fff; padding: 18px 28px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.15); }
   .header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
   .header h1 { font-size: 18px; letter-spacing: -0.5px; }
@@ -17,12 +16,10 @@
   .tab { padding: 6px 13px; border-radius: 20px; border: none; background: transparent; color: #aaa; font-family: sans-serif; font-size: 12px; cursor: pointer; transition: all 0.15s; }
   .tab.active { background: #fff; color: #1a1a1a; font-weight: 700; }
 
-  /* Layout */
   .main { max-width: 900px; margin: 0 auto; padding: 22px 16px; }
   .panel { display: none; }
   .panel.active { display: block; }
 
-  /* Anchor banner */
   .anchor-banner { display: flex; align-items: center; justify-content: space-between; border-radius: 12px; padding: 12px 18px; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; border: 1px solid rgba(0,0,0,0.1); }
   .anchor-info { display: flex; align-items: center; gap: 10px; }
   .anchor-emoji { font-size: 24px; }
@@ -34,14 +31,12 @@
   .btn-green { background: #27AE60; color: #fff; }
   .btn-row { display: flex; gap: 7px; flex-wrap: wrap; }
 
-  /* Cuisine picker */
   .cuisine-picker { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 14px 18px; margin-bottom: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.07); display: none; }
   .cuisine-picker.open { display: block; }
   .picker-label { font-family: sans-serif; font-size: 10px; color: #999; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; }
   .cuisine-chips { display: flex; flex-wrap: wrap; gap: 7px; }
   .cuisine-chip { padding: 7px 14px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1); font-family: sans-serif; font-size: 12px; cursor: pointer; font-weight: 600; transition: all 0.15s; }
 
-  /* Day rows */
   .day-row { background: #fff; border-radius: 12px; margin-bottom: 9px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
   .day-row.locked { border-width: 2px; }
   .day-note { padding: 5px 14px; font-family: sans-serif; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid rgba(0,0,0,0.06); }
@@ -65,23 +60,19 @@
   .add-side-btn { background: none; border: 1px dashed #ddd; border-radius: 20px; padding: 3px 9px; font-family: sans-serif; font-size: 11px; color: #ccc; cursor: pointer; }
   .served-btn { padding: 5px 10px; border-radius: 20px; border: 1px solid #eee; background: #fafafa; font-family: sans-serif; font-size: 10px; color: #aaa; cursor: pointer; }
 
-  /* Italy banner */
   .trip-banner { margin-top: 18px; background: #FFF9F0; border: 1px solid #F0C080; border-radius: 12px; padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
   .trip-banner .flag { font-size: 26px; }
   .trip-title { font-weight: 700; color: #B8600A; font-family: sans-serif; font-size: 13px; }
   .trip-sub { color: #999; font-size: 12px; margin-top: 2px; font-family: sans-serif; }
 
-  /* Swap toast */
   .swap-toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 11px 20px; border-radius: 30px; font-family: sans-serif; font-size: 12px; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 200; white-space: nowrap; display: none; }
   .swap-toast.visible { display: block; }
   .swap-toast button { margin-left: 12px; background: #333; border: none; color: #fff; border-radius: 20px; padding: 3px 11px; cursor: pointer; font-size: 11px; }
 
-  /* Library filters */
   .filters { display: flex; gap: 7px; margin-bottom: 15px; flex-wrap: wrap; }
   .filters input { padding: 7px 13px; border-radius: 20px; border: 1px solid #ddd; font-family: sans-serif; font-size: 12px; flex: 1; min-width: 120px; outline: none; }
   .filters select { padding: 7px 11px; border-radius: 20px; border: 1px solid #ddd; font-family: sans-serif; font-size: 12px; outline: none; background: #fff; }
 
-  /* Dish grid */
   .dish-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 9px; }
   .dish-card { background: #fff; border-radius: 10px; padding: 11px 13px; border: 1px solid #eee; box-shadow: 0 1px 4px rgba(0,0,0,0.04); transition: all 0.15s; }
   .dish-card.swappable { border-width: 2px; cursor: pointer; }
@@ -96,12 +87,10 @@
   .dish-served { font-family: sans-serif; font-size: 10px; color: #ccc; margin-top: 4px; }
   .dish-tap { font-family: sans-serif; font-size: 11px; font-weight: 700; margin-top: 5px; }
 
-  /* Library header */
   .lib-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
   .lib-header h2 { font-size: 18px; }
   .swap-context { font-size: 12px; font-family: sans-serif; font-weight: 400; margin-left: 8px; color: #E74C3C; }
 
-  /* By Cuisine */
   .cuisine-section { margin-bottom: 26px; }
   .cuisine-header { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; border-bottom-width: 2px; border-bottom-style: solid; padding-bottom: 7px; }
   .cuisine-header .ce { font-size: 20px; }
@@ -113,7 +102,6 @@
   .cuisine-main-chip { border-radius: 20px; padding: 4px 12px; font-family: sans-serif; font-size: 12px; font-weight: 600; border: 1px solid rgba(0,0,0,0.08); }
   .cuisine-side-chip { background: #f8f8f8; color: #888; border-radius: 20px; padding: 4px 12px; font-family: sans-serif; font-size: 12px; border: 1px solid #eee; }
 
-  /* Modal */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300; display: none; align-items: center; justify-content: center; padding: 16px; }
   .modal-overlay.open { display: flex; }
   .modal { background: #fff; border-radius: 16px; padding: 24px; width: 100%; max-width: 370px; box-shadow: 0 8px 40px rgba(0,0,0,0.2); }
@@ -126,20 +114,16 @@
   .modal-btns { display: flex; gap: 8px; }
   .modal-btns button { flex: 1; padding: 10px; border: none; border-radius: 8px; font-family: sans-serif; cursor: pointer; }
 
-  /* Status */
   .status-bar { font-family: sans-serif; font-size: 11px; color: #aaa; text-align: center; padding: 8px; }
   .status-bar.error { color: #E74C3C; }
   .status-bar.success { color: #27AE60; }
 
-  /* Loading */
-  .loading { text-align: center; padding: 40px; font-family: sans-serif; color: #bbb; }
   .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid #ddd; border-top-color: #E67E22; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 8px; vertical-align: middle; }
   @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
 
-<!-- Header -->
 <div class="header">
   <div class="header-inner">
     <div>
@@ -157,7 +141,6 @@
 <div class="main">
   <div id="status-bar" class="status-bar"></div>
 
-  <!-- WEEK PANEL -->
   <div id="panel-week" class="panel active">
     <div id="anchor-banner" class="anchor-banner"></div>
     <div id="cuisine-picker" class="cuisine-picker">
@@ -174,7 +157,6 @@
     </div>
   </div>
 
-  <!-- LIBRARY PANEL -->
   <div id="panel-library" class="panel">
     <div class="lib-header">
       <h2>Dish Library <span id="swap-context" class="swap-context"></span></h2>
@@ -194,20 +176,17 @@
     <div id="dish-grid" class="dish-grid"></div>
   </div>
 
-  <!-- BY CUISINE PANEL -->
   <div id="panel-cuisine" class="panel">
     <h2 style="margin-bottom:20px;font-size:18px;">Dishes by Cuisine</h2>
     <div id="cuisine-sections"></div>
   </div>
 </div>
 
-<!-- Swap toast -->
 <div id="swap-toast" class="swap-toast">
   <span id="swap-toast-text"></span>
   <button onclick="cancelSwap()">Cancel</button>
 </div>
 
-<!-- Add Dish Modal -->
 <div id="add-modal" class="modal-overlay">
   <div class="modal">
     <h3>Add New Dish</h3>
@@ -241,17 +220,16 @@
 
 <script>
 // ── CONFIG ───────────────────────────────────────────────────
-// Paste your deployed Apps Script URL here:
-const API_URL = https://script.google.com/macros/s/AKfycbyDhhfVM244e_5IHcPsorXi9LcqZxfLG0WAAb6_KnemeVxp-EBwNYjobjdoYp8B0cCq/exec;
+const API_URL = "https://script.google.com/macros/s/AKfycbyDhhfVM244e_5IHcPsorXi9LcqZxfLG0WAAb6_KnemeVxp-EBwNYjobjdoYp8B0cCq/exec";
 
 const CUISINES = {
-  Korean:          { color: "#C0392B", light: "#FDEDEC", emoji: "🇰🇷" },
-  Japanese:        { color: "#2C3E50", light: "#EAF0F6", emoji: "🇯🇵" },
-  Italian:         { color: "#27AE60", light: "#EAFAF1", emoji: "🇮🇹" },
-  American:        { color: "#2980B9", light: "#EBF5FB", emoji: "🇺🇸" },
-  Chinese:         { color: "#E67E22", light: "#FEF9E7", emoji: "🇨🇳" },
-  "Southeast Asian":{ color: "#8E44AD", light: "#F5EEF8", emoji: "🌏" },
-  Other:           { color: "#7F8C8D", light: "#F2F3F4", emoji: "🍽️" },
+  Korean:            { color: "#C0392B", light: "#FDEDEC", emoji: "🇰🇷" },
+  Japanese:          { color: "#2C3E50", light: "#EAF0F6", emoji: "🇯🇵" },
+  Italian:           { color: "#27AE60", light: "#EAFAF1", emoji: "🇮🇹" },
+  American:          { color: "#2980B9", light: "#EBF5FB", emoji: "🇺🇸" },
+  Chinese:           { color: "#E67E22", light: "#FEF9E7", emoji: "🇨🇳" },
+  "Southeast Asian": { color: "#8E44AD", light: "#F5EEF8", emoji: "🌏" },
+  Other:             { color: "#7F8C8D", light: "#F2F3F4", emoji: "🍽️" },
 };
 const CUISINE_KEYS = Object.keys(CUISINES);
 const WEEKDAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
@@ -302,12 +280,6 @@ function setStatus(msg, type="") {
 // ── INIT ─────────────────────────────────────────────────────
 async function init() {
   populateCuisineSelects();
-
-  if (!API_URL || API_URL === https://script.google.com/macros/s/AKfycbyDhhfVM244e_5IHcPsorXi9LcqZxfLG0WAAb6_KnemeVxp-EBwNYjobjdoYp8B0cCq/exec) {
-    setStatus("⚠️ Paste your Apps Script URL into the API_URL variable at the top of this file to enable Google Sheets sync.", "error");
-    return;
-  }
-
   setStatus("⏳ Loading from Google Sheets…");
   try {
     const [dishRes, weekRes] = await Promise.all([apiGet("getDishes"), apiGet("getWeekPlan")]);
@@ -367,7 +339,6 @@ function renderWeek() {
   const anchor = weekData.anchorCuisine || "Chinese";
   const c = CUISINES[anchor] || CUISINES["Other"];
 
-  // Anchor banner
   document.getElementById("anchor-banner").style.background = c.light;
   document.getElementById("anchor-banner").style.borderColor = c.color + "44";
   document.getElementById("anchor-banner").innerHTML = `
@@ -384,7 +355,6 @@ function renderWeek() {
     </div>
   `;
 
-  // Cuisine picker chips
   const chipsEl = document.getElementById("cuisine-chips");
   chipsEl.innerHTML = CUISINE_KEYS.filter(k=>k!=="Other").map(k => {
     const col = CUISINES[k];
@@ -394,7 +364,6 @@ function renderWeek() {
       onclick="pickCuisine('${k}')">${col.emoji} ${k} <span style="opacity:0.6;font-size:10px">(${count})</span></button>`;
   }).join("");
 
-  // Day rows
   const rowsEl = document.getElementById("day-rows");
   rowsEl.innerHTML = WEEKDAYS.map(day => {
     const dp = weekData.plan[day] || {};
@@ -592,7 +561,6 @@ function markServed(day) {
   const idsToUpdate = [dp.main?.id, ...(dp.sides||[]).map(s=>s.id)].filter(Boolean);
   dishes = dishes.map(d => idsToUpdate.includes(Number(d.id)) || idsToUpdate.includes(d.id)
     ? { ...d, lastServed: today } : d);
-  // Save updated dishes
   idsToUpdate.forEach(id => {
     const d = dishes.find(d => Number(d.id) === Number(id));
     if (d) saveDishToSheets(d);
@@ -628,20 +596,16 @@ async function addDish() {
 async function deleteDish(id) {
   dishes = dishes.filter(d => Number(d.id) !== Number(id));
   renderAll();
-  if (API_URL && API_URL !== https://script.google.com/macros/s/AKfycbyDhhfVM244e_5IHcPsorXi9LcqZxfLG0WAAb6_KnemeVxp-EBwNYjobjdoYp8B0cCq/exec) {
-    await apiPost({ action: "deleteDish", id });
-    setStatus("✓ Dish deleted", "success");
-  }
+  await apiPost({ action: "deleteDish", id });
+  setStatus("✓ Dish deleted", "success");
 }
 
 // ── SHEETS SYNC ──────────────────────────────────────────────
 async function saveDishToSheets(dish) {
-  if (!API_URL || API_URL === https://script.google.com/macros/s/AKfycbyDhhfVM244e_5IHcPsorXi9LcqZxfLG0WAAb6_KnemeVxp-EBwNYjobjdoYp8B0cCq/exec) return;
   try { await apiPost({ action: "saveDish", dish }); } catch(e) { setStatus("⚠️ Sync error", "error"); }
 }
 
 async function saveWeekToSheets() {
-  if (!API_URL || API_URL === https://script.google.com/macros/s/AKfycbyDhhfVM244e_5IHcPsorXi9LcqZxfLG0WAAb6_KnemeVxp-EBwNYjobjdoYp8B0cCq/exec) return;
   try { await apiPost({ action: "saveWeekPlan", weekData }); } catch(e) { setStatus("⚠️ Sync error", "error"); }
 }
 

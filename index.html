@@ -110,28 +110,45 @@
   .view-toggle { display: flex; background: #f0f0f0; border-radius: 20px; padding: 3px; gap: 2px; }
   .view-toggle button { padding: 5px 14px; border-radius: 17px; border: none; font-family: sans-serif; font-size: 12px; cursor: pointer; background: transparent; color: #888; font-weight: 600; }
   .view-toggle button.active { background: #fff; color: #1a1a1a; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  /* Weekly list view */
   .history-week-block { background: #fff; border-radius: 12px; margin-bottom: 18px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
   .history-week-header { padding: 12px 18px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #f0f0f0; background: #fafafa; }
   .history-week-label { font-size: 14px; font-weight: bold; flex: 1; }
   .history-anchor-badge { font-family: sans-serif; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
   .history-day-row { display: flex; align-items: flex-start; padding: 10px 18px; border-bottom: 1px solid #f9f9f9; gap: 12px; }
   .history-day-row:last-child { border-bottom: none; }
-  .history-day-name { font-family: sans-serif; font-size: 11px; font-weight: 700; color: #bbb; width: 32px; flex-shrink: 0; padding-top: 2px; }
+  .history-day-name { font-family: sans-serif; font-size: 11px; font-weight: 700; color: #bbb; width: 52px; flex-shrink: 0; padding-top: 2px; }
+  .history-day-date { font-family: sans-serif; font-size: 10px; color: #ccc; display: block; margin-top: 1px; }
   .history-day-emoji { font-size: 16px; flex-shrink: 0; }
   .history-main-wrap { flex: 1; }
   .history-main { font-size: 13px; font-weight: bold; }
   .history-sides { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
   .history-side-chip { background: #f5f5f5; color: #888; border-radius: 10px; padding: 2px 8px; font-family: sans-serif; font-size: 10px; }
-  .history-cal-block { margin-bottom: 28px; }
-  .history-cal-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .history-cal-label { font-size: 15px; font-weight: bold; }
-  .history-cal-anchor { font-family: sans-serif; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
-  .history-cal-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-  .history-cal-cell { background: #fff; border-radius: 10px; padding: 10px; border: 1px solid #eee; min-height: 80px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
-  .history-cal-cell.blank-cell { background: #f7f7f7; opacity: 0.55; }
-  .history-cal-day { font-family: sans-serif; font-size: 9px; font-weight: 700; color: #bbb; letter-spacing: 1px; margin-bottom: 5px; }
-  .history-cal-flag { font-size: 20px; display: block; margin-bottom: 4px; }
-  .history-cal-dish { font-size: 12px; font-weight: bold; line-height: 1.3; }
+  /* Full monthly calendar */
+  .month-cal-block { margin-bottom: 36px; }
+  .month-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .month-cal-title { font-size: 18px; font-weight: bold; }
+  .month-cal-anchor { font-family: sans-serif; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .month-cal-dow-row { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; margin-bottom: 4px; }
+  .month-cal-dow { font-family: sans-serif; font-size: 10px; font-weight: 700; color: #bbb; text-align: center; padding: 4px 0; letter-spacing: 0.5px; }
+  .month-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
+  .month-cell { border-radius: 8px; min-height: 72px; padding: 6px 7px; border: 1px solid #eee; background: #fff; position: relative; transition: box-shadow 0.12s; }
+  .month-cell.empty { background: transparent; border-color: transparent; }
+  .month-cell.weekend { background: #f9f9f9; }
+  .month-cell.weekend .month-cell-date { color: #ccc; }
+  .month-cell.has-meal { cursor: pointer; }
+  .month-cell.has-meal:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+  .month-cell.blank-meal { background: #f5f5f5; opacity: 0.7; cursor: pointer; }
+  .month-cell.no-meal-weekday { cursor: pointer; }
+  .month-cell.no-meal-weekday:hover { border-color: #ddd; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+  .month-cell.today-cell { border-color: #1a1a1a; border-width: 2px; }
+  .month-cell-date { font-family: sans-serif; font-size: 11px; font-weight: 700; color: #bbb; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; }
+  .month-cell-today-dot { width: 6px; height: 6px; background: #1a1a1a; border-radius: 50%; }
+  .month-cell-flag { font-size: 16px; display: block; margin-bottom: 2px; }
+  .month-cell-dish { font-size: 11px; font-weight: bold; line-height: 1.3; }
+  .month-cell-sides { font-family: sans-serif; font-size: 9px; color: #aaa; margin-top: 2px; line-height: 1.3; }
+  .month-cell-add { font-family: sans-serif; font-size: 9px; color: #ddd; margin-top: 4px; }
+  .month-cell-blank-label { font-family: sans-serif; font-size: 9px; color: #bbb; font-style: italic; margin-top: 4px; }
   .history-empty { font-family: sans-serif; font-size: 13px; color: #bbb; text-align: center; padding: 40px; }
 
   /* Modals */
@@ -505,6 +522,12 @@ function renderWeek() {
     const dp=weekData.plan[day]||{}, isBlank=!!dp.blank, isLocked=!!dp.locked&&!isBlank;
     const cuisine=dp.main?.cuisine, col=isBlank?{color:"#aaa",light:"#f5f5f5",emoji:"⬜"}:getCuisineData(cuisine||"Other");
     const isAnchor=!isBlank&&cuisine===anchor;
+    // Compute date for this weekday in the current Mon-Fri week
+    const today=new Date(), dow=today.getDay(), mondayOffset=(dow===0?-6:1-dow);
+    const weekMonday=new Date(today); weekMonday.setDate(today.getDate()+mondayOffset);
+    const dayIndex=WEEKDAYS.indexOf(day);
+    const dayDate=new Date(weekMonday); dayDate.setDate(weekMonday.getDate()+dayIndex);
+    const dayDateStr=dayDate.toLocaleDateString("en-US",{month:"short",day:"numeric"});
     const servedBtn=!isBlank?`<button class="action-btn" onclick="markServed('${day}')">✓ Done</button>`:"";
     const lockBtn=isLocked?`<button class="action-btn locked-style" onclick="unlockDay('${day}')">🔓 Unlock</button>`
       :(!isBlank?`<button class="action-btn" onclick="openLockModal('${day}')">🔒 Lock</button>`:"");
@@ -525,6 +548,7 @@ function renderWeek() {
       ${noteHtml}<div class="day-inner">
         <div class="day-label" style="background:${isLocked?col.color:col.color+"cc"}">
           <span class="emoji">${col.emoji}</span><span class="dname">${DAY_SHORT[day]}</span>
+          <span style="font-family:sans-serif;font-size:9px;opacity:0.75;margin-top:1px">${dayDateStr}</span>
           ${!isAnchor&&cuisine?`<span class="cuisine-sub">${cuisine}</span>`:""}
         </div>
         <div class="day-main"><div class="section-label">MAIN</div>
@@ -606,6 +630,15 @@ function setHistoryView(v) {
   renderHistory();
 }
 
+function getWeekStartDate(entry) {
+  // Parse startDate string (YYYY-MM-DD) into a Monday Date
+  if(entry.startDate) {
+    const [y,m,d] = entry.startDate.split("-").map(Number);
+    return new Date(y,m-1,d);
+  }
+  return null;
+}
+
 function renderHistory() {
   const el=document.getElementById("history-content");
   if(!history.length){ el.innerHTML=`<div class="history-empty">No past weeks saved yet.<br>Use "📦 Save Week to History" on the Week tab when you're done planning a week.</div>`; return; }
@@ -616,19 +649,25 @@ function renderHistory() {
       const dayRows=WEEKDAYS.map(day=>{
         const dp=plan[day]||{};
         const editBtn=`<button class="history-edit-btn" onclick="openHistEdit(${ei},'${day}')">✏️ Edit</button>`;
+        // Compute date for this weekday
+        const wStart=getWeekStartDate(entry);
+        const dayIdx=WEEKDAYS.indexOf(day);
+        let dayDateLabel="";
+        if(wStart){ const dd=new Date(wStart); dd.setDate(wStart.getDate()+dayIdx); dayDateLabel=dd.toLocaleDateString("en-US",{month:"short",day:"numeric"}); }
+        const dayNameHtml=`<span class="history-day-name">${DAY_SHORT[day]}<span class="history-day-date">${dayDateLabel}</span></span>`;
         if(dp.blank) return `<div class="history-day-row" style="position:relative">
-          <span class="history-day-name">${DAY_SHORT[day]}</span>
+          ${dayNameHtml}
           <span class="history-day-emoji">⬜</span>
           <div class="history-main-wrap"><div class="history-main" style="color:#ccc;font-weight:400">${dp.note||"No meal"}</div></div>
           ${editBtn}</div>`;
         if(!dp.main) return `<div class="history-day-row" style="position:relative">
-          <span class="history-day-name">${DAY_SHORT[day]}</span>
+          ${dayNameHtml}
           <span class="history-day-emoji" style="opacity:0.3">—</span>
           <div class="history-main-wrap"><div class="history-main" style="color:#ccc;font-weight:400;font-style:italic">Not logged</div></div>
           ${editBtn}</div>`;
         const dc=getCuisineData(dp.main.cuisine);
         return `<div class="history-day-row" style="position:relative">
-          <span class="history-day-name">${DAY_SHORT[day]}</span>
+          ${dayNameHtml}
           <span class="history-day-emoji">${dc.emoji}</span>
           <div class="history-main-wrap">
             <div class="history-main">${dp.main.name}</div>
@@ -642,38 +681,138 @@ function renderHistory() {
         </div>${dayRows}</div>`;
     }).join("");
   } else {
-    el.innerHTML=history.map((entry,ei)=>{
-      const wd=entry.weekData||{}, plan=wd.plan||{}, anchor=wd.anchorCuisine||"";
-      const c=getCuisineData(anchor);
-      const cells=WEEKDAYS.map(day=>{
-        const dp=plan[day]||{};
-        if(dp.blank) return `<div class="history-cal-cell blank-cell" onclick="openHistEdit(${ei},'${day}')">
-          <div class="history-cal-day">${DAY_SHORT[day]}</div>
-          <span style="font-size:18px">⬜</span>
-          <div class="history-cal-edit-hint">tap to edit</div>
-        </div>`;
-        if(!dp.main) return `<div class="history-cal-cell blank-cell" onclick="openHistEdit(${ei},'${day}')">
-          <div class="history-cal-day">${DAY_SHORT[day]}</div>
-          <div style="font-family:sans-serif;font-size:11px;color:#ccc;font-style:italic;margin-top:6px">Not logged</div>
-          <div class="history-cal-edit-hint">tap to add</div>
-        </div>`;
-        const dc=getCuisineData(dp.main.cuisine);
-        return `<div class="history-cal-cell" style="border-color:${dc.color}22" onclick="openHistEdit(${ei},'${day}')">
-          <div class="history-cal-day">${DAY_SHORT[day]}</div>
-          <span class="history-cal-flag">${dc.emoji}</span>
-          <div class="history-cal-dish">${dp.main.name}</div>
-          <div class="history-cal-edit-hint">tap to edit</div>
-        </div>`;
-      }).join("");
-      return `<div class="history-cal-block">
-        <div class="history-cal-header">
-          <span class="history-cal-label">${entry.weekLabel}</span>
-          ${anchor?`<span class="history-cal-anchor" style="background:${c.light};color:${c.color}">${c.emoji} ${anchor}</span>`:""}
-        </div>
-        <div class="history-cal-grid">${cells}</div>
-      </div>`;
-    }).join("");
+    // Full monthly calendar — group history entries by month
+    renderMonthlyCalendar(el);
   }
+}
+
+function renderMonthlyCalendar(el) {
+  // Build a map: "YYYY-MM-DD" -> { entryIdx, day, dp }
+  const mealMap = {};
+  history.forEach((entry, ei) => {
+    const wStart = getWeekStartDate(entry);
+    if(!wStart) return;
+    WEEKDAYS.forEach((day, di) => {
+      const d = new Date(wStart); d.setDate(wStart.getDate()+di);
+      const key = d.toISOString().split("T")[0];
+      mealMap[key] = { entryIdx: ei, day, dp: (entry.weekData?.plan||{})[day]||{}, anchor: entry.weekData?.anchorCuisine||"" };
+    });
+  });
+
+  // Find date range: earliest to latest recorded Monday
+  const allStarts = history.map(e=>getWeekStartDate(e)).filter(Boolean);
+  if(!allStarts.length){ el.innerHTML=`<div class="history-empty">No past weeks saved yet.</div>`; return; }
+  allStarts.sort((a,b)=>a-b);
+  const earliest = allStarts[0];
+  const latest = allStarts[allStarts.length-1];
+  // Go from earliest month to current month
+  const now = new Date();
+  const startMonth = new Date(earliest.getFullYear(), earliest.getMonth(), 1);
+  const endMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  const DOW_LABELS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const MONTH_NAMES = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const todayStr = now.toISOString().split("T")[0];
+
+  let months = [];
+  let cur = new Date(startMonth);
+  while(cur <= endMonth) {
+    months.push(new Date(cur));
+    cur.setMonth(cur.getMonth()+1);
+  }
+  // Reverse so newest month first
+  months.reverse();
+
+  el.innerHTML = months.map(monthDate => {
+    const year = monthDate.getFullYear(), month = monthDate.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month+1, 0);
+    const startDow = firstDay.getDay(); // 0=Sun
+    const daysInMonth = lastDay.getDate();
+
+    // Collect anchor info for this month (most common anchor)
+    const anchorsThisMonth = [];
+    for(let d=1; d<=daysInMonth; d++){
+      const key=`${year}-${String(month+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+      if(mealMap[key]?.anchor) anchorsThisMonth.push(mealMap[key].anchor);
+    }
+    const anchorCounts = {};
+    anchorsThisMonth.forEach(a=>{ anchorCounts[a]=(anchorCounts[a]||0)+1; });
+    const dominantAnchor = Object.entries(anchorCounts).sort((a,b)=>b[1]-a[1])[0]?.[0]||"";
+    const ac = getCuisineData(dominantAnchor);
+
+    const dowRow = DOW_LABELS.map(d=>`<div class="month-cal-dow">${d}</div>`).join("");
+
+    // Build cells: empty slots before month starts, then all days
+    let cells = [];
+    for(let i=0; i<startDow; i++) cells.push(`<div class="month-cell empty"></div>`);
+
+    for(let d=1; d<=daysInMonth; d++){
+      const dateObj = new Date(year, month, d);
+      const dow = dateObj.getDay(); // 0=Sun,6=Sat
+      const isWeekend = dow===0 || dow===6;
+      const key = `${year}-${String(month+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+      const isToday = key===todayStr;
+      const meal = mealMap[key];
+
+      const datePill = `<div class="month-cell-date">${d}${isToday?`<span class="month-cell-today-dot"></span>`:""}</div>`;
+
+      if(isWeekend) {
+        cells.push(`<div class="month-cell weekend">${datePill}</div>`);
+        continue;
+      }
+
+      // Weekday — check if we have meal data
+      if(!meal) {
+        // Future weekday or weekday not yet in any archived week
+        const isFuture = dateObj > now;
+        cells.push(`<div class="month-cell ${isFuture?"":"no-meal-weekday"}">${datePill}${!isFuture?`<div class="month-cell-add">—</div>`:""}</div>`);
+        continue;
+      }
+
+      const { entryIdx, day, dp } = meal;
+
+      if(dp.blank) {
+        cells.push(`<div class="month-cell blank-meal" onclick="openHistEdit(${entryIdx},'${day}')">
+          ${datePill}
+          <span class="month-cell-flag">⬜</span>
+          <div class="month-cell-blank-label">${dp.note||"Blank"}</div>
+        </div>`);
+        continue;
+      }
+
+      if(!dp.main) {
+        cells.push(`<div class="month-cell no-meal-weekday" onclick="openHistEdit(${entryIdx},'${day}')">
+          ${datePill}
+          <div class="month-cell-add">+ add meal</div>
+        </div>`);
+        continue;
+      }
+
+      const dc = getCuisineData(dp.main.cuisine);
+      const sideNames = (dp.sides||[]).map(s=>s.name).join(", ");
+      cells.push(`<div class="month-cell has-meal" style="border-color:${dc.color}33;border-width:1.5px" onclick="openHistEdit(${entryIdx},'${day}')">
+        ${datePill}
+        <span class="month-cell-flag">${dc.emoji}</span>
+        <div class="month-cell-dish">${dp.main.name}</div>
+        ${sideNames?`<div class="month-cell-sides">${sideNames}</div>`:""}
+      </div>`);
+    }
+
+    // Fill trailing empty cells to complete the last row
+    const totalCells = cells.length;
+    const remainder = totalCells % 7;
+    if(remainder > 0) for(let i=0; i<7-remainder; i++) cells.push(`<div class="month-cell empty"></div>`);
+
+    return `<div class="month-cal-block">
+      <div class="month-cal-header">
+        <span class="month-cal-title">${MONTH_NAMES[month]} ${year}</span>
+        ${dominantAnchor?`<span class="month-cal-anchor" style="background:${ac.light};color:${ac.color}">${ac.emoji} ${dominantAnchor}</span>`:""}
+      </div>
+      <div class="month-cal-dow-row">${dowRow}</div>
+      <div class="month-cal-grid">${cells.join("")}</div>
+    </div>`;
+  }).join("");
 }
 
 // ── HISTORY EDIT ──────────────────────────────────────────────

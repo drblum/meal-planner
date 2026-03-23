@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Family Dinner Planner</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, serif; background: #FAFAF8; color: #1a1a1a; min-height: 100vh; }
+
+  /* Header */
+  .header { background: #1a1a1a; color: #fff; padding: 18px 28px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.15); }
+  .header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .header h1 { font-size: 18px; letter-spacing: -0.5px; }
+  .header .sub { font-family: sans-serif; font-size: 11px; color: #aaa; margin-top: 2px; }
+  .tabs { display: flex; gap: 5px; }
+  .tab { padding: 6px 13px; border-radius: 20px; border: none; background: transparent; color: #aaa; font-family: sans-serif; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+  .tab.active { background: #fff; color: #1a1a1a; font-weight: 700; }
+
+  /* Layout */
+  .main { max-width: 900px; margin: 0 auto; padding: 22px 16px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* Anchor banner */
+  .anchor-banner { display: flex; align-items: center; justify-content: space-between; border-radius: 12px; padding: 12px 18px; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; border: 1px solid rgba(0,0,0,0.1); }
+  .anchor-info { display: flex; align-items: center; gap: 10px; }
+  .anchor-emoji { font-size: 24px; }
+  .anchor-label { font-family: sans-serif; font-size: 10px; color: #999; font-weight: 700; letter-spacing: 1px; }
+  .anchor-name { font-size: 16px; font-weight: bold; }
+  .btn { padding: 7px 14px; border: none; border-radius: 8px; font-family: sans-serif; font-size: 12px; cursor: pointer; font-weight: 600; transition: opacity 0.15s; }
+  .btn:hover { opacity: 0.85; }
+  .btn-dark { background: #1a1a1a; color: #fff; }
+  .btn-green { background: #27AE60; color: #fff; }
+  .btn-row { display: flex; gap: 7px; flex-wrap: wrap; }
+
+  /* Cuisine picker */
+  .cuisine-picker { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 14px 18px; margin-bottom: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.07); display: none; }
+  .cuisine-picker.open { display: block; }
+  .picker-label { font-family: sans-serif; font-size: 10px; color: #999; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; }
+  .cuisine-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .cuisine-chip { padding: 7px 14px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1); font-family: sans-serif; font-size: 12px; cursor: pointer; font-weight: 600; transition: all 0.15s; }
+
+  /* Day rows */
+  .day-row { background: #fff; border-radius: 12px; margin-bottom: 9px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .day-row.locked { border-width: 2px; }
+  .day-note { padding: 5px 14px; font-family: sans-serif; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .locked-badge { color: #fff; border-radius: 8px; padding: 1px 7px; font-size: 9px; font-weight: 700; }
+  .day-inner { display: flex; align-items: stretch; flex-wrap: wrap; }
+  .day-label { width: 86px; min-height: 72px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 9px 5px; flex-shrink: 0; color: #fff; }
+  .day-label .emoji { font-size: 17px; }
+  .day-label .name { font-family: sans-serif; font-size: 12px; font-weight: 700; margin-top: 3px; }
+  .day-label .cuisine-sub { font-family: sans-serif; font-size: 8px; opacity: 0.85; margin-top: 1px; text-align: center; line-height: 1.2; }
+  .day-main { flex: 1 1 150px; padding: 10px 13px; border-right: 1px solid #f0f0f0; }
+  .day-sides { flex: 2 1 190px; padding: 10px 13px; }
+  .day-served { padding: 10px; display: flex; align-items: center; flex-shrink: 0; }
+  .section-label { font-family: sans-serif; font-size: 9px; color: #bbb; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; }
+  .main-name { font-size: 14px; font-weight: bold; line-height: 1.3; }
+  .main-notes { font-family: sans-serif; font-size: 10px; color: #bbb; margin-top: 2px; }
+  .swap-btn { font-size: 10px; font-family: sans-serif; background: none; border: none; cursor: pointer; padding: 0; font-weight: 700; margin-top: 4px; }
+  .lock-note { font-family: sans-serif; font-size: 9px; color: #ccc; margin-top: 4px; }
+  .sides-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .side-chip { display: inline-flex; align-items: center; gap: 3px; border-radius: 20px; padding: 3px 9px; font-family: sans-serif; font-size: 11px; font-weight: 600; }
+  .side-chip button { background: none; border: none; cursor: pointer; font-size: 9px; opacity: 0.4; padding: 0; }
+  .add-side-btn { background: none; border: 1px dashed #ddd; border-radius: 20px; padding: 3px 9px; font-family: sans-serif; font-size: 11px; color: #ccc; cursor: pointer; }
+  .served-btn { padding: 5px 10px; border-radius: 20px; border: 1px solid #eee; background: #fafafa; font-family: sans-serif; font-size: 10px; color: #aaa; cursor: pointer; }
+
+  /* Italy banner */
+  .trip-banner { margin-top: 18px; background: #FFF9F0; border: 1px solid #F0C080; border-radius: 12px; padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
+  .trip-banner .flag { font-size: 26px; }
+  .trip-title { font-weight: 700; color: #B8600A; font-family: sans-serif; font-size: 13px; }
+  .trip-sub { color: #999; font-size: 12px; margin-top: 2px; font-family: sans-serif; }
+
+  /* Swap toast */
+  .swap-toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 11px 20px; border-radius: 30px; font-family: sans-serif; font-size: 12px; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 200; white-space: nowrap; display: none; }
+  .swap-toast.visible { display: block; }
+  .swap-toast button { margin-left: 12px; background: #333; border: none; color: #fff; border-radius: 20px; padding: 3px 11px; cursor: pointer; font-size: 11px; }
+
+  /* Library filters */
+  .filters { display: flex; gap: 7px; margin-bottom: 15px; flex-wrap: wrap; }
+  .filters input { padding: 7px 13px; border-radius: 20px; border: 1px solid #ddd; font-family: sans-serif; font-size: 12px; flex: 1; min-width: 120px; outline: none; }
+  .filters select { padding: 7px 11px; border-radius: 20px; border: 1px solid #ddd; font-family: sans-serif; font-size: 12px; outline: none; background: #fff; }
+
+  /* Dish grid */
+  .dish-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 9px; }
+  .dish-card { background: #fff; border-radius: 10px; padding: 11px 13px; border: 1px solid #eee; box-shadow: 0 1px 4px rgba(0,0,0,0.04); transition: all 0.15s; }
+  .dish-card.swappable { border-width: 2px; cursor: pointer; }
+  .dish-card.swappable:hover { transform: translateY(-1px); }
+  .dish-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .dish-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+  .badge { border-radius: 10px; padding: 2px 7px; font-family: sans-serif; font-size: 10px; font-weight: 700; }
+  .badge-type { background: #f5f5f5; color: #999; font-weight: 400; }
+  .dish-delete { background: none; border: none; color: #ddd; cursor: pointer; font-size: 12px; padding: 0; }
+  .dish-name { margin-top: 6px; font-size: 13px; font-weight: bold; line-height: 1.3; }
+  .dish-notes { font-family: sans-serif; font-size: 10px; color: #bbb; margin-top: 2px; }
+  .dish-served { font-family: sans-serif; font-size: 10px; color: #ccc; margin-top: 4px; }
+  .dish-tap { font-family: sans-serif; font-size: 11px; font-weight: 700; margin-top: 5px; }
+
+  /* Library header */
+  .lib-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+  .lib-header h2 { font-size: 18px; }
+  .swap-context { font-size: 12px; font-family: sans-serif; font-weight: 400; margin-left: 8px; color: #E74C3C; }
+
+  /* By Cuisine */
+  .cuisine-section { margin-bottom: 26px; }
+  .cuisine-header { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; border-bottom-width: 2px; border-bottom-style: solid; padding-bottom: 7px; }
+  .cuisine-header .ce { font-size: 20px; }
+  .cuisine-header .cn { font-size: 16px; font-weight: bold; }
+  .cuisine-header .cc { font-family: sans-serif; font-size: 11px; color: #bbb; }
+  .this-week-badge { color: #fff; border-radius: 10px; padding: 2px 8px; font-family: sans-serif; font-size: 10px; font-weight: 700; }
+  .cuisine-sublabel { font-family: sans-serif; font-size: 9px; color: #bbb; font-weight: 700; letter-spacing: 1px; margin-bottom: 5px; margin-top: 7px; }
+  .cuisine-chips-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .cuisine-main-chip { border-radius: 20px; padding: 4px 12px; font-family: sans-serif; font-size: 12px; font-weight: 600; border: 1px solid rgba(0,0,0,0.08); }
+  .cuisine-side-chip { background: #f8f8f8; color: #888; border-radius: 20px; padding: 4px 12px; font-family: sans-serif; font-size: 12px; border: 1px solid #eee; }
+
+  /* Modal */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300; display: none; align-items: center; justify-content: center; padding: 16px; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: #fff; border-radius: 16px; padding: 24px; width: 100%; max-width: 370px; box-shadow: 0 8px 40px rgba(0,0,0,0.2); }
+  .modal h3 { font-size: 16px; margin-bottom: 16px; }
+  .form-group { margin-bottom: 11px; }
+  .form-group label { font-family: sans-serif; font-size: 11px; color: #888; display: block; margin-bottom: 3px; }
+  .form-group input, .form-group select { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; }
+  .form-row { display: flex; gap: 9px; margin-bottom: 14px; }
+  .form-row .form-group { flex: 1; margin-bottom: 0; }
+  .modal-btns { display: flex; gap: 8px; }
+  .modal-btns button { flex: 1; padding: 10px; border: none; border-radius: 8px; font-family: sans-serif; cursor: pointer; }
+
+  /* Status */
+  .status-bar { font-family: sans-serif; font-size: 11px; color: #aaa; text-align: center; padding: 8px; }
+  .status-bar.error { color: #E74C3C; }
+  .status-bar.success { color: #27AE60; }
+
+  /* Loading */
+  .loading { text-align: center; padding: 40px; font-family: sans-serif; color: #bbb; }
+  .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid #ddd; border-top-color: #E67E22; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 8px; vertical-align: middle; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <h1>🍳 Family Dinner Planner</h1>
+      <div class="sub">Dan & Emily · Shanghai · Mon–Fri</div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('week')">Week</button>
+      <button class="tab" onclick="switchTab('library')">Library</button>
+      <button class="tab" onclick="switchTab('cuisine')">By Cuisine</button>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div id="status-bar" class="status-bar"></div>
+
+  <!-- WEEK PANEL -->
+  <div id="panel-week" class="panel active">
+    <div id="anchor-banner" class="anchor-banner"></div>
+    <div id="cuisine-picker" class="cuisine-picker">
+      <div class="picker-label">PICK THIS WEEK'S ANCHOR CUISINE</div>
+      <div id="cuisine-chips" class="cuisine-chips"></div>
+    </div>
+    <div id="day-rows"></div>
+    <div class="trip-banner">
+      <div class="flag">🇮🇹</div>
+      <div>
+        <div class="trip-title">Leaving for Italy on Thursday!</div>
+        <div class="trip-sub">8 days away — next meal plan picks up when you're back. Italian week on return? 🍝</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIBRARY PANEL -->
+  <div id="panel-library" class="panel">
+    <div class="lib-header">
+      <h2>Dish Library <span id="swap-context" class="swap-context"></span></h2>
+      <button class="btn btn-green" onclick="openAddModal()">+ Add Dish</button>
+    </div>
+    <div class="filters">
+      <input id="search-input" type="text" placeholder="Search…" oninput="renderLibrary()">
+      <select id="filter-cuisine" onchange="renderLibrary()">
+        <option value="">All Cuisines</option>
+      </select>
+      <select id="filter-type" onchange="renderLibrary()">
+        <option value="">All Types</option>
+        <option value="main">Main</option>
+        <option value="side">Side</option>
+      </select>
+    </div>
+    <div id="dish-grid" class="dish-grid"></div>
+  </div>
+
+  <!-- BY CUISINE PANEL -->
+  <div id="panel-cuisine" class="panel">
+    <h2 style="margin-bottom:20px;font-size:18px;">Dishes by Cuisine</h2>
+    <div id="cuisine-sections"></div>
+  </div>
+</div>
+
+<!-- Swap toast -->
+<div id="swap-toast" class="swap-toast">
+  <span id="swap-toast-text"></span>
+  <button onclick="cancelSwap()">Cancel</button>
+</div>
+
+<!-- Add Dish Modal -->
+<div id="add-modal" class="modal-overlay">
+  <div class="modal">
+    <h3>Add New Dish</h3>
+    <div class="form-group">
+      <label>Dish Name *</label>
+      <input id="new-name" type="text" placeholder="e.g. Pad Thai">
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <input id="new-notes" type="text" placeholder="Optional">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Cuisine</label>
+        <select id="new-cuisine"></select>
+      </div>
+      <div class="form-group">
+        <label>Type</label>
+        <select id="new-type">
+          <option value="main">Main</option>
+          <option value="side">Side</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button style="background:#1a1a1a;color:#fff;font-weight:700;" onclick="addDish()">Add</button>
+      <button style="background:#f5f5f5;color:#666;" onclick="closeAddModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ───────────────────────────────────────────────────
+// Paste your deployed Apps Script URL here:
+const API_URL = "YOUR_APPS_SCRIPT_URL_HERE";
+
+const CUISINES = {
+  Korean:          { color: "#C0392B", light: "#FDEDEC", emoji: "🇰🇷" },
+  Japanese:        { color: "#2C3E50", light: "#EAF0F6", emoji: "🇯🇵" },
+  Italian:         { color: "#27AE60", light: "#EAFAF1", emoji: "🇮🇹" },
+  American:        { color: "#2980B9", light: "#EBF5FB", emoji: "🇺🇸" },
+  Chinese:         { color: "#E67E22", light: "#FEF9E7", emoji: "🇨🇳" },
+  "Southeast Asian":{ color: "#8E44AD", light: "#F5EEF8", emoji: "🌏" },
+  Other:           { color: "#7F8C8D", light: "#F2F3F4", emoji: "🍽️" },
+};
+const CUISINE_KEYS = Object.keys(CUISINES);
+const WEEKDAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
+const DAY_SHORT = { Monday:"MON", Tuesday:"TUE", Wednesday:"WED", Thursday:"THU", Friday:"FRI" };
+
+const DEFAULT_SPECIAL = {
+  Wednesday: {
+    locked: true,
+    main: { id: 38, name: "Peking Duck", cuisine: "Chinese", type: "main", notes: "Takeout / order in" },
+    sides: [],
+    note: "Emily's mom arrives 🏠",
+  },
+  Thursday: {
+    locked: true,
+    main: { id: 42, name: "Moo Shu Pork", cuisine: "Chinese", type: "main", notes: "Use extra pancakes from Wed's Peking Duck order" },
+    sides: [],
+    note: "Last dinner before Italy ✈️ — use Wed's pancakes!",
+  },
+};
+
+// ── STATE ────────────────────────────────────────────────────
+let dishes = [];
+let weekData = { plan: {}, anchorCuisine: "Chinese" };
+let swapDay = null, swapSlot = null;
+let activeTab = "week";
+
+// ── API ──────────────────────────────────────────────────────
+async function apiGet(action) {
+  const r = await fetch(`${API_URL}?action=${action}`);
+  return r.json();
+}
+async function apiPost(body) {
+  const r = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  return r.json();
+}
+
+function setStatus(msg, type="") {
+  const el = document.getElementById("status-bar");
+  el.textContent = msg;
+  el.className = "status-bar " + type;
+  if (type === "success") setTimeout(() => { el.textContent = ""; el.className = "status-bar"; }, 3000);
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+async function init() {
+  populateCuisineSelects();
+
+  if (!API_URL || API_URL === "YOUR_APPS_SCRIPT_URL_HERE") {
+    setStatus("⚠️ Paste your Apps Script URL into the API_URL variable at the top of this file to enable Google Sheets sync.", "error");
+    return;
+  }
+
+  setStatus("⏳ Loading from Google Sheets…");
+  try {
+    const [dishRes, weekRes] = await Promise.all([apiGet("getDishes"), apiGet("getWeekPlan")]);
+    if (dishRes.dishes) dishes = dishRes.dishes;
+    if (weekRes.weekData) weekData = weekRes.weekData;
+    else weekData = generateWeekPlan(dishes, "Chinese");
+    setStatus("✓ Synced with Google Sheets", "success");
+  } catch(e) {
+    setStatus("⚠️ Could not reach Google Sheets. Check your API_URL.", "error");
+  }
+  renderAll();
+}
+
+// ── WEEK PLAN GENERATION ─────────────────────────────────────
+function generateWeekPlan(dishList, anchorCuisine) {
+  const anchor = anchorCuisine || "Chinese";
+  const lockedIds = new Set(Object.values(DEFAULT_SPECIAL).filter(s => s.locked && s.main).map(s => s.main.id));
+
+  const anchorMains = dishList.filter(d => d.type==="main" && d.cuisine===anchor && !lockedIds.has(Number(d.id)))
+    .sort(() => Math.random()-0.5);
+  const fillMains = dishList.filter(d => d.type==="main" && d.cuisine!==anchor && !lockedIds.has(Number(d.id)))
+    .sort((a,b) => {
+      if (!a.lastServed && !b.lastServed) return Math.random()-0.5;
+      if (!a.lastServed) return -1; if (!b.lastServed) return 1;
+      return new Date(a.lastServed)-new Date(b.lastServed);
+    });
+
+  const pool = [...anchorMains, ...fillMains];
+  const used = new Set(lockedIds);
+  const plan = {};
+
+  WEEKDAYS.forEach(day => {
+    const special = DEFAULT_SPECIAL[day];
+    if (special?.locked) { plan[day] = { ...special }; return; }
+
+    let main = null;
+    for (const m of pool) { if (!used.has(Number(m.id))) { main = m; used.add(Number(m.id)); break; } }
+
+    const sides = dishList
+      .filter(d => d.type==="side" && (d.cuisine===main?.cuisine || d.cuisine==="American" || d.cuisine==="Other"))
+      .sort(() => Math.random()-0.5).slice(0,2);
+
+    plan[day] = { main, sides, note: special?.note || null, locked: false };
+  });
+  return { plan, anchorCuisine: anchor };
+}
+
+// ── RENDER ALL ───────────────────────────────────────────────
+function renderAll() {
+  renderWeek();
+  renderLibrary();
+  renderByCuisine();
+}
+
+// ── RENDER WEEK ──────────────────────────────────────────────
+function renderWeek() {
+  const anchor = weekData.anchorCuisine || "Chinese";
+  const c = CUISINES[anchor] || CUISINES["Other"];
+
+  // Anchor banner
+  document.getElementById("anchor-banner").style.background = c.light;
+  document.getElementById("anchor-banner").style.borderColor = c.color + "44";
+  document.getElementById("anchor-banner").innerHTML = `
+    <div class="anchor-info">
+      <span class="anchor-emoji">${c.emoji}</span>
+      <div>
+        <div class="anchor-label">THIS WEEK'S ANCHOR CUISINE</div>
+        <div class="anchor-name" style="color:${c.color}">${anchor}</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" style="background:${c.color};color:#fff" onclick="toggleCuisinePicker()">🔀 Change</button>
+      <button class="btn btn-dark" onclick="regenPlan()">↻ Regenerate</button>
+    </div>
+  `;
+
+  // Cuisine picker chips
+  const chipsEl = document.getElementById("cuisine-chips");
+  chipsEl.innerHTML = CUISINE_KEYS.filter(k=>k!=="Other").map(k => {
+    const col = CUISINES[k];
+    const count = dishes.filter(d=>d.cuisine===k && d.type==="main").length;
+    const isActive = k === anchor;
+    return `<button class="cuisine-chip" style="background:${isActive?col.color:col.light};color:${isActive?"#fff":col.color};border-color:${col.color}44"
+      onclick="pickCuisine('${k}')">${col.emoji} ${k} <span style="opacity:0.6;font-size:10px">(${count})</span></button>`;
+  }).join("");
+
+  // Day rows
+  const rowsEl = document.getElementById("day-rows");
+  rowsEl.innerHTML = WEEKDAYS.map(day => {
+    const dp = weekData.plan[day] || {};
+    const cuisine = dp.main?.cuisine;
+    const col = CUISINES[cuisine] || CUISINES["Other"];
+    const isAnchor = cuisine === anchor;
+    const isLocked = dp.locked;
+
+    const noteHtml = dp.note ? `
+      <div class="day-note" style="background:${col.light};color:${col.color}">
+        ${isLocked ? `<span class="locked-badge" style="background:${col.color}">LOCKED</span>` : ""}
+        ${dp.note}
+      </div>` : "";
+
+    const sidesHtml = (dp.sides||[]).map((s,i) => `
+      <span class="side-chip" style="background:${col.light};color:${col.color}">
+        ${s.name}
+        ${!isLocked ? `<button onclick="startSwap('${day}',${i})" title="Swap">⇄</button>
+        <button onclick="removeSide('${day}',${i})" title="Remove">✕</button>` : ""}
+      </span>`).join("");
+
+    const addSideBtn = (!isLocked && (dp.sides||[]).length < 4)
+      ? `<button class="add-side-btn" onclick="startSwap('${day}',${(dp.sides||[]).length})">+ side</button>` : "";
+
+    return `
+      <div class="day-row ${isLocked?"locked":""}" style="border-color:${isLocked?col.color+"88":isAnchor?col.color+"44":"#eee"}">
+        ${noteHtml}
+        <div class="day-inner">
+          <div class="day-label" style="background:${isLocked?col.color:col.color+"cc"}">
+            <span class="emoji">${col.emoji}</span>
+            <span class="name">${DAY_SHORT[day]}</span>
+            ${!isAnchor && cuisine ? `<span class="cuisine-sub">${cuisine}</span>` : ""}
+          </div>
+          <div class="day-main">
+            <div class="section-label">MAIN</div>
+            <div class="main-name">${dp.main?.name || "—"}</div>
+            ${dp.main?.notes ? `<div class="main-notes">${dp.main.notes}</div>` : ""}
+            ${!isLocked ? `<button class="swap-btn" style="color:${col.color}" onclick="startSwap('${day}','main')">⇄ swap</button>` : ""}
+            ${isLocked ? `<div class="lock-note">🔒 locked</div>` : ""}
+          </div>
+          <div class="day-sides">
+            <div class="section-label">SIDES</div>
+            <div class="sides-row">${sidesHtml}${addSideBtn}</div>
+          </div>
+          <div class="day-served">
+            <button class="served-btn" onclick="markServed('${day}')" title="Mark served">✓</button>
+          </div>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+// ── RENDER LIBRARY ───────────────────────────────────────────
+function renderLibrary() {
+  const search = document.getElementById("search-input").value.toLowerCase();
+  const filterC = document.getElementById("filter-cuisine").value;
+  const filterT = document.getElementById("filter-type").value;
+
+  const filtered = dishes.filter(d =>
+    (!filterC || d.cuisine === filterC) &&
+    (!filterT || d.type === filterT) &&
+    d.name.toLowerCase().includes(search)
+  );
+
+  const swapCtx = document.getElementById("swap-context");
+  swapCtx.textContent = swapDay ? `— tap to swap ${swapSlot==="main"?"main":"side"} for ${swapDay}` : "";
+
+  document.getElementById("dish-grid").innerHTML = filtered.map(dish => {
+    const c = CUISINES[dish.cuisine] || CUISINES["Other"];
+    const canSwap = swapDay && ((swapSlot==="main" && dish.type==="main") || (swapSlot!=="main" && dish.type==="side"));
+    return `
+      <div class="dish-card ${canSwap?"swappable":""}"
+        style="${canSwap?`border-color:${c.color};box-shadow:0 2px 12px ${c.color}33`:""}"
+        onclick="${canSwap?`doSwap(${dish.id})`:""}">
+        <div class="dish-card-top">
+          <div class="dish-badges">
+            <span class="badge" style="background:${c.light};color:${c.color}">${dish.cuisine}</span>
+            <span class="badge badge-type">${dish.type}</span>
+          </div>
+          <button class="dish-delete" onclick="event.stopPropagation();deleteDish(${dish.id})">✕</button>
+        </div>
+        <div class="dish-name">${dish.name}</div>
+        ${dish.notes ? `<div class="dish-notes">${dish.notes}</div>` : ""}
+        ${dish.lastServed ? `<div class="dish-served">Last: ${dish.lastServed}</div>` : ""}
+        ${canSwap ? `<div class="dish-tap" style="color:${c.color}">Tap to use →</div>` : ""}
+      </div>`;
+  }).join("");
+}
+
+// ── RENDER BY CUISINE ────────────────────────────────────────
+function renderByCuisine() {
+  const anchor = weekData.anchorCuisine;
+  document.getElementById("cuisine-sections").innerHTML = CUISINE_KEYS.map(cuisine => {
+    const ds = dishes.filter(d => d.cuisine === cuisine);
+    if (!ds.length) return "";
+    const c = CUISINES[cuisine];
+    const mains = ds.filter(d => d.type==="main");
+    const sides = ds.filter(d => d.type==="side");
+    return `
+      <div class="cuisine-section">
+        <div class="cuisine-header" style="border-color:${c.color}">
+          <span class="ce">${c.emoji}</span>
+          <span class="cn">${cuisine}</span>
+          <span class="cc">${mains.length} mains · ${sides.length} sides</span>
+          ${cuisine===anchor ? `<span class="this-week-badge" style="background:${c.color}">THIS WEEK</span>` : ""}
+        </div>
+        ${mains.length ? `
+          <div class="cuisine-sublabel">MAINS</div>
+          <div class="cuisine-chips-row">
+            ${mains.map(d => `<span class="cuisine-main-chip" style="background:${c.light};color:${c.color}">${d.name}${d.notes?` <span style="opacity:0.5;font-weight:400">· ${d.notes}</span>`:""}</span>`).join("")}
+          </div>` : ""}
+        ${sides.length ? `
+          <div class="cuisine-sublabel">SIDES</div>
+          <div class="cuisine-chips-row">
+            ${sides.map(d => `<span class="cuisine-side-chip">${d.name}</span>`).join("")}
+          </div>` : ""}
+      </div>`;
+  }).join("");
+}
+
+// ── INTERACTIONS ─────────────────────────────────────────────
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.getElementById("panel-" + (tab==="cuisine"?"cuisine":tab==="library"?"library":"week")).classList.add("active");
+  document.querySelectorAll(".tab")[["week","library","cuisine"].indexOf(tab)].classList.add("active");
+  if (tab !== "library" && swapDay) { cancelSwap(); }
+}
+
+function toggleCuisinePicker() {
+  document.getElementById("cuisine-picker").classList.toggle("open");
+}
+
+function pickCuisine(cuisine) {
+  weekData = generateWeekPlan(dishes, cuisine);
+  document.getElementById("cuisine-picker").classList.remove("open");
+  saveWeekToSheets();
+  renderAll();
+}
+
+function regenPlan() {
+  weekData = generateWeekPlan(dishes, weekData.anchorCuisine);
+  saveWeekToSheets();
+  renderAll();
+}
+
+function startSwap(day, slot) {
+  swapDay = day; swapSlot = slot;
+  const label = slot === "main" ? "main dish" : "side";
+  document.getElementById("swap-toast-text").textContent = `🔄 Swapping ${label} for ${day} — pick from Library`;
+  document.getElementById("swap-toast").classList.add("visible");
+  switchTab("library");
+}
+
+function cancelSwap() {
+  swapDay = null; swapSlot = null;
+  document.getElementById("swap-toast").classList.remove("visible");
+  document.getElementById("swap-context").textContent = "";
+  renderLibrary();
+}
+
+function doSwap(dishId) {
+  if (!swapDay) return;
+  const dish = dishes.find(d => Number(d.id) === Number(dishId));
+  const dp = weekData.plan[swapDay] || {};
+  if (swapSlot === "main") {
+    dp.main = dish;
+  } else {
+    const sides = [...(dp.sides||[])];
+    if (swapSlot < sides.length) sides[swapSlot] = dish; else sides.push(dish);
+    dp.sides = sides;
+  }
+  weekData.plan[swapDay] = dp;
+  cancelSwap();
+  saveWeekToSheets();
+  renderAll();
+  switchTab("week");
+}
+
+function removeSide(day, idx) {
+  const dp = weekData.plan[day] || {};
+  const sides = [...(dp.sides||[])];
+  sides.splice(idx, 1);
+  dp.sides = sides;
+  weekData.plan[day] = dp;
+  saveWeekToSheets();
+  renderWeek();
+}
+
+function markServed(day) {
+  const dp = weekData.plan[day];
+  if (!dp) return;
+  const today = new Date().toISOString().split("T")[0];
+  const idsToUpdate = [dp.main?.id, ...(dp.sides||[]).map(s=>s.id)].filter(Boolean);
+  dishes = dishes.map(d => idsToUpdate.includes(Number(d.id)) || idsToUpdate.includes(d.id)
+    ? { ...d, lastServed: today } : d);
+  // Save updated dishes
+  idsToUpdate.forEach(id => {
+    const d = dishes.find(d => Number(d.id) === Number(id));
+    if (d) saveDishToSheets(d);
+  });
+  renderAll();
+  setStatus(`✓ Marked ${day} as served`, "success");
+}
+
+// ── ADD / DELETE DISH ────────────────────────────────────────
+function openAddModal() { document.getElementById("add-modal").classList.add("open"); }
+function closeAddModal() { document.getElementById("add-modal").classList.remove("open"); }
+
+async function addDish() {
+  const name = document.getElementById("new-name").value.trim();
+  if (!name) return;
+  const dish = {
+    id: Date.now(),
+    name,
+    cuisine: document.getElementById("new-cuisine").value,
+    type: document.getElementById("new-type").value,
+    notes: document.getElementById("new-notes").value.trim(),
+    lastServed: "",
+  };
+  dishes.push(dish);
+  closeAddModal();
+  document.getElementById("new-name").value = "";
+  document.getElementById("new-notes").value = "";
+  renderAll();
+  await saveDishToSheets(dish);
+  setStatus("✓ Dish added to Google Sheets", "success");
+}
+
+async function deleteDish(id) {
+  dishes = dishes.filter(d => Number(d.id) !== Number(id));
+  renderAll();
+  if (API_URL && API_URL !== "YOUR_APPS_SCRIPT_URL_HERE") {
+    await apiPost({ action: "deleteDish", id });
+    setStatus("✓ Dish deleted", "success");
+  }
+}
+
+// ── SHEETS SYNC ──────────────────────────────────────────────
+async function saveDishToSheets(dish) {
+  if (!API_URL || API_URL === "YOUR_APPS_SCRIPT_URL_HERE") return;
+  try { await apiPost({ action: "saveDish", dish }); } catch(e) { setStatus("⚠️ Sync error", "error"); }
+}
+
+async function saveWeekToSheets() {
+  if (!API_URL || API_URL === "YOUR_APPS_SCRIPT_URL_HERE") return;
+  try { await apiPost({ action: "saveWeekPlan", weekData }); } catch(e) { setStatus("⚠️ Sync error", "error"); }
+}
+
+// ── UTILS ────────────────────────────────────────────────────
+function populateCuisineSelects() {
+  const filterSel = document.getElementById("filter-cuisine");
+  const newSel = document.getElementById("new-cuisine");
+  CUISINE_KEYS.forEach(c => {
+    filterSel.innerHTML += `<option value="${c}">${c}</option>`;
+    newSel.innerHTML += `<option value="${c}">${c}</option>`;
+  });
+}
+
+// ── BOOT ─────────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>

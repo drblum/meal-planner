@@ -169,6 +169,26 @@
   .color-preset { width: 22px; height: 22px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
   .color-preset.selected { border-color: #1a1a1a; }
 
+
+  /* History editing */
+  .history-day-row { position: relative; }
+  .history-day-row:hover .history-edit-btn { opacity: 1; }
+  .history-edit-btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: 1px solid #eee; border-radius: 20px; padding: 2px 9px; font-family: sans-serif; font-size: 10px; color: #bbb; cursor: pointer; opacity: 0; transition: opacity 0.15s; }
+  .history-edit-btn:hover { background: #f5f5f5; color: #666; border-color: #ddd; }
+  .history-cal-cell { position: relative; cursor: pointer; transition: box-shadow 0.15s; }
+  .history-cal-cell:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+  .history-cal-edit-hint { font-family: sans-serif; font-size: 9px; color: #ccc; margin-top: 4px; }
+  /* History edit modal */
+  .hist-edit-dish-list { max-height: 180px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px; }
+  .hist-edit-dish-item { padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #f5f5f5; font-family: sans-serif; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+  .hist-edit-dish-item:hover { background: #f9f9f9; }
+  .hist-edit-dish-item.active { font-weight: 700; }
+  .hist-edit-dish-item:last-child { border-bottom: none; }
+  .hist-edit-sides { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
+  .hist-edit-side-chip { display: inline-flex; align-items: center; gap: 3px; border-radius: 20px; padding: 3px 9px; font-family: sans-serif; font-size: 11px; background: #f0f0f0; color: #666; }
+  .hist-edit-side-chip button { background: none; border: none; cursor: pointer; font-size: 9px; opacity: 0.5; padding: 0; }
+  .hist-edit-blank-toggle { display: flex; align-items: center; gap: 8px; font-family: sans-serif; font-size: 12px; color: #888; margin-bottom: 10px; cursor: pointer; }
+  .hist-edit-blank-toggle input { cursor: pointer; }
   .status-bar { font-family: sans-serif; font-size: 11px; color: #aaa; text-align: center; padding: 8px; min-height: 28px; }
   .status-bar.error { color: #E74C3C; }
   .status-bar.success { color: #27AE60; }
@@ -386,6 +406,9 @@ let selectedDishId = null;
 let lockTargetDay = null, lockSelectedDish = null;
 let blankTargetDay = null;
 let editingDishId = null; // null = adding new, id = editing
+let histEditEntry = null; // { entryIdx, day }
+let histEditMain = null;
+let histEditSides = [];
 
 // ── API ──────────────────────────────────────────────────────
 async function apiGet(action) {
@@ -587,24 +610,30 @@ function renderHistory() {
   const el=document.getElementById("history-content");
   if(!history.length){ el.innerHTML=`<div class="history-empty">No past weeks saved yet.<br>Use "📦 Save Week to History" on the Week tab when you're done planning a week.</div>`; return; }
   if(historyView==="list") {
-    el.innerHTML=history.map(entry=>{
+    el.innerHTML=history.map((entry,ei)=>{
       const wd=entry.weekData||{}, plan=wd.plan||{}, anchor=wd.anchorCuisine||"";
       const c=getCuisineData(anchor);
       const dayRows=WEEKDAYS.map(day=>{
         const dp=plan[day]||{};
-        if(dp.blank) return `<div class="history-day-row"><span class="history-day-name">${DAY_SHORT[day]}</span>
+        const editBtn=`<button class="history-edit-btn" onclick="openHistEdit(${ei},'${day}')">✏️ Edit</button>`;
+        if(dp.blank) return `<div class="history-day-row" style="position:relative">
+          <span class="history-day-name">${DAY_SHORT[day]}</span>
           <span class="history-day-emoji">⬜</span>
-          <div class="history-main-wrap"><div class="history-main" style="color:#ccc;font-weight:400">${dp.note||"No meal"}</div></div></div>`;
-        if(!dp.main) return "";
+          <div class="history-main-wrap"><div class="history-main" style="color:#ccc;font-weight:400">${dp.note||"No meal"}</div></div>
+          ${editBtn}</div>`;
+        if(!dp.main) return `<div class="history-day-row" style="position:relative">
+          <span class="history-day-name">${DAY_SHORT[day]}</span>
+          <span class="history-day-emoji" style="opacity:0.3">—</span>
+          <div class="history-main-wrap"><div class="history-main" style="color:#ccc;font-weight:400;font-style:italic">Not logged</div></div>
+          ${editBtn}</div>`;
         const dc=getCuisineData(dp.main.cuisine);
-        return `<div class="history-day-row">
+        return `<div class="history-day-row" style="position:relative">
           <span class="history-day-name">${DAY_SHORT[day]}</span>
           <span class="history-day-emoji">${dc.emoji}</span>
           <div class="history-main-wrap">
             <div class="history-main">${dp.main.name}</div>
             ${(dp.sides||[]).length?`<div class="history-sides">${dp.sides.map(s=>`<span class="history-side-chip">${s.name}</span>`).join("")}</div>`:""}
-          </div>
-        </div>`;
+          </div>${editBtn}</div>`;
       }).join("");
       return `<div class="history-week-block">
         <div class="history-week-header">
@@ -613,22 +642,27 @@ function renderHistory() {
         </div>${dayRows}</div>`;
     }).join("");
   } else {
-    el.innerHTML=history.map(entry=>{
+    el.innerHTML=history.map((entry,ei)=>{
       const wd=entry.weekData||{}, plan=wd.plan||{}, anchor=wd.anchorCuisine||"";
       const c=getCuisineData(anchor);
       const cells=WEEKDAYS.map(day=>{
         const dp=plan[day]||{};
-        if(dp.blank) return `<div class="history-cal-cell blank-cell">
+        if(dp.blank) return `<div class="history-cal-cell blank-cell" onclick="openHistEdit(${ei},'${day}')">
           <div class="history-cal-day">${DAY_SHORT[day]}</div>
           <span style="font-size:18px">⬜</span>
-          <div style="font-family:sans-serif;font-size:10px;color:#bbb;margin-top:4px">${dp.note||"Blank"}</div>
+          <div class="history-cal-edit-hint">tap to edit</div>
         </div>`;
-        if(!dp.main) return `<div class="history-cal-cell blank-cell"><div class="history-cal-day">${DAY_SHORT[day]}</div></div>`;
+        if(!dp.main) return `<div class="history-cal-cell blank-cell" onclick="openHistEdit(${ei},'${day}')">
+          <div class="history-cal-day">${DAY_SHORT[day]}</div>
+          <div style="font-family:sans-serif;font-size:11px;color:#ccc;font-style:italic;margin-top:6px">Not logged</div>
+          <div class="history-cal-edit-hint">tap to add</div>
+        </div>`;
         const dc=getCuisineData(dp.main.cuisine);
-        return `<div class="history-cal-cell" style="border-color:${dc.color}22">
+        return `<div class="history-cal-cell" style="border-color:${dc.color}22" onclick="openHistEdit(${ei},'${day}')">
           <div class="history-cal-day">${DAY_SHORT[day]}</div>
           <span class="history-cal-flag">${dc.emoji}</span>
           <div class="history-cal-dish">${dp.main.name}</div>
+          <div class="history-cal-edit-hint">tap to edit</div>
         </div>`;
       }).join("");
       return `<div class="history-cal-block">
@@ -640,6 +674,101 @@ function renderHistory() {
       </div>`;
     }).join("");
   }
+}
+
+// ── HISTORY EDIT ──────────────────────────────────────────────
+function openHistEdit(entryIdx, day) {
+  const entry = history[entryIdx];
+  if(!entry) return;
+  histEditEntry = { entryIdx, day };
+  const dp = (entry.weekData?.plan||{})[day] || {};
+  histEditMain = dp.main || null;
+  histEditSides = [...(dp.sides||[])];
+  const isBlank = !!dp.blank;
+  document.getElementById("hist-edit-title").textContent = `Edit ${day} — ${entry.weekLabel}`;
+  document.getElementById("hist-edit-sub").textContent = histEditMain ? `Currently: ${histEditMain.name}` : "No meal logged yet.";
+  document.getElementById("hist-edit-blank").checked = isBlank;
+  document.getElementById("hist-edit-note").value = dp.note||"";
+  document.getElementById("hist-edit-search").value = "";
+  document.getElementById("hist-edit-side-search").value = "";
+  document.getElementById("hist-edit-main-section").style.display = isBlank ? "none" : "block";
+  renderHistEditList();
+  renderHistEditSideList();
+  renderHistEditSideChips();
+  document.getElementById("hist-edit-modal").classList.add("open");
+}
+function closeHistEdit() {
+  document.getElementById("hist-edit-modal").classList.remove("open");
+  histEditEntry = null; histEditMain = null; histEditSides = [];
+}
+function toggleHistEditBlank() {
+  const isBlank = document.getElementById("hist-edit-blank").checked;
+  document.getElementById("hist-edit-main-section").style.display = isBlank ? "none" : "block";
+}
+function renderHistEditList() {
+  const search = document.getElementById("hist-edit-search").value.toLowerCase();
+  const mains = dishes.filter(d=>d.type==="main"&&(!search||d.name.toLowerCase().includes(search)));
+  document.getElementById("hist-edit-dish-list").innerHTML = mains.map(d=>{
+    const isActive = histEditMain && Number(histEditMain.id)===Number(d.id);
+    const c = getCuisineData(d.cuisine);
+    return `<div class="hist-edit-dish-item ${isActive?"active":""}" style="${isActive?`background:${c.light}`:""}" onclick="selectHistMain(${d.id})">
+      <span>${d.name} <span style="color:${c.color};font-size:11px">${d.cuisine}</span></span>
+      ${isActive?`<span style="color:${c.color}">✓</span>`:""}
+    </div>`;
+  }).join("")||`<div style="padding:10px;font-family:sans-serif;font-size:12px;color:#bbb">No dishes found</div>`;
+}
+function selectHistMain(id) {
+  histEditMain = dishes.find(d=>Number(d.id)===Number(id));
+  document.getElementById("hist-edit-sub").textContent = `Selected: ${histEditMain?.name}`;
+  renderHistEditList();
+}
+function renderHistEditSideList() {
+  const search = document.getElementById("hist-edit-side-search").value.toLowerCase();
+  const sides = dishes.filter(d=>d.type==="side"&&(!search||d.name.toLowerCase().includes(search)));
+  document.getElementById("hist-edit-side-list").innerHTML = sides.map(d=>{
+    const alreadyAdded = histEditSides.some(s=>Number(s.id)===Number(d.id));
+    const c = getCuisineData(d.cuisine);
+    return `<div class="hist-edit-dish-item ${alreadyAdded?"active":""}" style="${alreadyAdded?`background:${c.light}`:""}" onclick="${alreadyAdded?`removeHistSide(${d.id})`:`addHistSide(${d.id})`}">
+      <span>${d.name} <span style="color:${c.color};font-size:11px">${d.cuisine}</span></span>
+      <span style="font-size:11px;color:${alreadyAdded?c.color:"#ccc"}">${alreadyAdded?"✓ added":"+ add"}</span>
+    </div>`;
+  }).join("")||`<div style="padding:10px;font-family:sans-serif;font-size:12px;color:#bbb">No sides found</div>`;
+}
+function addHistSide(id) {
+  const dish = dishes.find(d=>Number(d.id)===Number(id));
+  if(dish && !histEditSides.some(s=>Number(s.id)===Number(id))) histEditSides.push(dish);
+  renderHistEditSideList(); renderHistEditSideChips();
+}
+function removeHistSide(id) {
+  histEditSides = histEditSides.filter(s=>Number(s.id)!==Number(id));
+  renderHistEditSideList(); renderHistEditSideChips();
+}
+function renderHistEditSideChips() {
+  document.getElementById("hist-edit-sides-chips").innerHTML = histEditSides.map(s=>{
+    const c = getCuisineData(s.cuisine);
+    return `<span class="hist-edit-side-chip" style="background:${c.light};color:${c.color}">${s.name}<button onclick="removeHistSide(${s.id})">✕</button></span>`;
+  }).join("") || `<span style="font-family:sans-serif;font-size:11px;color:#ccc">None added</span>`;
+}
+async function saveHistEdit() {
+  if(!histEditEntry) return;
+  const { entryIdx, day } = histEditEntry;
+  const isBlank = document.getElementById("hist-edit-blank").checked;
+  const note = document.getElementById("hist-edit-note").value.trim();
+  const entry = history[entryIdx];
+  if(!entry.weekData) entry.weekData = { plan:{}, anchorCuisine:"" };
+  if(!entry.weekData.plan) entry.weekData.plan = {};
+  if(isBlank) {
+    entry.weekData.plan[day] = { main:null, sides:[], blank:true, locked:false, note:note||null };
+  } else {
+    if(!histEditMain) { alert("Please select a main dish."); return; }
+    entry.weekData.plan[day] = { main:histEditMain, sides:histEditSides, blank:false, locked:false, note:note||null };
+  }
+  closeHistEdit();
+  renderHistory();
+  try {
+    await apiPost({ action:"archiveWeek", weekRecord:{ weekLabel:entry.weekLabel, startDate:entry.startDate, weekData:entry.weekData } });
+    setStatus(`✓ ${day} updated in history`, "success");
+  } catch(e) { setStatus("⚠️ Sync error: "+e.message, "error"); }
 }
 
 async function archiveCurrentWeek() {
@@ -902,5 +1031,37 @@ function populateCuisineSelects() {
 
 init();
 </script>
+<!-- History Edit Modal -->
+<div id="hist-edit-modal" class="modal-overlay">
+  <div class="modal">
+    <h3 id="hist-edit-title">Edit Past Meal</h3>
+    <div class="modal-sub" id="hist-edit-sub"></div>
+    <label class="hist-edit-blank-toggle">
+      <input type="checkbox" id="hist-edit-blank" onchange="toggleHistEditBlank()"> Mark this day as blank
+    </label>
+    <div id="hist-edit-main-section">
+      <div class="form-group" style="margin-bottom:8px">
+        <label>Main dish</label>
+        <input class="lock-search" id="hist-edit-search" type="text" placeholder="Search dishes…" oninput="renderHistEditList()">
+      </div>
+      <div class="hist-edit-dish-list" id="hist-edit-dish-list"></div>
+      <div class="form-group">
+        <label>Sides <span style="font-weight:400;color:#bbb">(click dishes below to add)</span></label>
+        <div class="hist-edit-sides" id="hist-edit-sides-chips"></div>
+        <input class="lock-search" id="hist-edit-side-search" type="text" placeholder="Search sides to add…" oninput="renderHistEditSideList()" style="margin-top:4px">
+        <div class="hist-edit-dish-list" id="hist-edit-side-list"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Note (optional)</label>
+      <input id="hist-edit-note" type="text" placeholder="e.g. Family dinner 🎉">
+    </div>
+    <div class="modal-btns">
+      <button style="background:#1a1a1a;color:#fff;font-weight:700;" onclick="saveHistEdit()">Save</button>
+      <button style="background:#f5f5f5;color:#666;" onclick="closeHistEdit()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

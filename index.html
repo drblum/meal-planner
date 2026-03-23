@@ -13,7 +13,7 @@
   .header h1 { font-size: 18px; letter-spacing: -0.5px; }
   .header .sub { font-family: sans-serif; font-size: 11px; color: #aaa; margin-top: 2px; }
   .tabs { display: flex; gap: 5px; }
-  .tab { padding: 6px 13px; border-radius: 20px; border: none; background: transparent; color: #aaa; font-family: sans-serif; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+  .tab { padding: 6px 13px; border-radius: 20px; border: none; background: transparent; color: #aaa; font-family: sans-serif; font-size: 12px; cursor: pointer; }
   .tab.active { background: #fff; color: #1a1a1a; font-weight: 700; }
 
   .main { max-width: 900px; margin: 0 auto; padding: 22px 16px; }
@@ -25,8 +25,7 @@
   .anchor-emoji { font-size: 24px; }
   .anchor-label { font-family: sans-serif; font-size: 10px; color: #999; font-weight: 700; letter-spacing: 1px; }
   .anchor-name { font-size: 16px; font-weight: bold; }
-  .btn { padding: 7px 14px; border: none; border-radius: 8px; font-family: sans-serif; font-size: 12px; cursor: pointer; font-weight: 600; transition: opacity 0.15s; }
-  .btn:hover { opacity: 0.85; }
+  .btn { padding: 7px 14px; border: none; border-radius: 8px; font-family: sans-serif; font-size: 12px; cursor: pointer; font-weight: 600; }
   .btn-dark { background: #1a1a1a; color: #fff; }
   .btn-green { background: #27AE60; color: #fff; }
   .btn-row { display: flex; gap: 7px; flex-wrap: wrap; }
@@ -35,30 +34,32 @@
   .cuisine-picker.open { display: block; }
   .picker-label { font-family: sans-serif; font-size: 10px; color: #999; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; }
   .cuisine-chips { display: flex; flex-wrap: wrap; gap: 7px; }
-  .cuisine-chip { padding: 7px 14px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1); font-family: sans-serif; font-size: 12px; cursor: pointer; font-weight: 600; transition: all 0.15s; }
+  .cuisine-chip { padding: 7px 14px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1); font-family: sans-serif; font-size: 12px; cursor: pointer; font-weight: 600; }
 
   .day-row { background: #fff; border-radius: 12px; margin-bottom: 9px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
-  .day-row.locked { border-width: 2px; }
+  .day-row.is-locked { border-width: 2px; }
   .day-note { padding: 5px 14px; font-family: sans-serif; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid rgba(0,0,0,0.06); }
   .locked-badge { color: #fff; border-radius: 8px; padding: 1px 7px; font-size: 9px; font-weight: 700; }
   .day-inner { display: flex; align-items: stretch; flex-wrap: wrap; }
   .day-label { width: 86px; min-height: 72px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 9px 5px; flex-shrink: 0; color: #fff; }
   .day-label .emoji { font-size: 17px; }
-  .day-label .name { font-family: sans-serif; font-size: 12px; font-weight: 700; margin-top: 3px; }
+  .day-label .dname { font-family: sans-serif; font-size: 12px; font-weight: 700; margin-top: 3px; }
   .day-label .cuisine-sub { font-family: sans-serif; font-size: 8px; opacity: 0.85; margin-top: 1px; text-align: center; line-height: 1.2; }
   .day-main { flex: 1 1 150px; padding: 10px 13px; border-right: 1px solid #f0f0f0; }
   .day-sides { flex: 2 1 190px; padding: 10px 13px; }
-  .day-served { padding: 10px; display: flex; align-items: center; flex-shrink: 0; }
+  .day-actions { padding: 10px 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; flex-shrink: 0; }
   .section-label { font-family: sans-serif; font-size: 9px; color: #bbb; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; }
   .main-name { font-size: 14px; font-weight: bold; line-height: 1.3; }
   .main-notes { font-family: sans-serif; font-size: 10px; color: #bbb; margin-top: 2px; }
-  .swap-btn { font-size: 10px; font-family: sans-serif; background: none; border: none; cursor: pointer; padding: 0; font-weight: 700; margin-top: 4px; }
+  .icon-btn { font-size: 10px; font-family: sans-serif; background: none; border: none; cursor: pointer; padding: 0; font-weight: 700; margin-top: 4px; display: inline-block; }
   .lock-note { font-family: sans-serif; font-size: 9px; color: #ccc; margin-top: 4px; }
   .sides-row { display: flex; flex-wrap: wrap; gap: 5px; }
   .side-chip { display: inline-flex; align-items: center; gap: 3px; border-radius: 20px; padding: 3px 9px; font-family: sans-serif; font-size: 11px; font-weight: 600; }
   .side-chip button { background: none; border: none; cursor: pointer; font-size: 9px; opacity: 0.4; padding: 0; }
   .add-side-btn { background: none; border: 1px dashed #ddd; border-radius: 20px; padding: 3px 9px; font-family: sans-serif; font-size: 11px; color: #ccc; cursor: pointer; }
-  .served-btn { padding: 5px 10px; border-radius: 20px; border: 1px solid #eee; background: #fafafa; font-family: sans-serif; font-size: 10px; color: #aaa; cursor: pointer; }
+  .served-btn { padding: 4px 9px; border-radius: 20px; border: 1px solid #eee; background: #fafafa; font-family: sans-serif; font-size: 10px; color: #aaa; cursor: pointer; white-space: nowrap; }
+  .lock-btn { padding: 4px 9px; border-radius: 20px; border: 1px solid #eee; background: #fafafa; font-family: sans-serif; font-size: 10px; color: #aaa; cursor: pointer; white-space: nowrap; }
+  .lock-btn.locked { background: #fff3e0; border-color: #E67E22; color: #E67E22; }
 
   .trip-banner { margin-top: 18px; background: #FFF9F0; border: 1px solid #F0C080; border-radius: 12px; padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
   .trip-banner .flag { font-size: 26px; }
@@ -104,7 +105,7 @@
 
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300; display: none; align-items: center; justify-content: center; padding: 16px; }
   .modal-overlay.open { display: flex; }
-  .modal { background: #fff; border-radius: 16px; padding: 24px; width: 100%; max-width: 370px; box-shadow: 0 8px 40px rgba(0,0,0,0.2); }
+  .modal { background: #fff; border-radius: 16px; padding: 24px; width: 100%; max-width: 400px; box-shadow: 0 8px 40px rgba(0,0,0,0.2); }
   .modal h3 { font-size: 16px; margin-bottom: 16px; }
   .form-group { margin-bottom: 11px; }
   .form-group label { font-family: sans-serif; font-size: 11px; color: #888; display: block; margin-bottom: 3px; }
@@ -114,12 +115,22 @@
   .modal-btns { display: flex; gap: 8px; }
   .modal-btns button { flex: 1; padding: 10px; border: none; border-radius: 8px; font-family: sans-serif; cursor: pointer; }
 
-  .status-bar { font-family: sans-serif; font-size: 11px; color: #aaa; text-align: center; padding: 8px; }
+  /* Lock modal */
+  .lock-modal-day { font-family: sans-serif; font-size: 13px; color: #666; margin-bottom: 14px; }
+  .lock-dish-search { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; margin-bottom: 10px; }
+  .lock-dish-list { max-height: 220px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; }
+  .lock-dish-item { padding: 9px 13px; cursor: pointer; border-bottom: 1px solid #f5f5f5; font-family: sans-serif; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+  .lock-dish-item:hover { background: #f9f9f9; }
+  .lock-dish-item:last-child { border-bottom: none; }
+  .lock-dish-badge { font-size: 10px; color: #bbb; }
+  .lock-note-input { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; margin-top: 10px; }
+
+  .status-bar { font-family: sans-serif; font-size: 11px; color: #aaa; text-align: center; padding: 8px; min-height: 28px; }
   .status-bar.error { color: #E74C3C; }
   .status-bar.success { color: #27AE60; }
 
-  .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid #ddd; border-top-color: #E67E22; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 8px; vertical-align: middle; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #ddd; border-top-color: #E67E22; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 6px; vertical-align: middle; }
 </style>
 </head>
 <body>
@@ -141,6 +152,7 @@
 <div class="main">
   <div id="status-bar" class="status-bar"></div>
 
+  <!-- WEEK -->
   <div id="panel-week" class="panel active">
     <div id="anchor-banner" class="anchor-banner"></div>
     <div id="cuisine-picker" class="cuisine-picker">
@@ -151,12 +163,13 @@
     <div class="trip-banner">
       <div class="flag">🇮🇹</div>
       <div>
-        <div class="trip-title">Leaving for Italy on Thursday!</div>
+        <div class="trip-title">Leaving for Italy after Thursday dinner!</div>
         <div class="trip-sub">8 days away — next meal plan picks up when you're back. Italian week on return? 🍝</div>
       </div>
     </div>
   </div>
 
+  <!-- LIBRARY -->
   <div id="panel-library" class="panel">
     <div class="lib-header">
       <h2>Dish Library <span id="swap-context" class="swap-context"></span></h2>
@@ -164,9 +177,7 @@
     </div>
     <div class="filters">
       <input id="search-input" type="text" placeholder="Search…" oninput="renderLibrary()">
-      <select id="filter-cuisine" onchange="renderLibrary()">
-        <option value="">All Cuisines</option>
-      </select>
+      <select id="filter-cuisine" onchange="renderLibrary()"><option value="">All Cuisines</option></select>
       <select id="filter-type" onchange="renderLibrary()">
         <option value="">All Types</option>
         <option value="main">Main</option>
@@ -176,44 +187,49 @@
     <div id="dish-grid" class="dish-grid"></div>
   </div>
 
+  <!-- BY CUISINE -->
   <div id="panel-cuisine" class="panel">
     <h2 style="margin-bottom:20px;font-size:18px;">Dishes by Cuisine</h2>
     <div id="cuisine-sections"></div>
   </div>
 </div>
 
+<!-- Swap toast -->
 <div id="swap-toast" class="swap-toast">
   <span id="swap-toast-text"></span>
   <button onclick="cancelSwap()">Cancel</button>
 </div>
 
+<!-- Add Dish Modal -->
 <div id="add-modal" class="modal-overlay">
   <div class="modal">
     <h3>Add New Dish</h3>
-    <div class="form-group">
-      <label>Dish Name *</label>
-      <input id="new-name" type="text" placeholder="e.g. Pad Thai">
-    </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <input id="new-notes" type="text" placeholder="Optional">
-    </div>
+    <div class="form-group"><label>Dish Name *</label><input id="new-name" type="text" placeholder="e.g. Pad Thai"></div>
+    <div class="form-group"><label>Notes</label><input id="new-notes" type="text" placeholder="Optional"></div>
     <div class="form-row">
-      <div class="form-group">
-        <label>Cuisine</label>
-        <select id="new-cuisine"></select>
-      </div>
-      <div class="form-group">
-        <label>Type</label>
-        <select id="new-type">
-          <option value="main">Main</option>
-          <option value="side">Side</option>
-        </select>
+      <div class="form-group"><label>Cuisine</label><select id="new-cuisine"></select></div>
+      <div class="form-group"><label>Type</label>
+        <select id="new-type"><option value="main">Main</option><option value="side">Side</option></select>
       </div>
     </div>
     <div class="modal-btns">
       <button style="background:#1a1a1a;color:#fff;font-weight:700;" onclick="addDish()">Add</button>
       <button style="background:#f5f5f5;color:#666;" onclick="closeAddModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Lock Meal Modal -->
+<div id="lock-modal" class="modal-overlay">
+  <div class="modal">
+    <h3>🔒 Lock a Meal</h3>
+    <div class="lock-modal-day" id="lock-modal-day"></div>
+    <input class="lock-dish-search" id="lock-search" type="text" placeholder="Search dishes…" oninput="renderLockList()">
+    <div class="lock-dish-list" id="lock-dish-list"></div>
+    <input class="lock-note-input" id="lock-note" type="text" placeholder="Note (e.g. Emily's mom arrives 🏠) — optional">
+    <div class="modal-btns" style="margin-top:14px;">
+      <button style="background:#1a1a1a;color:#fff;font-weight:700;" onclick="confirmLock()">Lock This Meal</button>
+      <button style="background:#f5f5f5;color:#666;" onclick="closeLockModal()">Cancel</button>
     </div>
   </div>
 </div>
@@ -235,44 +251,31 @@ const CUISINE_KEYS = Object.keys(CUISINES);
 const WEEKDAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
 const DAY_SHORT = { Monday:"MON", Tuesday:"TUE", Wednesday:"WED", Thursday:"THU", Friday:"FRI" };
 
-const DEFAULT_SPECIAL = {
-  Wednesday: {
-    locked: true,
-    main: { id: 38, name: "Peking Duck", cuisine: "Chinese", type: "main", notes: "Takeout / order in" },
-    sides: [],
-    note: "Emily's mom arrives 🏠",
-  },
-  Thursday: {
-    locked: true,
-    main: { id: 42, name: "Moo Shu Pork", cuisine: "Chinese", type: "main", notes: "Use extra pancakes from Wed's Peking Duck order" },
-    sides: [],
-    note: "Last dinner before Italy ✈️ — use Wed's pancakes!",
-  },
-};
-
 // ── STATE ────────────────────────────────────────────────────
 let dishes = [];
 let weekData = { plan: {}, anchorCuisine: "Chinese" };
 let swapDay = null, swapSlot = null;
-let activeTab = "week";
+let lockTargetDay = null, lockSelectedDish = null;
 
 // ── API ──────────────────────────────────────────────────────
 async function apiGet(action) {
   const r = await fetch(`${API_URL}?action=${action}`);
+  if (!r.ok) throw new Error("HTTP " + r.status);
   return r.json();
 }
 async function apiPost(body) {
   const r = await fetch(API_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "text/plain" }, // avoid CORS preflight
     body: JSON.stringify(body),
   });
+  if (!r.ok) throw new Error("HTTP " + r.status);
   return r.json();
 }
 
 function setStatus(msg, type="") {
   const el = document.getElementById("status-bar");
-  el.textContent = msg;
+  el.innerHTML = msg;
   el.className = "status-bar " + type;
   if (type === "success") setTimeout(() => { el.textContent = ""; el.className = "status-bar"; }, 3000);
 }
@@ -280,15 +283,25 @@ function setStatus(msg, type="") {
 // ── INIT ─────────────────────────────────────────────────────
 async function init() {
   populateCuisineSelects();
-  setStatus("⏳ Loading from Google Sheets…");
+  setStatus('<span class="spinner"></span> Loading from Google Sheets…');
   try {
-    const [dishRes, weekRes] = await Promise.all([apiGet("getDishes"), apiGet("getWeekPlan")]);
-    if (dishRes.dishes) dishes = dishRes.dishes;
-    if (weekRes.weekData) weekData = weekRes.weekData;
-    else weekData = generateWeekPlan(dishes, "Chinese");
+    const [dishRes, weekRes] = await Promise.all([
+      apiGet("getDishes"),
+      apiGet("getWeekPlan")
+    ]);
+    if (dishRes.error) throw new Error(dishRes.error);
+    dishes = dishRes.dishes || [];
+
+    if (weekRes.weekData && weekRes.weekData.plan && Object.keys(weekRes.weekData.plan).length > 0) {
+      weekData = weekRes.weekData;
+    } else {
+      // No saved plan — generate fresh and save it
+      weekData = generateWeekPlan(dishes, "Chinese");
+      await saveWeekToSheets();
+    }
     setStatus("✓ Synced with Google Sheets", "success");
   } catch(e) {
-    setStatus("⚠️ Could not reach Google Sheets. Check your API_URL.", "error");
+    setStatus("⚠️ Could not load from Google Sheets: " + e.message, "error");
   }
   renderAll();
 }
@@ -296,7 +309,14 @@ async function init() {
 // ── WEEK PLAN GENERATION ─────────────────────────────────────
 function generateWeekPlan(dishList, anchorCuisine) {
   const anchor = anchorCuisine || "Chinese";
-  const lockedIds = new Set(Object.values(DEFAULT_SPECIAL).filter(s => s.locked && s.main).map(s => s.main.id));
+
+  // Preserve any currently locked days
+  const currentPlan = weekData?.plan || {};
+  const lockedDays = {};
+  WEEKDAYS.forEach(day => {
+    if (currentPlan[day]?.locked) lockedDays[day] = currentPlan[day];
+  });
+  const lockedIds = new Set(Object.values(lockedDays).filter(d => d.main).map(d => Number(d.main.id)));
 
   const anchorMains = dishList.filter(d => d.type==="main" && d.cuisine===anchor && !lockedIds.has(Number(d.id)))
     .sort(() => Math.random()-0.5);
@@ -312,27 +332,26 @@ function generateWeekPlan(dishList, anchorCuisine) {
   const plan = {};
 
   WEEKDAYS.forEach(day => {
-    const special = DEFAULT_SPECIAL[day];
-    if (special?.locked) { plan[day] = { ...special }; return; }
+    // Preserve locked days exactly
+    if (lockedDays[day]) { plan[day] = lockedDays[day]; return; }
 
     let main = null;
-    for (const m of pool) { if (!used.has(Number(m.id))) { main = m; used.add(Number(m.id)); break; } }
+    for (const m of pool) {
+      if (!used.has(Number(m.id))) { main = m; used.add(Number(m.id)); break; }
+    }
 
     const sides = dishList
       .filter(d => d.type==="side" && (d.cuisine===main?.cuisine || d.cuisine==="American" || d.cuisine==="Other"))
-      .sort(() => Math.random()-0.5).slice(0,2);
+      .sort(() => Math.random()-0.5).slice(0, 2);
 
-    plan[day] = { main, sides, note: special?.note || null, locked: false };
+    plan[day] = { main, sides, note: null, locked: false };
   });
+
   return { plan, anchorCuisine: anchor };
 }
 
 // ── RENDER ALL ───────────────────────────────────────────────
-function renderAll() {
-  renderWeek();
-  renderLibrary();
-  renderByCuisine();
-}
+function renderAll() { renderWeek(); renderLibrary(); renderByCuisine(); }
 
 // ── RENDER WEEK ──────────────────────────────────────────────
 function renderWeek() {
@@ -352,11 +371,9 @@ function renderWeek() {
     <div class="btn-row">
       <button class="btn" style="background:${c.color};color:#fff" onclick="toggleCuisinePicker()">🔀 Change</button>
       <button class="btn btn-dark" onclick="regenPlan()">↻ Regenerate</button>
-    </div>
-  `;
+    </div>`;
 
-  const chipsEl = document.getElementById("cuisine-chips");
-  chipsEl.innerHTML = CUISINE_KEYS.filter(k=>k!=="Other").map(k => {
+  document.getElementById("cuisine-chips").innerHTML = CUISINE_KEYS.filter(k=>k!=="Other").map(k => {
     const col = CUISINES[k];
     const count = dishes.filter(d=>d.cuisine===k && d.type==="main").length;
     const isActive = k === anchor;
@@ -364,13 +381,12 @@ function renderWeek() {
       onclick="pickCuisine('${k}')">${col.emoji} ${k} <span style="opacity:0.6;font-size:10px">(${count})</span></button>`;
   }).join("");
 
-  const rowsEl = document.getElementById("day-rows");
-  rowsEl.innerHTML = WEEKDAYS.map(day => {
+  document.getElementById("day-rows").innerHTML = WEEKDAYS.map(day => {
     const dp = weekData.plan[day] || {};
     const cuisine = dp.main?.cuisine;
     const col = CUISINES[cuisine] || CUISINES["Other"];
     const isAnchor = cuisine === anchor;
-    const isLocked = dp.locked;
+    const isLocked = !!dp.locked;
 
     const noteHtml = dp.note ? `
       <div class="day-note" style="background:${col.light};color:${col.color}">
@@ -381,39 +397,105 @@ function renderWeek() {
     const sidesHtml = (dp.sides||[]).map((s,i) => `
       <span class="side-chip" style="background:${col.light};color:${col.color}">
         ${s.name}
-        ${!isLocked ? `<button onclick="startSwap('${day}',${i})" title="Swap">⇄</button>
-        <button onclick="removeSide('${day}',${i})" title="Remove">✕</button>` : ""}
+        ${!isLocked ? `<button onclick="startSwap('${day}',${i})">⇄</button><button onclick="removeSide('${day}',${i})">✕</button>` : ""}
       </span>`).join("");
 
     const addSideBtn = (!isLocked && (dp.sides||[]).length < 4)
       ? `<button class="add-side-btn" onclick="startSwap('${day}',${(dp.sides||[]).length})">+ side</button>` : "";
 
+    const lockBtnLabel = isLocked ? "🔓 Unlock" : "🔒 Lock";
+    const lockBtnClass = isLocked ? "lock-btn locked" : "lock-btn";
+    const lockBtnAction = isLocked ? `unlockDay('${day}')` : `openLockModal('${day}')`;
+
     return `
-      <div class="day-row ${isLocked?"locked":""}" style="border-color:${isLocked?col.color+"88":isAnchor?col.color+"44":"#eee"}">
+      <div class="day-row ${isLocked?"is-locked":""}" style="border-color:${isLocked?col.color+"88":isAnchor?col.color+"44":"#eee"}">
         ${noteHtml}
         <div class="day-inner">
           <div class="day-label" style="background:${isLocked?col.color:col.color+"cc"}">
             <span class="emoji">${col.emoji}</span>
-            <span class="name">${DAY_SHORT[day]}</span>
+            <span class="dname">${DAY_SHORT[day]}</span>
             ${!isAnchor && cuisine ? `<span class="cuisine-sub">${cuisine}</span>` : ""}
           </div>
           <div class="day-main">
             <div class="section-label">MAIN</div>
-            <div class="main-name">${dp.main?.name || "—"}</div>
+            <div class="main-name">${dp.main?.name || "<span style='color:#ccc'>Not set</span>"}</div>
             ${dp.main?.notes ? `<div class="main-notes">${dp.main.notes}</div>` : ""}
-            ${!isLocked ? `<button class="swap-btn" style="color:${col.color}" onclick="startSwap('${day}','main')">⇄ swap</button>` : ""}
-            ${isLocked ? `<div class="lock-note">🔒 locked</div>` : ""}
+            ${!isLocked ? `<button class="icon-btn" style="color:${col.color}" onclick="startSwap('${day}','main')">⇄ swap</button>` : ""}
           </div>
           <div class="day-sides">
             <div class="section-label">SIDES</div>
             <div class="sides-row">${sidesHtml}${addSideBtn}</div>
           </div>
-          <div class="day-served">
-            <button class="served-btn" onclick="markServed('${day}')" title="Mark served">✓</button>
+          <div class="day-actions">
+            <button class="served-btn" onclick="markServed('${day}')">✓ Done</button>
+            <button class="${lockBtnClass}" onclick="${lockBtnAction}">${lockBtnLabel}</button>
           </div>
         </div>
       </div>`;
   }).join("");
+}
+
+// ── LOCK / UNLOCK ────────────────────────────────────────────
+function openLockModal(day) {
+  lockTargetDay = day;
+  lockSelectedDish = null;
+  document.getElementById("lock-modal-day").textContent = "Locking meal for " + day;
+  document.getElementById("lock-search").value = "";
+  document.getElementById("lock-note").value = weekData.plan[day]?.note || "";
+  renderLockList();
+  document.getElementById("lock-modal").classList.add("open");
+}
+
+function closeLockModal() {
+  document.getElementById("lock-modal").classList.remove("open");
+  lockTargetDay = null;
+  lockSelectedDish = null;
+}
+
+function renderLockList() {
+  const search = document.getElementById("lock-search").value.toLowerCase();
+  const mains = dishes.filter(d => d.type === "main" && d.name.toLowerCase().includes(search));
+  document.getElementById("lock-dish-list").innerHTML = mains.map(d => {
+    const isSelected = lockSelectedDish && Number(lockSelectedDish.id) === Number(d.id);
+    const c = CUISINES[d.cuisine] || CUISINES["Other"];
+    return `<div class="lock-dish-item" onclick="selectLockDish(${d.id})"
+      style="${isSelected ? `background:${c.light};font-weight:700` : ""}">
+      <span>${d.name} <span style="color:${c.color};font-size:11px">${d.cuisine}</span></span>
+      ${isSelected ? "✓" : ""}
+    </div>`;
+  }).join("") || '<div style="padding:12px;font-family:sans-serif;font-size:12px;color:#bbb;">No dishes found</div>';
+}
+
+function selectLockDish(id) {
+  lockSelectedDish = dishes.find(d => Number(d.id) === Number(id));
+  renderLockList();
+}
+
+async function confirmLock() {
+  if (!lockTargetDay || !lockSelectedDish) {
+    alert("Please select a dish to lock in.");
+    return;
+  }
+  const note = document.getElementById("lock-note").value.trim();
+  const dp = weekData.plan[lockTargetDay] || {};
+  weekData.plan[lockTargetDay] = {
+    ...dp,
+    main: lockSelectedDish,
+    sides: dp.sides || [],
+    note: note || null,
+    locked: true,
+  };
+  closeLockModal();
+  await saveWeekToSheets();
+  renderWeek();
+  setStatus(`✓ ${lockTargetDay} locked to ${lockSelectedDish.name}`, "success");
+}
+
+async function unlockDay(day) {
+  weekData.plan[day] = { ...weekData.plan[day], locked: false, note: null };
+  await saveWeekToSheets();
+  renderWeek();
+  setStatus(`✓ ${day} unlocked`, "success");
 }
 
 // ── RENDER LIBRARY ───────────────────────────────────────────
@@ -421,16 +503,13 @@ function renderLibrary() {
   const search = document.getElementById("search-input").value.toLowerCase();
   const filterC = document.getElementById("filter-cuisine").value;
   const filterT = document.getElementById("filter-type").value;
-
   const filtered = dishes.filter(d =>
-    (!filterC || d.cuisine === filterC) &&
-    (!filterT || d.type === filterT) &&
+    (!filterC || d.cuisine===filterC) &&
+    (!filterT || d.type===filterT) &&
     d.name.toLowerCase().includes(search)
   );
-
-  const swapCtx = document.getElementById("swap-context");
-  swapCtx.textContent = swapDay ? `— tap to swap ${swapSlot==="main"?"main":"side"} for ${swapDay}` : "";
-
+  document.getElementById("swap-context").textContent = swapDay
+    ? `— tap to swap ${swapSlot==="main"?"main":"side"} for ${swapDay}` : "";
   document.getElementById("dish-grid").innerHTML = filtered.map(dish => {
     const c = CUISINES[dish.cuisine] || CUISINES["Other"];
     const canSwap = swapDay && ((swapSlot==="main" && dish.type==="main") || (swapSlot!=="main" && dish.type==="side"));
@@ -457,64 +536,58 @@ function renderLibrary() {
 function renderByCuisine() {
   const anchor = weekData.anchorCuisine;
   document.getElementById("cuisine-sections").innerHTML = CUISINE_KEYS.map(cuisine => {
-    const ds = dishes.filter(d => d.cuisine === cuisine);
+    const ds = dishes.filter(d => d.cuisine===cuisine);
     if (!ds.length) return "";
     const c = CUISINES[cuisine];
     const mains = ds.filter(d => d.type==="main");
     const sides = ds.filter(d => d.type==="side");
-    return `
-      <div class="cuisine-section">
-        <div class="cuisine-header" style="border-color:${c.color}">
-          <span class="ce">${c.emoji}</span>
-          <span class="cn">${cuisine}</span>
-          <span class="cc">${mains.length} mains · ${sides.length} sides</span>
-          ${cuisine===anchor ? `<span class="this-week-badge" style="background:${c.color}">THIS WEEK</span>` : ""}
-        </div>
-        ${mains.length ? `
-          <div class="cuisine-sublabel">MAINS</div>
-          <div class="cuisine-chips-row">
-            ${mains.map(d => `<span class="cuisine-main-chip" style="background:${c.light};color:${c.color}">${d.name}${d.notes?` <span style="opacity:0.5;font-weight:400">· ${d.notes}</span>`:""}</span>`).join("")}
-          </div>` : ""}
-        ${sides.length ? `
-          <div class="cuisine-sublabel">SIDES</div>
-          <div class="cuisine-chips-row">
-            ${sides.map(d => `<span class="cuisine-side-chip">${d.name}</span>`).join("")}
-          </div>` : ""}
-      </div>`;
+    return `<div class="cuisine-section">
+      <div class="cuisine-header" style="border-color:${c.color}">
+        <span class="ce">${c.emoji}</span><span class="cn">${cuisine}</span>
+        <span class="cc">${mains.length} mains · ${sides.length} sides</span>
+        ${cuisine===anchor?`<span class="this-week-badge" style="background:${c.color}">THIS WEEK</span>`:""}
+      </div>
+      ${mains.length?`<div class="cuisine-sublabel">MAINS</div><div class="cuisine-chips-row">
+        ${mains.map(d=>`<span class="cuisine-main-chip" style="background:${c.light};color:${c.color}">${d.name}${d.notes?` <span style="opacity:0.5;font-weight:400">· ${d.notes}</span>`:""}</span>`).join("")}
+      </div>`:""}
+      ${sides.length?`<div class="cuisine-sublabel">SIDES</div><div class="cuisine-chips-row">
+        ${sides.map(d=>`<span class="cuisine-side-chip">${d.name}</span>`).join("")}
+      </div>`:""}
+    </div>`;
   }).join("");
 }
 
 // ── INTERACTIONS ─────────────────────────────────────────────
 function switchTab(tab) {
-  activeTab = tab;
   document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   document.getElementById("panel-" + (tab==="cuisine"?"cuisine":tab==="library"?"library":"week")).classList.add("active");
   document.querySelectorAll(".tab")[["week","library","cuisine"].indexOf(tab)].classList.add("active");
-  if (tab !== "library" && swapDay) { cancelSwap(); }
+  if (tab !== "library" && swapDay) cancelSwap();
 }
 
 function toggleCuisinePicker() {
   document.getElementById("cuisine-picker").classList.toggle("open");
 }
 
-function pickCuisine(cuisine) {
+async function pickCuisine(cuisine) {
   weekData = generateWeekPlan(dishes, cuisine);
+  weekData.anchorCuisine = cuisine;
   document.getElementById("cuisine-picker").classList.remove("open");
-  saveWeekToSheets();
   renderAll();
+  await saveWeekToSheets();
 }
 
-function regenPlan() {
+async function regenPlan() {
   weekData = generateWeekPlan(dishes, weekData.anchorCuisine);
-  saveWeekToSheets();
   renderAll();
+  await saveWeekToSheets();
 }
 
 function startSwap(day, slot) {
   swapDay = day; swapSlot = slot;
-  const label = slot === "main" ? "main dish" : "side";
-  document.getElementById("swap-toast-text").textContent = `🔄 Swapping ${label} for ${day} — pick from Library`;
+  document.getElementById("swap-toast-text").textContent =
+    `🔄 Swapping ${slot==="main"?"main dish":"side"} for ${day} — pick from Library`;
   document.getElementById("swap-toast").classList.add("visible");
   switchTab("library");
 }
@@ -526,10 +599,10 @@ function cancelSwap() {
   renderLibrary();
 }
 
-function doSwap(dishId) {
+async function doSwap(dishId) {
   if (!swapDay) return;
-  const dish = dishes.find(d => Number(d.id) === Number(dishId));
-  const dp = weekData.plan[swapDay] || {};
+  const dish = dishes.find(d => Number(d.id)===Number(dishId));
+  const dp = { ...(weekData.plan[swapDay]||{}) };
   if (swapSlot === "main") {
     dp.main = dish;
   } else {
@@ -539,37 +612,37 @@ function doSwap(dishId) {
   }
   weekData.plan[swapDay] = dp;
   cancelSwap();
-  saveWeekToSheets();
   renderAll();
   switchTab("week");
+  await saveWeekToSheets();
 }
 
-function removeSide(day, idx) {
-  const dp = weekData.plan[day] || {};
+async function removeSide(day, idx) {
+  const dp = { ...(weekData.plan[day]||{}) };
   const sides = [...(dp.sides||[])];
   sides.splice(idx, 1);
   dp.sides = sides;
   weekData.plan[day] = dp;
-  saveWeekToSheets();
   renderWeek();
+  await saveWeekToSheets();
 }
 
-function markServed(day) {
+async function markServed(day) {
   const dp = weekData.plan[day];
   if (!dp) return;
   const today = new Date().toISOString().split("T")[0];
-  const idsToUpdate = [dp.main?.id, ...(dp.sides||[]).map(s=>s.id)].filter(Boolean);
-  dishes = dishes.map(d => idsToUpdate.includes(Number(d.id)) || idsToUpdate.includes(d.id)
-    ? { ...d, lastServed: today } : d);
-  idsToUpdate.forEach(id => {
-    const d = dishes.find(d => Number(d.id) === Number(id));
-    if (d) saveDishToSheets(d);
-  });
+  const idsToUpdate = [dp.main?.id, ...(dp.sides||[]).map(s=>s.id)].filter(Boolean).map(Number);
+  dishes = dishes.map(d => idsToUpdate.includes(Number(d.id)) ? { ...d, lastServed: today } : d);
   renderAll();
+  setStatus("Saving…");
+  for (const id of idsToUpdate) {
+    const d = dishes.find(d => Number(d.id)===id);
+    if (d) await saveDishToSheets(d);
+  }
   setStatus(`✓ Marked ${day} as served`, "success");
 }
 
-// ── ADD / DELETE DISH ────────────────────────────────────────
+// ── ADD / DELETE ─────────────────────────────────────────────
 function openAddModal() { document.getElementById("add-modal").classList.add("open"); }
 function closeAddModal() { document.getElementById("add-modal").classList.remove("open"); }
 
@@ -594,32 +667,38 @@ async function addDish() {
 }
 
 async function deleteDish(id) {
-  dishes = dishes.filter(d => Number(d.id) !== Number(id));
+  if (!confirm("Delete this dish?")) return;
+  dishes = dishes.filter(d => Number(d.id)!==Number(id));
   renderAll();
-  await apiPost({ action: "deleteDish", id });
-  setStatus("✓ Dish deleted", "success");
+  try {
+    await apiPost({ action: "deleteDish", id: String(id) });
+    setStatus("✓ Dish deleted", "success");
+  } catch(e) { setStatus("⚠️ Delete sync error", "error"); }
 }
 
 // ── SHEETS SYNC ──────────────────────────────────────────────
 async function saveDishToSheets(dish) {
-  try { await apiPost({ action: "saveDish", dish }); } catch(e) { setStatus("⚠️ Sync error", "error"); }
+  try { await apiPost({ action: "saveDish", dish }); }
+  catch(e) { setStatus("⚠️ Sync error: " + e.message, "error"); }
 }
 
 async function saveWeekToSheets() {
-  try { await apiPost({ action: "saveWeekPlan", weekData }); } catch(e) { setStatus("⚠️ Sync error", "error"); }
+  try { await apiPost({ action: "saveWeekPlan", weekData }); }
+  catch(e) { setStatus("⚠️ Sync error: " + e.message, "error"); }
 }
 
 // ── UTILS ────────────────────────────────────────────────────
 function populateCuisineSelects() {
-  const filterSel = document.getElementById("filter-cuisine");
-  const newSel = document.getElementById("new-cuisine");
-  CUISINE_KEYS.forEach(c => {
-    filterSel.innerHTML += `<option value="${c}">${c}</option>`;
-    newSel.innerHTML += `<option value="${c}">${c}</option>`;
+  ["filter-cuisine","new-cuisine"].forEach(id => {
+    const sel = document.getElementById(id);
+    CUISINE_KEYS.forEach(c => {
+      const opt = document.createElement("option");
+      opt.value = c; opt.textContent = c;
+      sel.appendChild(opt);
+    });
   });
 }
 
-// ── BOOT ─────────────────────────────────────────────────────
 init();
 </script>
 </body>

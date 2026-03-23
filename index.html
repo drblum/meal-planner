@@ -7,220 +7,241 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Georgia, serif; background: #FAFAF8; color: #1a1a1a; min-height: 100vh; }
-  .header { background: #1a1a1a; color: #fff; padding: 18px 28px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.15); }
-  .header-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-  .header h1 { font-size: 18px; letter-spacing: -0.5px; }
+  .header { background: #1a1a1a; color: #fff; padding: 16px 28px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.15); }
+  .header-inner { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .header h1 { font-size: 17px; letter-spacing: -0.5px; }
   .header .sub { font-family: sans-serif; font-size: 11px; color: #aaa; margin-top: 2px; }
-  .tabs { display: flex; gap: 5px; flex-wrap: wrap; }
-  .tab { padding: 6px 13px; border-radius: 20px; border: none; background: transparent; color: #aaa; font-family: sans-serif; font-size: 12px; cursor: pointer; }
+  .tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+  .tab { padding: 6px 12px; border-radius: 20px; border: none; background: transparent; color: #aaa; font-family: sans-serif; font-size: 12px; cursor: pointer; }
   .tab.active { background: #fff; color: #1a1a1a; font-weight: 700; }
-  .main { max-width: 960px; margin: 0 auto; padding: 22px 16px; }
+  .main { max-width: 1000px; margin: 0 auto; padding: 20px 16px; }
   .panel { display: none; } .panel.active { display: block; }
 
+  /* Week view top controls */
+  .week-controls { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
+  .week-nav { display: flex; align-items: center; gap: 8px; }
+  .week-nav-btn { background: #f0f0f0; border: none; border-radius: 20px; padding: 5px 12px; font-family: sans-serif; font-size: 13px; cursor: pointer; font-weight: 600; color: #555; }
+  .week-nav-btn:hover { background: #e0e0e0; }
+  .week-label { font-family: sans-serif; font-size: 13px; font-weight: 700; color: #1a1a1a; min-width: 180px; text-align: center; }
+  .week-view-toggle { display: flex; background: #f0f0f0; border-radius: 20px; padding: 3px; gap: 2px; }
+  .week-view-btn { padding: 5px 11px; border-radius: 17px; border: none; font-family: sans-serif; font-size: 11px; cursor: pointer; background: transparent; color: #888; font-weight: 600; }
+  .week-view-btn.active { background: #fff; color: #1a1a1a; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+
   /* Anchor banner */
-  .anchor-banner { display: flex; align-items: center; justify-content: space-between; border-radius: 12px; padding: 12px 18px; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; border: 1px solid rgba(0,0,0,0.1); }
+  .anchor-banner { display: flex; align-items: center; justify-content: space-between; border-radius: 12px; padding: 11px 16px; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; border: 1px solid rgba(0,0,0,0.1); }
   .anchor-info { display: flex; align-items: center; gap: 10px; }
-  .anchor-emoji { font-size: 24px; }
+  .anchor-emoji { font-size: 22px; }
   .anchor-label { font-family: sans-serif; font-size: 10px; color: #999; font-weight: 700; letter-spacing: 1px; }
-  .anchor-name { font-size: 16px; font-weight: bold; }
-  .btn { padding: 7px 14px; border: none; border-radius: 8px; font-family: sans-serif; font-size: 12px; cursor: pointer; font-weight: 600; }
+  .anchor-name { font-size: 15px; font-weight: bold; }
+  .btn { padding: 7px 13px; border: none; border-radius: 8px; font-family: sans-serif; font-size: 12px; cursor: pointer; font-weight: 600; }
   .btn-dark { background: #1a1a1a; color: #fff; }
   .btn-green { background: #27AE60; color: #fff; }
-  .btn-row { display: flex; gap: 7px; flex-wrap: wrap; }
-  .cuisine-picker { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 14px 18px; margin-bottom: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.07); display: none; }
+  .btn-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .cuisine-picker { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 13px 16px; margin-bottom: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.07); display: none; }
   .cuisine-picker.open { display: block; }
-  .picker-label { font-family: sans-serif; font-size: 10px; color: #999; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; }
-  .cuisine-chips { display: flex; flex-wrap: wrap; gap: 7px; }
-  .cuisine-chip { padding: 7px 14px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1); font-family: sans-serif; font-size: 12px; cursor: pointer; font-weight: 600; }
+  .picker-label { font-family: sans-serif; font-size: 10px; color: #999; font-weight: 700; letter-spacing: 1px; margin-bottom: 9px; }
+  .cuisine-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .cuisine-chip { padding: 6px 13px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1); font-family: sans-serif; font-size: 12px; cursor: pointer; font-weight: 600; }
 
   /* Day rows */
-  .day-row { background: #fff; border-radius: 12px; margin-bottom: 9px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .day-row { background: #fff; border-radius: 12px; margin-bottom: 8px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
   .day-row.is-locked { border-width: 2px; }
   .day-row.is-blank { opacity: 0.55; background: #f7f7f7; }
+  .day-row.is-weekend { background: #fafafa; }
   .day-note { padding: 5px 14px; font-family: sans-serif; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid rgba(0,0,0,0.06); }
   .locked-badge { color: #fff; border-radius: 8px; padding: 1px 7px; font-size: 9px; font-weight: 700; }
   .day-inner { display: flex; align-items: stretch; flex-wrap: wrap; }
-  .day-label { width: 86px; min-height: 72px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 9px 5px; flex-shrink: 0; color: #fff; }
-  .day-label .emoji { font-size: 17px; } .day-label .dname { font-family: sans-serif; font-size: 12px; font-weight: 700; margin-top: 3px; }
-  .day-label .cuisine-sub { font-family: sans-serif; font-size: 8px; opacity: 0.85; margin-top: 1px; text-align: center; line-height: 1.2; }
-  .day-main { flex: 1 1 150px; padding: 10px 13px; border-right: 1px solid #f0f0f0; }
-  .day-sides { flex: 2 1 190px; padding: 10px 13px; }
-  .day-actions { padding: 10px 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; flex-shrink: 0; }
-  .section-label { font-family: sans-serif; font-size: 9px; color: #bbb; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; }
-  .main-name { font-size: 14px; font-weight: bold; line-height: 1.3; }
+  .day-label { width: 90px; min-height: 68px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 5px; flex-shrink: 0; color: #fff; }
+  .day-label .emoji { font-size: 16px; } 
+  .day-label .dname { font-family: sans-serif; font-size: 11px; font-weight: 700; margin-top: 2px; }
+  .day-label .ddate { font-family: sans-serif; font-size: 10px; opacity: 0.85; margin-top: 1px; }
+  .day-label .cuisine-sub { font-family: sans-serif; font-size: 8px; opacity: 0.8; margin-top: 1px; text-align: center; line-height: 1.2; }
+  .day-main { flex: 1 1 140px; padding: 9px 12px; border-right: 1px solid #f0f0f0; }
+  .day-sides { flex: 2 1 180px; padding: 9px 12px; }
+  .day-actions { padding: 9px 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; flex-shrink: 0; }
+  .section-label { font-family: sans-serif; font-size: 9px; color: #bbb; font-weight: 700; letter-spacing: 1px; margin-bottom: 3px; }
+  .main-name { font-size: 13px; font-weight: bold; line-height: 1.3; }
   .main-notes { font-family: sans-serif; font-size: 10px; color: #bbb; margin-top: 2px; }
-  .icon-btn { font-size: 10px; font-family: sans-serif; background: none; border: none; cursor: pointer; padding: 0; font-weight: 700; margin-top: 4px; display: inline-block; }
-  .sides-row { display: flex; flex-wrap: wrap; gap: 5px; }
-  .side-chip { display: inline-flex; align-items: center; gap: 3px; border-radius: 20px; padding: 3px 9px; font-family: sans-serif; font-size: 11px; font-weight: 600; }
+  .icon-btn { font-size: 10px; font-family: sans-serif; background: none; border: none; cursor: pointer; padding: 0; font-weight: 700; margin-top: 3px; display: inline-block; }
+  .sides-row { display: flex; flex-wrap: wrap; gap: 4px; }
+  .side-chip { display: inline-flex; align-items: center; gap: 3px; border-radius: 20px; padding: 3px 8px; font-family: sans-serif; font-size: 11px; font-weight: 600; }
   .side-chip button { background: none; border: none; cursor: pointer; font-size: 9px; opacity: 0.4; padding: 0; }
-  .add-side-btn { background: none; border: 1px dashed #ddd; border-radius: 20px; padding: 3px 9px; font-family: sans-serif; font-size: 11px; color: #ccc; cursor: pointer; }
-  .action-btn { padding: 4px 8px; border-radius: 20px; border: 1px solid #eee; background: #fafafa; font-family: sans-serif; font-size: 10px; color: #888; cursor: pointer; white-space: nowrap; width: 72px; text-align: center; }
+  .add-side-btn { background: none; border: 1px dashed #ddd; border-radius: 20px; padding: 3px 8px; font-family: sans-serif; font-size: 11px; color: #ccc; cursor: pointer; }
+  .action-btn { padding: 3px 7px; border-radius: 20px; border: 1px solid #eee; background: #fafafa; font-family: sans-serif; font-size: 10px; color: #888; cursor: pointer; white-space: nowrap; width: 68px; text-align: center; }
   .action-btn.locked-style { background: #fff3e0; border-color: #E67E22; color: #E67E22; }
   .action-btn.blank-style { background: #f0f0f0; border-color: #bbb; color: #888; }
-  .blank-day-content { flex: 1; padding: 10px 13px; display: flex; align-items: center; }
+  .blank-day-content { flex: 1; padding: 9px 12px; display: flex; align-items: center; }
   .blank-day-label { font-family: sans-serif; font-size: 12px; color: #bbb; font-style: italic; }
-  .trip-banner { margin-top: 18px; background: #FFF9F0; border: 1px solid #F0C080; border-radius: 12px; padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
-  .trip-banner .flag { font-size: 26px; }
-  .trip-title { font-weight: 700; color: #B8600A; font-family: sans-serif; font-size: 13px; }
-  .trip-sub { color: #999; font-size: 12px; margin-top: 2px; font-family: sans-serif; }
-  .archive-btn-row { display: flex; justify-content: flex-end; margin-bottom: 10px; }
-  .swap-toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 11px 20px; border-radius: 30px; font-family: sans-serif; font-size: 12px; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 200; white-space: nowrap; display: none; }
+
+  /* Home calendar view (monthly/yearly on week tab) */
+  .home-cal-month { margin-bottom: 32px; }
+  .home-cal-month-title { font-size: 16px; font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+  .home-cal-dow-row { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; margin-bottom: 3px; }
+  .home-cal-dow { font-family: sans-serif; font-size: 9px; font-weight: 700; color: #bbb; text-align: center; padding: 3px 0; letter-spacing: 0.5px; }
+  .home-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; }
+  .hcell { border-radius: 7px; min-height: 62px; padding: 5px 6px; border: 1px solid #eee; background: #fff; position: relative; transition: box-shadow 0.12s; }
+  .hcell.empty { background: transparent; border-color: transparent; pointer-events: none; }
+  .hcell.weekend { background: #f9f9f9; }
+  .hcell.is-today { border-color: #1a1a1a !important; border-width: 2px; }
+  .hcell.has-meal { cursor: pointer; } .hcell.has-meal:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .hcell.is-blank-day { background: #f5f5f5; opacity: 0.65; cursor: pointer; }
+  .hcell.no-meal { cursor: pointer; } .hcell.no-meal:hover { border-color: #ddd; }
+  .hcell-date { font-family: sans-serif; font-size: 10px; font-weight: 700; color: #ccc; margin-bottom: 3px; display: flex; justify-content: space-between; align-items: center; }
+  .hcell-today-dot { width: 5px; height: 5px; background: #1a1a1a; border-radius: 50%; }
+  .hcell-flag { font-size: 15px; display: block; margin-bottom: 1px; line-height: 1; }
+  .hcell-dish { font-size: 10px; font-weight: bold; line-height: 1.25; }
+  .hcell-sides { font-family: sans-serif; font-size: 8px; color: #aaa; margin-top: 1px; line-height: 1.3; }
+  .hcell-add { font-family: sans-serif; font-size: 8px; color: #ddd; margin-top: 3px; }
+  .hcell-blank { font-family: sans-serif; font-size: 8px; color: #bbb; font-style: italic; margin-top: 3px; }
+  .hcell-current-week { border-color: #aaa !important; background: #fffef8; }
+
+  /* Archive + save controls */
+  .archive-btn-row { display: flex; justify-content: flex-end; margin-bottom: 10px; gap: 8px; }
+
+  .swap-toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 10px 18px; border-radius: 30px; font-family: sans-serif; font-size: 12px; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 200; white-space: nowrap; display: none; }
   .swap-toast.visible { display: block; }
-  .swap-toast button { margin-left: 12px; background: #333; border: none; color: #fff; border-radius: 20px; padding: 3px 11px; cursor: pointer; font-size: 11px; }
+  .swap-toast button { margin-left: 12px; background: #333; border: none; color: #fff; border-radius: 20px; padding: 3px 10px; cursor: pointer; font-size: 11px; }
 
   /* Library */
-  .filters { display: flex; gap: 7px; margin-bottom: 15px; flex-wrap: wrap; }
-  .filters input { padding: 7px 13px; border-radius: 20px; border: 1px solid #ddd; font-family: sans-serif; font-size: 12px; flex: 1; min-width: 120px; outline: none; }
-  .filters select { padding: 7px 11px; border-radius: 20px; border: 1px solid #ddd; font-family: sans-serif; font-size: 12px; outline: none; background: #fff; }
-  .dish-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 9px; }
-  .dish-card { background: #fff; border-radius: 10px; padding: 11px 13px; border: 1px solid #eee; box-shadow: 0 1px 4px rgba(0,0,0,0.04); transition: border-color 0.15s; cursor: pointer; }
+  .filters { display: flex; gap: 6px; margin-bottom: 13px; flex-wrap: wrap; }
+  .filters input { padding: 7px 12px; border-radius: 20px; border: 1px solid #ddd; font-family: sans-serif; font-size: 12px; flex: 1; min-width: 110px; outline: none; }
+  .filters select { padding: 7px 10px; border-radius: 20px; border: 1px solid #ddd; font-family: sans-serif; font-size: 12px; outline: none; background: #fff; }
+  .dish-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+  .dish-card { background: #fff; border-radius: 10px; padding: 10px 12px; border: 1px solid #eee; box-shadow: 0 1px 4px rgba(0,0,0,0.04); transition: border-color 0.15s; cursor: pointer; }
   .dish-card:hover { border-color: #ddd; }
   .dish-card.selected { border-width: 2px; }
   .dish-card.swappable { border-width: 2px; }
   .dish-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
-  .dish-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+  .dish-badges { display: flex; gap: 3px; flex-wrap: wrap; }
   .badge { border-radius: 10px; padding: 2px 7px; font-family: sans-serif; font-size: 10px; font-weight: 700; }
   .badge-type { background: #f5f5f5; color: #999; font-weight: 400; }
   .dish-card-btns { display: flex; gap: 2px; }
   .dish-icon-btn { background: none; border: none; cursor: pointer; font-size: 13px; padding: 0 2px; color: #ccc; line-height: 1; }
   .dish-icon-btn:hover { color: #666; }
-  .dish-name { margin-top: 6px; font-size: 13px; font-weight: bold; line-height: 1.3; }
+  .dish-name { margin-top: 5px; font-size: 13px; font-weight: bold; line-height: 1.3; }
   .dish-notes { font-family: sans-serif; font-size: 10px; color: #bbb; margin-top: 2px; }
-  .dish-served { font-family: sans-serif; font-size: 10px; color: #ccc; margin-top: 4px; }
-  .dish-confirm-btn { margin-top: 8px; padding: 5px 14px; border-radius: 20px; border: none; font-family: sans-serif; font-size: 11px; font-weight: 700; cursor: pointer; color: #fff; display: block; width: 100%; }
-  .lib-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
-  .lib-header h2 { font-size: 18px; }
-  .lib-header-btns { display: flex; gap: 8px; }
+  .dish-served { font-family: sans-serif; font-size: 10px; color: #ccc; margin-top: 3px; }
+  .dish-confirm-btn { margin-top: 7px; padding: 5px 12px; border-radius: 20px; border: none; font-family: sans-serif; font-size: 11px; font-weight: 700; cursor: pointer; color: #fff; display: block; width: 100%; }
+  .lib-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 13px; flex-wrap: wrap; gap: 8px; }
+  .lib-header h2 { font-size: 17px; }
+  .lib-header-btns { display: flex; gap: 7px; }
   .swap-context { font-size: 12px; font-family: sans-serif; font-weight: 400; margin-left: 8px; color: #E74C3C; }
 
   /* By Cuisine */
-  .cuisine-section { margin-bottom: 26px; }
-  .cuisine-header { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; border-bottom-width: 2px; border-bottom-style: solid; padding-bottom: 7px; }
-  .cuisine-header .ce { font-size: 20px; } .cuisine-header .cn { font-size: 16px; font-weight: bold; }
+  .cuisine-section { margin-bottom: 24px; }
+  .cuisine-header { display: flex; align-items: center; gap: 8px; margin-bottom: 9px; border-bottom-width: 2px; border-bottom-style: solid; padding-bottom: 6px; }
+  .cuisine-header .ce { font-size: 18px; } .cuisine-header .cn { font-size: 15px; font-weight: bold; }
   .cuisine-header .cc { font-family: sans-serif; font-size: 11px; color: #bbb; }
   .this-week-badge { color: #fff; border-radius: 10px; padding: 2px 8px; font-family: sans-serif; font-size: 10px; font-weight: 700; }
-  .cuisine-sublabel { font-family: sans-serif; font-size: 9px; color: #bbb; font-weight: 700; letter-spacing: 1px; margin-bottom: 5px; margin-top: 7px; }
+  .cuisine-sublabel { font-family: sans-serif; font-size: 9px; color: #bbb; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; margin-top: 6px; }
   .cuisine-chips-row { display: flex; flex-wrap: wrap; gap: 5px; }
-  .cuisine-main-chip { border-radius: 20px; padding: 4px 12px; font-family: sans-serif; font-size: 12px; font-weight: 600; border: 1px solid rgba(0,0,0,0.08); }
-  .cuisine-side-chip { background: #f8f8f8; color: #888; border-radius: 20px; padding: 4px 12px; font-family: sans-serif; font-size: 12px; border: 1px solid #eee; }
+  .cuisine-main-chip { border-radius: 20px; padding: 4px 11px; font-family: sans-serif; font-size: 12px; font-weight: 600; border: 1px solid rgba(0,0,0,0.08); }
+  .cuisine-side-chip { background: #f8f8f8; color: #888; border-radius: 20px; padding: 4px 11px; font-family: sans-serif; font-size: 12px; border: 1px solid #eee; }
 
   /* History */
-  .history-controls { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-  .history-controls h2 { font-size: 18px; flex: 1; }
+  .history-controls { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+  .history-controls h2 { font-size: 17px; flex: 1; }
   .view-toggle { display: flex; background: #f0f0f0; border-radius: 20px; padding: 3px; gap: 2px; }
-  .view-toggle button { padding: 5px 14px; border-radius: 17px; border: none; font-family: sans-serif; font-size: 12px; cursor: pointer; background: transparent; color: #888; font-weight: 600; }
+  .view-toggle button { padding: 5px 13px; border-radius: 17px; border: none; font-family: sans-serif; font-size: 12px; cursor: pointer; background: transparent; color: #888; font-weight: 600; }
   .view-toggle button.active { background: #fff; color: #1a1a1a; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
-  /* Weekly list view */
-  .history-week-block { background: #fff; border-radius: 12px; margin-bottom: 18px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
-  .history-week-header { padding: 12px 18px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #f0f0f0; background: #fafafa; }
-  .history-week-label { font-size: 14px; font-weight: bold; flex: 1; }
+  /* Weekly list */
+  .history-week-block { background: #fff; border-radius: 12px; margin-bottom: 16px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .history-week-header { padding: 11px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #f0f0f0; background: #fafafa; }
+  .history-week-label { font-size: 13px; font-weight: bold; flex: 1; }
   .history-anchor-badge { font-family: sans-serif; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
-  .history-day-row { display: flex; align-items: flex-start; padding: 10px 18px; border-bottom: 1px solid #f9f9f9; gap: 12px; }
+  .history-day-row { display: flex; align-items: flex-start; padding: 9px 16px; border-bottom: 1px solid #f9f9f9; gap: 10px; position: relative; }
   .history-day-row:last-child { border-bottom: none; }
-  .history-day-name { font-family: sans-serif; font-size: 11px; font-weight: 700; color: #bbb; width: 52px; flex-shrink: 0; padding-top: 2px; }
-  .history-day-date { font-family: sans-serif; font-size: 10px; color: #ccc; display: block; margin-top: 1px; }
-  .history-day-emoji { font-size: 16px; flex-shrink: 0; }
-  .history-main-wrap { flex: 1; }
-  .history-main { font-size: 13px; font-weight: bold; }
-  .history-sides { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-  .history-side-chip { background: #f5f5f5; color: #888; border-radius: 10px; padding: 2px 8px; font-family: sans-serif; font-size: 10px; }
-  /* Full monthly calendar */
-  .month-cal-block { margin-bottom: 36px; }
-  .month-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-  .month-cal-title { font-size: 18px; font-weight: bold; }
-  .month-cal-anchor { font-family: sans-serif; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
-  .month-cal-dow-row { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; margin-bottom: 4px; }
-  .month-cal-dow { font-family: sans-serif; font-size: 10px; font-weight: 700; color: #bbb; text-align: center; padding: 4px 0; letter-spacing: 0.5px; }
-  .month-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
-  .month-cell { border-radius: 8px; min-height: 72px; padding: 6px 7px; border: 1px solid #eee; background: #fff; position: relative; transition: box-shadow 0.12s; }
-  .month-cell.empty { background: transparent; border-color: transparent; }
-  .month-cell.weekend { background: #f9f9f9; }
-  .month-cell.weekend .month-cell-date { color: #ccc; }
-  .month-cell.has-meal { cursor: pointer; }
-  .month-cell.has-meal:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-  .month-cell.blank-meal { background: #f5f5f5; opacity: 0.7; cursor: pointer; }
-  .month-cell.no-meal-weekday { cursor: pointer; }
-  .month-cell.no-meal-weekday:hover { border-color: #ddd; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
-  .month-cell.today-cell { border-color: #1a1a1a; border-width: 2px; }
-  .month-cell-date { font-family: sans-serif; font-size: 11px; font-weight: 700; color: #bbb; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; }
-  .month-cell-today-dot { width: 6px; height: 6px; background: #1a1a1a; border-radius: 50%; }
-  .month-cell-flag { font-size: 16px; display: block; margin-bottom: 2px; }
-  .month-cell-dish { font-size: 11px; font-weight: bold; line-height: 1.3; }
-  .month-cell-sides { font-family: sans-serif; font-size: 9px; color: #aaa; margin-top: 2px; line-height: 1.3; }
-  .month-cell-add { font-family: sans-serif; font-size: 9px; color: #ddd; margin-top: 4px; }
-  .month-cell-blank-label { font-family: sans-serif; font-size: 9px; color: #bbb; font-style: italic; margin-top: 4px; }
-  .history-empty { font-family: sans-serif; font-size: 13px; color: #bbb; text-align: center; padding: 40px; }
-
-  /* Modals */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300; display: none; align-items: center; justify-content: center; padding: 16px; }
-  .modal-overlay.open { display: flex; }
-  .modal { background: #fff; border-radius: 16px; padding: 24px; width: 100%; max-width: 400px; box-shadow: 0 8px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
-  .modal h3 { font-size: 16px; margin-bottom: 6px; }
-  .modal-sub { font-family: sans-serif; font-size: 12px; color: #999; margin-bottom: 14px; }
-  .form-group { margin-bottom: 11px; }
-  .form-group label { font-family: sans-serif; font-size: 11px; color: #888; display: block; margin-bottom: 3px; }
-  .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; }
-  .form-row { display: flex; gap: 9px; margin-bottom: 11px; }
-  .form-row .form-group { flex: 1; margin-bottom: 0; }
-  .modal-btns { display: flex; gap: 8px; margin-top: 4px; }
-  .modal-btns button { flex: 1; padding: 10px; border: none; border-radius: 8px; font-family: sans-serif; cursor: pointer; }
-  .lock-search { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; margin-bottom: 8px; }
-  .lock-dish-list { max-height: 200px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; margin-bottom: 10px; }
-  .lock-dish-item { padding: 9px 13px; cursor: pointer; border-bottom: 1px solid #f5f5f5; font-family: sans-serif; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
-  .lock-dish-item:hover { background: #f9f9f9; }
-  .lock-dish-item.active { font-weight: 700; }
-  .lock-dish-item:last-child { border-bottom: none; }
-
-  /* Cuisine manager */
-  .cuisine-manage-list { border: 1px solid #eee; border-radius: 8px; margin-bottom: 12px; max-height: 220px; overflow-y: auto; }
-  .cuisine-manage-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid #f5f5f5; font-family: sans-serif; font-size: 13px; }
-  .cuisine-manage-item:last-child { border-bottom: none; }
-  .cuisine-color-swatch { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
-  .cuisine-manage-item span { flex: 1; }
-  .cuisine-delete-btn { background: none; border: none; color: #ddd; cursor: pointer; font-size: 12px; }
-  .cuisine-delete-btn:hover { color: #E74C3C; }
-  .add-cuisine-row { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; }
-  .add-cuisine-row input { flex: 1; min-width: 100px; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; }
-  .add-cuisine-row input[type="text"].emoji-input { max-width: 70px; text-align: center; font-size: 18px; }
-  .color-presets { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
-  .color-preset { width: 22px; height: 22px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
-  .color-preset.selected { border-color: #1a1a1a; }
-
-
-  /* History editing */
-  .history-day-row { position: relative; }
   .history-day-row:hover .history-edit-btn { opacity: 1; }
   .history-edit-btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: 1px solid #eee; border-radius: 20px; padding: 2px 9px; font-family: sans-serif; font-size: 10px; color: #bbb; cursor: pointer; opacity: 0; transition: opacity 0.15s; }
-  .history-edit-btn:hover { background: #f5f5f5; color: #666; border-color: #ddd; }
-  .history-cal-cell { position: relative; cursor: pointer; transition: box-shadow 0.15s; }
-  .history-cal-cell:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-  .history-cal-edit-hint { font-family: sans-serif; font-size: 9px; color: #ccc; margin-top: 4px; }
-  /* History edit modal */
-  .hist-edit-dish-list { max-height: 180px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px; }
-  .hist-edit-dish-item { padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #f5f5f5; font-family: sans-serif; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+  .history-edit-btn:hover { background: #f5f5f5; color: #666; }
+  .history-day-name { font-family: sans-serif; font-size: 11px; font-weight: 700; color: #bbb; width: 54px; flex-shrink: 0; padding-top: 1px; }
+  .history-day-date { font-family: sans-serif; font-size: 10px; color: #ccc; display: block; margin-top: 1px; }
+  .history-day-emoji { font-size: 15px; flex-shrink: 0; }
+  .history-main-wrap { flex: 1; }
+  .history-main { font-size: 13px; font-weight: bold; }
+  .history-sides { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; }
+  .history-side-chip { background: #f5f5f5; color: #888; border-radius: 10px; padding: 2px 7px; font-family: sans-serif; font-size: 10px; }
+  /* Monthly calendar (history) */
+  .month-cal-block { margin-bottom: 32px; }
+  .month-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .month-cal-title { font-size: 16px; font-weight: bold; }
+  .month-cal-anchor { font-family: sans-serif; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .month-cal-dow-row { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; margin-bottom: 4px; }
+  .month-cal-dow { font-family: sans-serif; font-size: 9px; font-weight: 700; color: #bbb; text-align: center; padding: 3px 0; letter-spacing: 0.5px; }
+  .month-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
+  .month-cell { border-radius: 8px; min-height: 68px; padding: 6px 7px; border: 1px solid #eee; background: #fff; position: relative; transition: box-shadow 0.12s; }
+  .month-cell.empty { background: transparent; border-color: transparent; pointer-events: none; }
+  .month-cell.weekend { background: #f9f9f9; }
+  .month-cell.has-meal { cursor: pointer; } .month-cell.has-meal:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .month-cell.blank-meal { background: #f5f5f5; opacity: 0.65; cursor: pointer; }
+  .month-cell.no-meal-weekday { cursor: pointer; } .month-cell.no-meal-weekday:hover { border-color: #ddd; }
+  .month-cell.today-cell { border-color: #1a1a1a !important; border-width: 2px; }
+  .month-cell-date { font-family: sans-serif; font-size: 10px; font-weight: 700; color: #bbb; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; }
+  .month-cell-today-dot { width: 5px; height: 5px; background: #1a1a1a; border-radius: 50%; }
+  .month-cell-flag { font-size: 17px; display: block; margin-bottom: 2px; }
+  .month-cell-dish { font-size: 11px; font-weight: bold; line-height: 1.3; }
+  .month-cell-sides { font-family: sans-serif; font-size: 9px; color: #aaa; margin-top: 2px; }
+  .month-cell-add { font-family: sans-serif; font-size: 9px; color: #ccc; margin-top: 3px; }
+  .month-cell-blank-label { font-family: sans-serif; font-size: 9px; color: #bbb; font-style: italic; margin-top: 3px; }
+  /* Settings bar */
+  .settings-bar { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 8px 14px; margin-bottom: 14px; font-family: sans-serif; font-size: 12px; color: #666; flex-wrap: wrap; }
+  .settings-bar label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+  .settings-bar select { padding: 3px 8px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 12px; outline: none; }
+  .settings-divider { color: #ddd; margin: 0 4px; }
+  /* History edit */
+  .hist-edit-dish-list { max-height: 160px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; margin-bottom: 7px; }
+  .hist-edit-dish-item { padding: 8px 11px; cursor: pointer; border-bottom: 1px solid #f5f5f5; font-family: sans-serif; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
   .hist-edit-dish-item:hover { background: #f9f9f9; }
   .hist-edit-dish-item.active { font-weight: 700; }
   .hist-edit-dish-item:last-child { border-bottom: none; }
-  .hist-edit-sides { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
-  .hist-edit-side-chip { display: inline-flex; align-items: center; gap: 3px; border-radius: 20px; padding: 3px 9px; font-family: sans-serif; font-size: 11px; background: #f0f0f0; color: #666; }
+  .hist-edit-sides { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 7px; }
+  .hist-edit-side-chip { display: inline-flex; align-items: center; gap: 3px; border-radius: 20px; padding: 3px 8px; font-family: sans-serif; font-size: 11px; }
   .hist-edit-side-chip button { background: none; border: none; cursor: pointer; font-size: 9px; opacity: 0.5; padding: 0; }
   .hist-edit-blank-toggle { display: flex; align-items: center; gap: 8px; font-family: sans-serif; font-size: 12px; color: #888; margin-bottom: 10px; cursor: pointer; }
-  .hist-edit-blank-toggle input { cursor: pointer; }
-  .status-bar { font-family: sans-serif; font-size: 11px; color: #aaa; text-align: center; padding: 8px; min-height: 28px; }
-  .status-bar.error { color: #E74C3C; }
-  .status-bar.success { color: #27AE60; }
-  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #ddd; border-top-color: #E67E22; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 6px; vertical-align: middle; }
+  /* Cuisine manager */
+  .cuisine-manage-list { border: 1px solid #eee; border-radius: 8px; margin-bottom: 11px; max-height: 200px; overflow-y: auto; }
+  .cuisine-manage-item { display: flex; align-items: center; gap: 8px; padding: 7px 11px; border-bottom: 1px solid #f5f5f5; font-family: sans-serif; font-size: 13px; }
+  .cuisine-manage-item:last-child { border-bottom: none; }
+  .cuisine-color-swatch { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; }
+  .cuisine-manage-item span { flex: 1; }
+  .cuisine-delete-btn { background: none; border: none; color: #ddd; cursor: pointer; font-size: 12px; }
+  .cuisine-delete-btn:hover { color: #E74C3C; }
+  .add-cuisine-row { display: flex; gap: 7px; align-items: flex-end; flex-wrap: wrap; }
+  .add-cuisine-row input { flex: 1; min-width: 100px; padding: 7px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; }
+  .emoji-input { max-width: 65px !important; text-align: center; font-size: 17px !important; }
+  .color-presets { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
+  .color-preset { width: 20px; height: 20px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
+  .color-preset.selected { border-color: #1a1a1a; }
+  /* Modals */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300; display: none; align-items: center; justify-content: center; padding: 16px; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: #fff; border-radius: 16px; padding: 22px; width: 100%; max-width: 400px; box-shadow: 0 8px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+  .modal h3 { font-size: 15px; margin-bottom: 5px; }
+  .modal-sub { font-family: sans-serif; font-size: 12px; color: #999; margin-bottom: 12px; }
+  .form-group { margin-bottom: 10px; }
+  .form-group label { font-family: sans-serif; font-size: 11px; color: #888; display: block; margin-bottom: 3px; }
+  .form-group input, .form-group select { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; }
+  .form-row { display: flex; gap: 9px; margin-bottom: 10px; }
+  .form-row .form-group { flex: 1; margin-bottom: 0; }
+  .modal-btns { display: flex; gap: 7px; margin-top: 4px; }
+  .modal-btns button { flex: 1; padding: 10px; border: none; border-radius: 8px; font-family: sans-serif; cursor: pointer; }
+  .lock-search { width: 100%; padding: 7px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; margin-bottom: 7px; }
+  .lock-dish-list { max-height: 180px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; margin-bottom: 9px; }
+  .lock-dish-item { padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #f5f5f5; font-family: sans-serif; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+  .lock-dish-item:hover { background: #f9f9f9; }
+  .lock-dish-item.active { font-weight: 700; }
+  .lock-dish-item:last-child { border-bottom: none; }
+  .history-empty { font-family: sans-serif; font-size: 13px; color: #bbb; text-align: center; padding: 40px; }
+  .status-bar { font-family: sans-serif; font-size: 11px; color: #aaa; text-align: center; padding: 7px; min-height: 26px; }
+  .status-bar.error { color: #E74C3C; } .status-bar.success { color: #27AE60; }
+  .spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid #ddd; border-top-color: #E67E22; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 5px; vertical-align: middle; }
   @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
-
 <div class="header">
   <div class="header-inner">
-    <div>
-      <h1>🍳 Family Dinner Planner</h1>
-      <div class="sub">Dan & Emily · Shanghai · Mon–Fri</div>
-    </div>
+    <div><h1>🍳 Family Dinner Planner</h1><div class="sub">Dan & Emily · Shanghai</div></div>
     <div class="tabs">
       <button class="tab active" onclick="switchTab('week')">Week</button>
       <button class="tab" onclick="switchTab('library')">Library</button>
@@ -235,22 +256,48 @@
 
   <!-- WEEK -->
   <div id="panel-week" class="panel active">
-    <div id="anchor-banner" class="anchor-banner"></div>
+    <!-- Settings bar -->
+    <div class="settings-bar">
+      <label>Week starts on:
+        <select id="week-start-day" onchange="saveSettings();renderWeekPanel()">
+          <option value="1">Monday</option>
+          <option value="0">Sunday</option>
+        </select>
+      </label>
+      <span class="settings-divider">|</span>
+      <label>View:
+        <select id="home-view-mode" onchange="saveSettings();renderWeekPanel()">
+          <option value="week">Weekly</option>
+          <option value="month">Monthly</option>
+          <option value="year">Yearly</option>
+        </select>
+      </label>
+      <span class="settings-divider">|</span>
+      <label>Cal starts on:
+        <select id="cal-week-start" onchange="saveSettings();renderWeekPanel()">
+          <option value="1">Monday</option>
+          <option value="0">Sunday</option>
+        </select>
+      </label>
+    </div>
+    <!-- Week navigation (shown in weekly mode) -->
+    <div id="week-nav-row" class="week-controls">
+      <div class="week-nav">
+        <button class="week-nav-btn" onclick="navigateWeek(-1)">◀</button>
+        <span class="week-label" id="week-label-text"></span>
+        <button class="week-nav-btn" onclick="navigateWeek(1)">▶</button>
+        <button class="week-nav-btn" onclick="goToCurrentWeek()" style="font-size:11px">Today</button>
+      </div>
+      <div id="anchor-banner" class="anchor-banner" style="flex:1;margin-bottom:0"></div>
+    </div>
     <div id="cuisine-picker" class="cuisine-picker">
       <div class="picker-label">PICK THIS WEEK'S ANCHOR CUISINE</div>
       <div id="cuisine-chips" class="cuisine-chips"></div>
     </div>
     <div class="archive-btn-row">
-      <button class="btn" style="background:#5D6D7E;color:#fff;font-size:11px;" onclick="archiveCurrentWeek()">📦 Save Week to History</button>
+      <button class="btn" style="background:#5D6D7E;color:#fff;font-size:11px" onclick="archiveCurrentWeek()">📦 Save to History</button>
     </div>
-    <div id="day-rows"></div>
-    <div class="trip-banner">
-      <div class="flag">🇮🇹</div>
-      <div>
-        <div class="trip-title">Leaving for Italy after Thursday dinner!</div>
-        <div class="trip-sub">8 days away — next meal plan picks up when you're back. Italian week on return? 🍝</div>
-      </div>
-    </div>
+    <div id="week-main-content"></div>
   </div>
 
   <!-- LIBRARY -->
@@ -258,7 +305,7 @@
     <div class="lib-header">
       <h2>Dish Library <span id="swap-context" class="swap-context"></span></h2>
       <div class="lib-header-btns">
-        <button class="btn" style="background:#f0f0f0;color:#555;font-size:11px;" onclick="openCuisineManager()">🏷 Cuisines</button>
+        <button class="btn" style="background:#f0f0f0;color:#555;font-size:11px" onclick="openCuisineManager()">🏷 Cuisines</button>
         <button class="btn btn-green" onclick="openAddModal()">+ Add Dish</button>
       </div>
     </div>
@@ -266,9 +313,7 @@
       <input id="search-input" type="text" placeholder="Search…" oninput="renderLibrary()">
       <select id="filter-cuisine" onchange="renderLibrary()"><option value="">All Cuisines</option></select>
       <select id="filter-type" onchange="renderLibrary()">
-        <option value="">All Types</option>
-        <option value="main">Main</option>
-        <option value="side">Side</option>
+        <option value="">All Types</option><option value="main">Main</option><option value="side">Side</option>
       </select>
     </div>
     <div id="dish-grid" class="dish-grid"></div>
@@ -276,7 +321,7 @@
 
   <!-- BY CUISINE -->
   <div id="panel-cuisine" class="panel">
-    <h2 style="margin-bottom:20px;font-size:18px;">Dishes by Cuisine</h2>
+    <h2 style="margin-bottom:18px;font-size:17px">Dishes by Cuisine</h2>
     <div id="cuisine-sections"></div>
   </div>
 
@@ -299,7 +344,7 @@
   <button onclick="cancelSwap()">Cancel</button>
 </div>
 
-<!-- Add / Edit Dish Modal -->
+<!-- Add/Edit Dish Modal -->
 <div id="add-modal" class="modal-overlay">
   <div class="modal">
     <h3 id="dish-modal-title">Add New Dish</h3>
@@ -307,13 +352,11 @@
     <div class="form-group"><label>Notes</label><input id="new-notes" type="text" placeholder="Optional"></div>
     <div class="form-row">
       <div class="form-group"><label>Cuisine</label><select id="new-cuisine"></select></div>
-      <div class="form-group"><label>Type</label>
-        <select id="new-type"><option value="main">Main</option><option value="side">Side</option></select>
-      </div>
+      <div class="form-group"><label>Type</label><select id="new-type"><option value="main">Main</option><option value="side">Side</option></select></div>
     </div>
     <div class="modal-btns">
-      <button id="dish-modal-save-btn" style="background:#1a1a1a;color:#fff;font-weight:700;" onclick="saveDishModal()">Add</button>
-      <button style="background:#f5f5f5;color:#666;" onclick="closeAddModal()">Cancel</button>
+      <button id="dish-modal-save-btn" style="background:#1a1a1a;color:#fff;font-weight:700" onclick="saveDishModal()">Add</button>
+      <button style="background:#f5f5f5;color:#666" onclick="closeAddModal()">Cancel</button>
     </div>
   </div>
 </div>
@@ -325,13 +368,10 @@
     <div class="modal-sub" id="lock-modal-sub"></div>
     <input class="lock-search" id="lock-search" type="text" placeholder="Search to change dish…" oninput="renderLockList()">
     <div class="lock-dish-list" id="lock-dish-list"></div>
-    <div class="form-group">
-      <label>Note (optional)</label>
-      <input id="lock-note" type="text" placeholder="e.g. Emily's mom arrives 🏠">
-    </div>
+    <div class="form-group"><label>Note (optional)</label><input id="lock-note" type="text" placeholder="e.g. Emily's mom arrives 🏠"></div>
     <div class="modal-btns">
-      <button style="background:#1a1a1a;color:#fff;font-weight:700;" onclick="confirmLock()">Lock This Meal</button>
-      <button style="background:#f5f5f5;color:#666;" onclick="closeLockModal()">Cancel</button>
+      <button style="background:#1a1a1a;color:#fff;font-weight:700" onclick="confirmLock()">Lock This Meal</button>
+      <button style="background:#f5f5f5;color:#666" onclick="closeLockModal()">Cancel</button>
     </div>
   </div>
 </div>
@@ -341,13 +381,10 @@
   <div class="modal">
     <h3 id="blank-modal-title">Mark Day as Blank</h3>
     <div class="modal-sub">This day won't have a planned meal.</div>
-    <div class="form-group">
-      <label>Reason (optional)</label>
-      <input id="blank-reason" type="text" placeholder="e.g. Traveling ✈️, Eating out 🍜">
-    </div>
+    <div class="form-group"><label>Reason (optional)</label><input id="blank-reason" type="text" placeholder="e.g. Traveling ✈️, Eating out 🍜"></div>
     <div class="modal-btns">
-      <button style="background:#888;color:#fff;font-weight:700;" onclick="confirmBlank()">Mark as Blank</button>
-      <button style="background:#f5f5f5;color:#666;" onclick="closeBlankModal()">Cancel</button>
+      <button style="background:#888;color:#fff;font-weight:700" onclick="confirmBlank()">Mark as Blank</button>
+      <button style="background:#f5f5f5;color:#666" onclick="closeBlankModal()">Cancel</button>
     </div>
   </div>
 </div>
@@ -358,16 +395,42 @@
     <h3>🏷 Manage Cuisines</h3>
     <div class="modal-sub">Add or remove cuisine types.</div>
     <div class="cuisine-manage-list" id="cuisine-manage-list"></div>
-    <div style="font-family:sans-serif;font-size:11px;color:#999;font-weight:700;letter-spacing:1px;margin-bottom:8px;">ADD NEW CUISINE</div>
+    <div style="font-family:sans-serif;font-size:11px;color:#999;font-weight:700;letter-spacing:1px;margin-bottom:7px">ADD NEW CUISINE</div>
     <div class="add-cuisine-row">
       <input type="text" class="emoji-input" id="new-cuisine-emoji" placeholder="🍽️" maxlength="4">
-      <input type="text" id="new-cuisine-name" placeholder="Cuisine name (e.g. Mediterranean)">
+      <input type="text" id="new-cuisine-name" placeholder="Cuisine name">
     </div>
-    <div style="font-family:sans-serif;font-size:11px;color:#999;margin-top:10px;margin-bottom:6px;">Pick a colour:</div>
+    <div style="font-family:sans-serif;font-size:11px;color:#999;margin-top:9px;margin-bottom:5px">Pick a colour:</div>
     <div class="color-presets" id="color-presets"></div>
-    <div class="modal-btns" style="margin-top:14px;">
-      <button style="background:#1a1a1a;color:#fff;font-weight:700;" onclick="addCuisineType()">Add Cuisine</button>
-      <button style="background:#f5f5f5;color:#666;" onclick="closeCuisineManager()">Done</button>
+    <div class="modal-btns" style="margin-top:12px">
+      <button style="background:#1a1a1a;color:#fff;font-weight:700" onclick="addCuisineType()">Add Cuisine</button>
+      <button style="background:#f5f5f5;color:#666" onclick="closeCuisineManager()">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- History Edit Modal -->
+<div id="hist-edit-modal" class="modal-overlay">
+  <div class="modal">
+    <h3 id="hist-edit-title">Edit Past Meal</h3>
+    <div class="modal-sub" id="hist-edit-sub"></div>
+    <label class="hist-edit-blank-toggle"><input type="checkbox" id="hist-edit-blank" onchange="toggleHistEditBlank()"> Mark this day as blank / no meal</label>
+    <div id="hist-edit-main-section">
+      <div class="form-group" style="margin-bottom:7px"><label>Main dish</label>
+        <input class="lock-search" id="hist-edit-search" type="text" placeholder="Search dishes…" oninput="renderHistEditList()">
+      </div>
+      <div class="hist-edit-dish-list" id="hist-edit-dish-list"></div>
+      <div class="form-group">
+        <label>Sides <span style="font-weight:400;color:#bbb">(tap to add/remove)</span></label>
+        <div class="hist-edit-sides" id="hist-edit-sides-chips"></div>
+        <input class="lock-search" id="hist-edit-side-search" type="text" placeholder="Search sides…" oninput="renderHistEditSideList()" style="margin-top:4px">
+        <div class="hist-edit-dish-list" id="hist-edit-side-list"></div>
+      </div>
+    </div>
+    <div class="form-group"><label>Note (optional)</label><input id="hist-edit-note" type="text" placeholder="e.g. Family dinner 🎉"></div>
+    <div class="modal-btns">
+      <button style="background:#1a1a1a;color:#fff;font-weight:700" onclick="saveHistEdit()">Save</button>
+      <button style="background:#f5f5f5;color:#666" onclick="closeHistEdit()">Cancel</button>
     </div>
   </div>
 </div>
@@ -375,186 +438,230 @@
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbyDhhfVM244e_5IHcPsorXi9LcqZxfLG0WAAb6_KnemeVxp-EBwNYjobjdoYp8B0cCq/exec";
 
-// ── CUISINE REGISTRY ─────────────────────────────────────────
-// Stored in localStorage so both users can extend it
+// ── CUISINES ─────────────────────────────────────────────────
 const DEFAULT_CUISINES = {
-  Korean:          { color: "#C0392B", light: "#FDEDEC", emoji: "🇰🇷" },
-  Japanese:        { color: "#2C3E50", light: "#EAF0F6", emoji: "🇯🇵" },
-  Italian:         { color: "#27AE60", light: "#EAFAF1", emoji: "🇮🇹" },
-  American:        { color: "#2980B9", light: "#EBF5FB", emoji: "🇺🇸" },
-  Chinese:         { color: "#E67E22", light: "#FEF9E7", emoji: "🇨🇳" },
-  Mediterranean:   { color: "#16A085", light: "#E8F8F5", emoji: "🫒" },
-  "Southeast Asian":{ color: "#8E44AD", light: "#F5EEF8", emoji: "🌏" },
-  Other:           { color: "#7F8C8D", light: "#F2F3F4", emoji: "🍽️" },
+  Korean:{ color:"#C0392B",light:"#FDEDEC",emoji:"🇰🇷" },
+  Japanese:{ color:"#2C3E50",light:"#EAF0F6",emoji:"🇯🇵" },
+  Italian:{ color:"#27AE60",light:"#EAFAF1",emoji:"🇮🇹" },
+  American:{ color:"#2980B9",light:"#EBF5FB",emoji:"🇺🇸" },
+  Chinese:{ color:"#E67E22",light:"#FEF9E7",emoji:"🇨🇳" },
+  Mediterranean:{ color:"#16A085",light:"#E8F8F5",emoji:"🫒" },
+  "Southeast Asian":{ color:"#8E44AD",light:"#F5EEF8",emoji:"🌏" },
+  Other:{ color:"#7F8C8D",light:"#F2F3F4",emoji:"🍽️" },
 };
 const COLOR_OPTIONS = ["#C0392B","#2980B9","#27AE60","#E67E22","#8E44AD","#16A085","#2C3E50","#D35400","#1ABC9C","#E91E63","#795548","#607D8B"];
+const MONTH_NAMES = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const ALL_DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const DAY_SHORT_7 = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
 
-function loadCuisines() {
-  try {
-    const saved = localStorage.getItem("mp_cuisines");
-    return saved ? JSON.parse(saved) : { ...DEFAULT_CUISINES };
-  } catch { return { ...DEFAULT_CUISINES }; }
-}
-function saveCuisines() {
-  localStorage.setItem("mp_cuisines", JSON.stringify(CUISINES));
-}
-function computeLight(hex) {
-  // Make a very light tint from the hex color
-  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
-  return `rgba(${r},${g},${b},0.08)`;
-}
-function getCuisineData(name) {
-  return CUISINES[name] || { color: "#7F8C8D", light: "#F2F3F4", emoji: "🍽️" };
-}
-
+function loadCuisines(){ try{ const s=localStorage.getItem("mp_cuisines"); return s?JSON.parse(s):{...DEFAULT_CUISINES}; }catch{ return {...DEFAULT_CUISINES}; } }
+function saveCuisines(){ localStorage.setItem("mp_cuisines",JSON.stringify(CUISINES)); }
+function computeLight(hex){ const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16); return `rgba(${r},${g},${b},0.08)`; }
+function getCuisineData(name){ return CUISINES[name]||{color:"#7F8C8D",light:"#F2F3F4",emoji:"🍽️"}; }
 let CUISINES = loadCuisines();
 let selectedColor = COLOR_OPTIONS[0];
 
-const WEEKDAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
-const DAY_SHORT = { Monday:"MON", Tuesday:"TUE", Wednesday:"WED", Thursday:"THU", Friday:"FRI" };
+// ── SETTINGS ─────────────────────────────────────────────────
+function loadSettings(){
+  const s = JSON.parse(localStorage.getItem("mp_settings")||"{}");
+  return { weekStartDay: s.weekStartDay??1, calWeekStart: s.calWeekStart??1, homeViewMode: s.homeViewMode||"week" };
+}
+function saveSettings(){
+  const s = { weekStartDay:+document.getElementById("week-start-day").value, calWeekStart:+document.getElementById("cal-week-start").value, homeViewMode:document.getElementById("home-view-mode").value };
+  localStorage.setItem("mp_settings",JSON.stringify(s));
+  settings = s;
+}
+let settings = loadSettings();
 
-// ── STATE ────────────────────────────────────────────────────
+// ── STATE ─────────────────────────────────────────────────────
 let dishes = [];
-let weekData = { plan: {}, anchorCuisine: "Chinese" };
+let weekPlans = {}; // key: "YYYY-MM-DD" (monday of week) -> { plan, anchorCuisine }
 let history = [];
 let historyView = "list";
-let swapDay = null, swapSlot = null;
+let currentWeekStart = null; // Date object, always the configured start day
+let swapDay = null, swapSlot = null, swapWeekKey = null;
 let selectedDishId = null;
-let lockTargetDay = null, lockSelectedDish = null;
-let blankTargetDay = null;
-let editingDishId = null; // null = adding new, id = editing
-let histEditEntry = null; // { entryIdx, day }
-let histEditMain = null;
-let histEditSides = [];
+let lockTargetDay = null, lockSelectedDish = null, lockWeekKey = null;
+let blankTargetDay = null, blankWeekKey = null;
+let editingDishId = null;
+let histEditEntry = null, histEditMain = null, histEditSides = [];
 
-// ── API ──────────────────────────────────────────────────────
-async function apiGet(action) {
-  const r = await fetch(`${API_URL}?action=${action}`);
-  if (!r.ok) throw new Error("HTTP " + r.status);
-  return r.json();
+// ── DATE HELPERS ──────────────────────────────────────────────
+function fmt(d){ return d.toLocaleDateString("en-US",{month:"short",day:"numeric"}); }
+function fmtFull(d){ return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); }
+function dateKey(d){ return d.toISOString().split("T")[0]; }
+function addDays(d,n){ const r=new Date(d); r.setDate(d.getDate()+n); return r; }
+function getWeekStart(d, startDow){ // startDow: 0=Sun, 1=Mon
+  const dow = d.getDay();
+  const diff = (dow - startDow + 7) % 7;
+  const r = new Date(d); r.setDate(d.getDate()-diff); r.setHours(0,0,0,0);
+  return r;
 }
-async function apiPost(body) {
-  const r = await fetch(API_URL, { method:"POST", headers:{"Content-Type":"text/plain"}, body: JSON.stringify(body) });
-  if (!r.ok) throw new Error("HTTP " + r.status);
-  return r.json();
+function getWeekDays(startDate, count=7){
+  return Array.from({length:count},(_,i)=>addDays(startDate,i));
 }
-function setStatus(msg, type="") {
-  const el = document.getElementById("status-bar");
-  el.innerHTML = msg; el.className = "status-bar " + type;
-  if (type==="success") setTimeout(()=>{ el.textContent=""; el.className="status-bar"; }, 3000);
+function parseDateKey(key){ const [y,m,d]=key.split("-").map(Number); return new Date(y,m-1,d); }
+
+// Get or create plan for a week
+function getWeekPlan(weekKey){
+  if(!weekPlans[weekKey]) weekPlans[weekKey] = { plan:{}, anchorCuisine:"Chinese" };
+  return weekPlans[weekKey];
+}
+function getDayPlan(weekKey, dayName){
+  return getWeekPlan(weekKey).plan[dayName]||{};
 }
 
-// ── INIT ─────────────────────────────────────────────────────
-async function init() {
-  populateCuisineSelects();
-  renderColorPresets();
+// ── API ───────────────────────────────────────────────────────
+async function apiGet(action){ const r=await fetch(`${API_URL}?action=${action}`); if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }
+async function apiPost(body){ const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(body)}); if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }
+function setStatus(msg,type=""){ const el=document.getElementById("status-bar"); el.innerHTML=msg; el.className="status-bar "+type; if(type==="success") setTimeout(()=>{el.textContent="";el.className="status-bar";},3000); }
+
+// ── INIT ──────────────────────────────────────────────────────
+async function init(){
+  // Apply saved settings to UI
+  document.getElementById("week-start-day").value = settings.weekStartDay;
+  document.getElementById("cal-week-start").value = settings.calWeekStart;
+  document.getElementById("home-view-mode").value = settings.homeViewMode;
+  populateCuisineSelects(); renderColorPresets();
+  currentWeekStart = getWeekStart(new Date(), settings.weekStartDay);
   setStatus('<span class="spinner"></span> Loading from Google Sheets…');
   try {
-    const [dishRes, weekRes, histRes] = await Promise.all([
-      apiGet("getDishes"), apiGet("getWeekPlan"), apiGet("getHistory")
-    ]);
-    if (dishRes.error) throw new Error(dishRes.error);
-    dishes = dishRes.dishes || [];
-    if (weekRes.weekData && Object.keys(weekRes.weekData.plan||{}).length > 0) {
-      weekData = weekRes.weekData;
-    } else {
-      weekData = generateWeekPlan(dishes, "Chinese");
-      await saveWeekToSheets();
+    const [dishRes, weekRes, histRes] = await Promise.all([apiGet("getDishes"),apiGet("getWeekPlan"),apiGet("getHistory")]);
+    if(dishRes.error) throw new Error(dishRes.error);
+    dishes = dishRes.dishes||[];
+    // Load current week plan
+    if(weekRes.weekData && Object.keys(weekRes.weekData.plan||{}).length>0){
+      const key = dateKey(currentWeekStart);
+      weekPlans[key] = weekRes.weekData;
     }
-    history = histRes.history || [];
-    setStatus("✓ Synced with Google Sheets", "success");
-  } catch(e) {
-    setStatus("⚠️ Could not load: " + e.message, "error");
-  }
+    history = histRes.history||[];
+    setStatus("✓ Synced with Google Sheets","success");
+  } catch(e){ setStatus("⚠️ Could not load: "+e.message,"error"); }
   renderAll();
 }
 
-// ── WEEK PLAN GENERATION ─────────────────────────────────────
-function generateWeekPlan(dishList, anchorCuisine) {
-  const anchor = anchorCuisine || weekData?.anchorCuisine || "Chinese";
-  const currentPlan = weekData?.plan || {};
+// ── WEEK PLAN GENERATION ──────────────────────────────────────
+function generateWeekPlanForKey(weekKey, anchorCuisine){
+  const existing = weekPlans[weekKey]||{};
+  const anchor = anchorCuisine || existing.anchorCuisine || "Chinese";
+  const weekStart = parseDateKey(weekKey);
+  const weekDays = getWeekDays(weekStart, 7);
+  const currentPlan = existing.plan||{};
   const preservedDays = {};
-  WEEKDAYS.forEach(day => {
-    if (currentPlan[day]?.locked || currentPlan[day]?.blank) preservedDays[day] = currentPlan[day];
+  weekDays.forEach(d=>{
+    const name = ALL_DAYS[d.getDay()];
+    if(currentPlan[name]?.locked||currentPlan[name]?.blank) preservedDays[name]=currentPlan[name];
   });
   const lockedIds = new Set(Object.values(preservedDays).filter(d=>d.main).map(d=>Number(d.main.id)));
-  const anchorMains = dishList.filter(d=>d.type==="main"&&d.cuisine===anchor&&!lockedIds.has(Number(d.id))).sort(()=>Math.random()-0.5);
-  const fillMains = dishList.filter(d=>d.type==="main"&&d.cuisine!==anchor&&!lockedIds.has(Number(d.id))).sort((a,b)=>{
+  const anchorMains = dishes.filter(d=>d.type==="main"&&d.cuisine===anchor&&!lockedIds.has(Number(d.id))).sort(()=>Math.random()-0.5);
+  const fillMains = dishes.filter(d=>d.type==="main"&&d.cuisine!==anchor&&!lockedIds.has(Number(d.id))).sort((a,b)=>{
     if(!a.lastServed&&!b.lastServed) return Math.random()-0.5;
     if(!a.lastServed) return -1; if(!b.lastServed) return 1;
     return new Date(a.lastServed)-new Date(b.lastServed);
   });
-  const pool = [...anchorMains,...fillMains], used = new Set(lockedIds), plan = {};
-  WEEKDAYS.forEach(day => {
-    if(preservedDays[day]){ plan[day]=preservedDays[day]; return; }
-    let main=null;
-    for(const m of pool){ if(!used.has(Number(m.id))){ main=m; used.add(Number(m.id)); break; } }
-    const sides = dishList.filter(d=>d.type==="side"&&(d.cuisine===main?.cuisine||d.cuisine==="American"||d.cuisine==="Other")).sort(()=>Math.random()-0.5).slice(0,2);
-    plan[day] = { main, sides, note:null, locked:false, blank:false };
+  const pool=[...anchorMains,...fillMains], used=new Set(lockedIds), plan={};
+  weekDays.forEach(d=>{
+    const name=ALL_DAYS[d.getDay()];
+    if(preservedDays[name]){ plan[name]=preservedDays[name]; return; }
+    const isWeekend = d.getDay()===0||d.getDay()===6;
+    if(isWeekend){ plan[name]={ main:null,sides:[],note:null,locked:false,blank:true,weekend:true }; return; }
+    let main=null; for(const m of pool){ if(!used.has(Number(m.id))){ main=m; used.add(Number(m.id)); break; } }
+    const sides=dishes.filter(d=>d.type==="side"&&(d.cuisine===main?.cuisine||d.cuisine==="American"||d.cuisine==="Other")).sort(()=>Math.random()-0.5).slice(0,2);
+    plan[name]={ main,sides,note:null,locked:false,blank:false,weekend:false };
   });
-  return { plan, anchorCuisine: anchor };
+  weekPlans[weekKey] = { plan, anchorCuisine: anchor };
+  return weekPlans[weekKey];
 }
 
-// ── RENDER ALL ───────────────────────────────────────────────
-function renderAll() { renderWeek(); renderLibrary(); renderByCuisine(); renderHistory(); }
+// ── RENDER ALL ────────────────────────────────────────────────
+function renderAll(){ renderWeekPanel(); renderLibrary(); renderByCuisine(); renderHistory(); }
+function renderWeekPanel(){
+  const mode = settings.homeViewMode;
+  document.getElementById("week-nav-row").style.display = mode==="week" ? "flex" : "none";
+  document.getElementById("cuisine-picker").style.display = "none";
+  if(mode==="week") renderWeekView();
+  else if(mode==="month") renderHomeMonthView();
+  else renderHomeYearView();
+}
 
-// ── RENDER WEEK ──────────────────────────────────────────────
-function renderWeek() {
-  const anchor = weekData.anchorCuisine || "Chinese";
+// ── WEEK VIEW ─────────────────────────────────────────────────
+function navigateWeek(dir){
+  currentWeekStart = addDays(currentWeekStart, dir*7);
+  renderWeekPanel();
+}
+function goToCurrentWeek(){
+  currentWeekStart = getWeekStart(new Date(), settings.weekStartDay);
+  renderWeekPanel();
+}
+
+function renderWeekView(){
+  const weekKey = dateKey(currentWeekStart);
+  if(!weekPlans[weekKey]||!Object.keys(weekPlans[weekKey].plan||{}).length){
+    generateWeekPlanForKey(weekKey, "Chinese");
+  }
+  const wd = weekPlans[weekKey];
+  const anchor = wd.anchorCuisine||"Chinese";
   const c = getCuisineData(anchor);
-  document.getElementById("anchor-banner").style.background = c.light;
-  document.getElementById("anchor-banner").style.borderColor = c.color+"44";
-  document.getElementById("anchor-banner").innerHTML = `
-    <div class="anchor-info">
-      <span class="anchor-emoji">${c.emoji}</span>
-      <div><div class="anchor-label">THIS WEEK'S ANCHOR CUISINE</div>
-      <div class="anchor-name" style="color:${c.color}">${anchor}</div></div>
-    </div>
-    <div class="btn-row">
-      <button class="btn" style="background:${c.color};color:#fff" onclick="toggleCuisinePicker()">🔀 Change</button>
-      <button class="btn btn-dark" onclick="regenPlan()">↻ Regenerate</button>
-    </div>`;
-  document.getElementById("cuisine-chips").innerHTML = Object.keys(CUISINES).filter(k=>k!=="Other").map(k=>{
-    const col=getCuisineData(k), count=dishes.filter(d=>d.cuisine===k&&d.type==="main").length, isActive=k===anchor;
-    return `<button class="cuisine-chip" style="background:${isActive?col.color:col.light};color:${isActive?"#fff":col.color};border-color:${col.color}44" onclick="pickCuisine('${k}')">${col.emoji} ${k} <span style="opacity:0.6;font-size:10px">(${count})</span></button>`;
+  const weekDays = getWeekDays(currentWeekStart, 7);
+  const endDate = weekDays[6];
+  document.getElementById("week-label-text").textContent = `${fmt(currentWeekStart)} – ${fmt(endDate)}`;
+  // Anchor banner
+  const ab = document.getElementById("anchor-banner");
+  ab.style.background=c.light; ab.style.borderColor=c.color+"44";
+  ab.innerHTML=`<div class="anchor-info"><span class="anchor-emoji">${c.emoji}</span><div><div class="anchor-label">ANCHOR CUISINE</div><div class="anchor-name" style="color:${c.color}">${anchor}</div></div></div>
+    <div class="btn-row"><button class="btn" style="background:${c.color};color:#fff" onclick="toggleCuisinePicker()">🔀 Change</button><button class="btn btn-dark" onclick="regenPlan()">↻ Regen</button></div>`;
+  // Cuisine chips
+  document.getElementById("cuisine-chips").innerHTML=Object.keys(CUISINES).filter(k=>k!=="Other").map(k=>{
+    const col=getCuisineData(k),count=dishes.filter(d=>d.cuisine===k&&d.type==="main").length,isActive=k===anchor;
+    return `<button class="cuisine-chip" style="background:${isActive?col.color:col.light};color:${isActive?"#fff":col.color};border-color:${col.color}44" onclick="pickCuisine('${weekKey}','${k}')">${col.emoji} ${k} <span style="opacity:0.6;font-size:10px">(${count})</span></button>`;
   }).join("");
-  document.getElementById("day-rows").innerHTML = WEEKDAYS.map(day=>{
-    const dp=weekData.plan[day]||{}, isBlank=!!dp.blank, isLocked=!!dp.locked&&!isBlank;
-    const cuisine=dp.main?.cuisine, col=isBlank?{color:"#aaa",light:"#f5f5f5",emoji:"⬜"}:getCuisineData(cuisine||"Other");
-    const isAnchor=!isBlank&&cuisine===anchor;
-    // Compute date for this weekday in the current Mon-Fri week
-    const today=new Date(), dow=today.getDay(), mondayOffset=(dow===0?-6:1-dow);
-    const weekMonday=new Date(today); weekMonday.setDate(today.getDate()+mondayOffset);
-    const dayIndex=WEEKDAYS.indexOf(day);
-    const dayDate=new Date(weekMonday); dayDate.setDate(weekMonday.getDate()+dayIndex);
-    const dayDateStr=dayDate.toLocaleDateString("en-US",{month:"short",day:"numeric"});
-    const servedBtn=!isBlank?`<button class="action-btn" onclick="markServed('${day}')">✓ Done</button>`:"";
-    const lockBtn=isLocked?`<button class="action-btn locked-style" onclick="unlockDay('${day}')">🔓 Unlock</button>`
-      :(!isBlank?`<button class="action-btn" onclick="openLockModal('${day}')">🔒 Lock</button>`:"");
-    const blankBtn=isBlank?`<button class="action-btn blank-style" onclick="unblankDay('${day}')">↩ Restore</button>`
-      :`<button class="action-btn" style="color:#bbb" onclick="openBlankModal('${day}')">✕ Blank</button>`;
-    const noteHtml=dp.note?`<div class="day-note" style="background:${col.light};color:${col.color}">
+  // Day rows
+  document.getElementById("week-main-content").innerHTML = weekDays.map(dayDate=>{
+    const dayName = ALL_DAYS[dayDate.getDay()];
+    const dayShort = DAY_SHORT_7[dayDate.getDay()];
+    const dp = wd.plan[dayName]||{};
+    const isWeekend = dayDate.getDay()===0||dayDate.getDay()===6;
+    const isBlank = !!dp.blank;
+    const isLocked = !!dp.locked&&!isBlank;
+    const cuisine = dp.main?.cuisine;
+    const col = isBlank&&!dp.main ? {color:"#aaa",light:"#f5f5f5",emoji:"⬜"} : getCuisineData(cuisine||"Other");
+    const isAnchor = !isBlank&&cuisine===anchor;
+    const todayStr = dateKey(new Date());
+    const isToday = dateKey(dayDate)===todayStr;
+    const dateLabel = fmt(dayDate);
+    const servedBtn = !isBlank?`<button class="action-btn" onclick="markServed('${weekKey}','${dayName}')">✓ Done</button>`:"";
+    const lockBtn = isLocked?`<button class="action-btn locked-style" onclick="unlockDay('${weekKey}','${dayName}')">🔓 Unlock</button>`
+      :(!isBlank?`<button class="action-btn" onclick="openLockModal('${weekKey}','${dayName}')">🔒 Lock</button>`:"");
+    const blankBtn = isBlank?`<button class="action-btn blank-style" onclick="unblankDay('${weekKey}','${dayName}')">↩ Restore</button>`
+      :`<button class="action-btn" style="color:#bbb" onclick="openBlankModal('${weekKey}','${dayName}')">✕ Blank</button>`;
+    const noteHtml = dp.note?`<div class="day-note" style="background:${col.light};color:${col.color}">
       ${isLocked?`<span class="locked-badge" style="background:${col.color}">LOCKED</span>`:""}
-      ${isBlank?`<span class="locked-badge" style="background:#aaa">BLANK</span>`:""}${dp.note}</div>`
-      :(isBlank?`<div class="day-note" style="background:#f5f5f5;color:#bbb"><span class="locked-badge" style="background:#bbb">BLANK</span> No meal planned</div>`:"");
-    if(isBlank) return `<div class="day-row is-blank">${noteHtml}<div class="day-inner">
-      <div class="day-label" style="background:#ccc"><span class="emoji">⬜</span><span class="dname">${DAY_SHORT[day]}</span></div>
-      <div class="blank-day-content"><span class="blank-day-label">${dp.note||"No meal planned"}</span></div>
-      <div class="day-actions">${blankBtn}</div></div></div>`;
-    const sidesHtml=(dp.sides||[]).map((s,i)=>`<span class="side-chip" style="background:${col.light};color:${col.color}">${s.name}
-      ${!isLocked?`<button onclick="startSwap('${day}',${i})">⇄</button><button onclick="removeSide('${day}',${i})">✕</button>`:""}</span>`).join("");
-    const addSideBtn=(!isLocked&&(dp.sides||[]).length<4)?`<button class="add-side-btn" onclick="startSwap('${day}',${(dp.sides||[]).length})">+ side</button>`:"";
-    return `<div class="day-row ${isLocked?"is-locked":""}" style="border-color:${isLocked?col.color+"88":isAnchor?col.color+"44":"#eee"}">
+      ${isBlank&&!isWeekend?`<span class="locked-badge" style="background:#aaa">BLANK</span>`:""}
+      ${isWeekend&&isBlank&&!dp.note?"":dp.note}</div>`:
+      (isBlank&&!isWeekend&&!dp.weekend?`<div class="day-note" style="background:#f5f5f5;color:#bbb"><span class="locked-badge" style="background:#bbb">BLANK</span> No meal planned</div>`:"");
+    const bgColor = isLocked?col.color:(isWeekend?"#999":isBlank?"#bbb":col.color+"cc");
+    if(isBlank&&!dp.main&&!isWeekend) return `<div class="day-row is-blank">
       ${noteHtml}<div class="day-inner">
-        <div class="day-label" style="background:${isLocked?col.color:col.color+"cc"}">
-          <span class="emoji">${col.emoji}</span><span class="dname">${DAY_SHORT[day]}</span>
-          <span style="font-family:sans-serif;font-size:9px;opacity:0.75;margin-top:1px">${dayDateStr}</span>
-          ${!isAnchor&&cuisine?`<span class="cuisine-sub">${cuisine}</span>`:""}
+        <div class="day-label" style="background:#ccc"><span class="emoji">⬜</span><span class="dname">${dayShort}</span><span class="ddate">${dateLabel}</span></div>
+        <div class="blank-day-content"><span class="blank-day-label">${dp.note||"No meal planned"}</span></div>
+        <div class="day-actions">${blankBtn}</div>
+      </div></div>`;
+    const sidesHtml=(dp.sides||[]).map((s,i)=>`<span class="side-chip" style="background:${col.light};color:${col.color}">${s.name}
+      ${!isLocked?`<button onclick="startSwap('${weekKey}','${dayName}',${i})">⇄</button><button onclick="removeSide('${weekKey}','${dayName}',${i})">✕</button>`:""}</span>`).join("");
+    const addSideBtn=(!isLocked&&(dp.sides||[]).length<4)?`<button class="add-side-btn" onclick="startSwap('${weekKey}','${dayName}',${(dp.sides||[]).length})">+ side</button>`:"";
+    const weekendLabel = isWeekend&&isBlank?`<span style="font-family:sans-serif;font-size:9px;opacity:0.7">Weekend</span>`:"";
+    return `<div class="day-row ${isLocked?"is-locked":""} ${isWeekend?"is-weekend":""}" style="border-color:${isLocked?col.color+"88":isToday?"#1a1a1a":isAnchor?col.color+"44":"#eee"};${isToday?"border-width:2px":""}">
+      ${noteHtml}<div class="day-inner">
+        <div class="day-label" style="background:${bgColor}">
+          <span class="emoji">${isWeekend&&isBlank?"🏖️":col.emoji}</span>
+          <span class="dname">${dayShort}</span><span class="ddate">${dateLabel}</span>
+          ${!isAnchor&&cuisine&&!isWeekend?`<span class="cuisine-sub">${cuisine}</span>`:""}
+          ${weekendLabel}
         </div>
         <div class="day-main"><div class="section-label">MAIN</div>
-          <div class="main-name">${dp.main?.name||"<span style='color:#ccc'>Not set</span>"}</div>
+          <div class="main-name">${dp.main?.name||(isWeekend?"<span style='color:#ccc;font-style:italic'>Weekend</span>":"<span style='color:#ccc'>Not set</span>")}</div>
           ${dp.main?.notes?`<div class="main-notes">${dp.main.notes}</div>`:""}
-          ${!isLocked?`<button class="icon-btn" style="color:${col.color}" onclick="startSwap('${day}','main')">⇄ swap</button>`:""}
+          ${!isLocked?`<button class="icon-btn" style="color:${col.color}" onclick="startSwap('${weekKey}','${dayName}','main')">⇄ swap</button>`:""}
         </div>
         <div class="day-sides"><div class="section-label">SIDES</div>
           <div class="sides-row">${sidesHtml}${addSideBtn}</div>
@@ -564,250 +671,197 @@ function renderWeek() {
   }).join("");
 }
 
-// ── RENDER LIBRARY ───────────────────────────────────────────
-function renderLibrary() {
-  const search=document.getElementById("search-input").value.toLowerCase();
-  const filterC=document.getElementById("filter-cuisine").value;
-  const filterT=document.getElementById("filter-type").value;
-  const filtered=dishes.filter(d=>(!filterC||d.cuisine===filterC)&&(!filterT||d.type===filterT)&&(!search||d.name.toLowerCase().includes(search)));
-  document.getElementById("swap-context").textContent=swapDay?`— tap to swap ${swapSlot==="main"?"main":"side"} for ${swapDay}`:"";
-  const inSwapMode=!!swapDay;
-  document.getElementById("dish-grid").innerHTML=filtered.map(dish=>{
-    const c=getCuisineData(dish.cuisine);
-    const canSwap=inSwapMode&&((swapSlot==="main"&&dish.type==="main")||(swapSlot!=="main"&&dish.type==="side"));
-    const isSelected=!inSwapMode&&selectedDishId===Number(dish.id);
-    const cardClick=inSwapMode?(canSwap?`doSwap(${dish.id})`:""):`selectDish(${dish.id})`;
-    const confirmBtn=(isSelected&&!inSwapMode)?`<button class="dish-confirm-btn" style="background:${c.color}" onclick="event.stopPropagation()">✓ Selected</button>`:"";
-    return `<div class="dish-card ${canSwap?"swappable":""} ${isSelected?"selected":""}"
-      style="${(canSwap||isSelected)?`border-color:${c.color};box-shadow:0 2px 12px ${c.color}22`:""}"
-      onclick="${cardClick}">
-      <div class="dish-card-top">
-        <div class="dish-badges">
-          <span class="badge" style="background:${c.light};color:${c.color}">${c.emoji} ${dish.cuisine}</span>
-          <span class="badge badge-type">${dish.type}</span>
-        </div>
-        <div class="dish-card-btns">
-          <button class="dish-icon-btn" title="Edit" onclick="event.stopPropagation();openEditModal(${dish.id})">✏️</button>
-          <button class="dish-icon-btn" title="Delete" onclick="event.stopPropagation();deleteDish(${dish.id})">✕</button>
-        </div>
-      </div>
-      <div class="dish-name">${dish.name}</div>
-      ${dish.notes?`<div class="dish-notes">${dish.notes}</div>`:""}
-      ${dish.lastServed?`<div class="dish-served">Last: ${dish.lastServed}</div>`:""}
-      ${canSwap?`<div style="font-family:sans-serif;font-size:11px;font-weight:700;margin-top:5px;color:${c.color}">Tap to use →</div>`:""}
-      ${confirmBtn}
-    </div>`;
-  }).join("") || `<div style="font-family:sans-serif;color:#bbb;padding:20px;grid-column:1/-1">No dishes found.</div>`;
+// ── HOME MONTHLY CALENDAR VIEW ────────────────────────────────
+function renderHomeMonthView(){
+  const now = new Date(), y=now.getFullYear(), m=now.getMonth();
+  renderMonthCalInEl(document.getElementById("week-main-content"), y, m, true);
+}
+function renderHomeYearView(){
+  const now=new Date(), y=now.getFullYear();
+  let html="";
+  for(let mo=0;mo<12;mo++) html+=`<div id="home-mo-${mo}"></div>`;
+  const el=document.getElementById("week-main-content"); el.innerHTML=html;
+  for(let mo=0;mo<12;mo++) renderMonthCalInEl(document.getElementById(`home-mo-${mo}`),y,mo,false);
+}
+function renderMonthCalInEl(el, year, month, isHome){
+  const cws = settings.calWeekStart; // 0=Sun,1=Mon
+  const DOW_ORDER = cws===1 ? [1,2,3,4,5,6,0] : [0,1,2,3,4,5,6];
+  const DOW_LABELS = cws===1 ? ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"] : ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const firstDay=new Date(year,month,1), lastDay=new Date(year,month+1,0);
+  const daysInMonth=lastDay.getDate();
+  const todayStr=dateKey(new Date());
+  const firstDow=firstDay.getDay();
+  const startOffset=(firstDow-cws+7)%7;
+  // Build meal map for this month from weekPlans and history
+  const mealMap={};
+  // From archived history
+  history.forEach((entry,ei)=>{
+    const wStart=getWeekStartDate(entry); if(!wStart) return;
+    for(let di=0;di<7;di++){
+      const d=addDays(wStart,di), key=dateKey(d);
+      if(d.getMonth()===month&&d.getFullYear()===year){
+        const dayName=ALL_DAYS[d.getDay()];
+        const dp=(entry.weekData?.plan||{})[dayName]||{};
+        mealMap[key]={ dp, source:"history", entryIdx:ei, dayName };
+      }
+    }
+  });
+  // From current weekPlans (may override history for same dates)
+  Object.entries(weekPlans).forEach(([wk,wd])=>{
+    const wStart=parseDateKey(wk);
+    for(let di=0;di<7;di++){
+      const d=addDays(wStart,di), key=dateKey(d);
+      if(d.getMonth()===month&&d.getFullYear()===year){
+        const dayName=ALL_DAYS[d.getDay()];
+        const dp=(wd.plan||{})[dayName]||{};
+        mealMap[key]={ dp, source:"current", weekKey:wk, dayName };
+      }
+    }
+  });
+  const dowRow=DOW_LABELS.map(l=>`<div class="month-cal-dow">${l}</div>`).join("");
+  let cells=[];
+  for(let i=0;i<startOffset;i++) cells.push(`<div class="month-cell empty"></div>`);
+  for(let d=1;d<=daysInMonth;d++){
+    const dateObj=new Date(year,month,d), dow=dateObj.getDay();
+    const isWeekend=dow===0||dow===6;
+    const key=`${year}-${String(month+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+    const isToday=key===todayStr;
+    const meal=mealMap[key];
+    const datePill=`<div class="month-cell-date">${d}${isToday?`<span class="month-cell-today-dot"></span>`:""}</div>`;
+    if(isWeekend&&!meal){
+      cells.push(`<div class="month-cell weekend">${datePill}</div>`); continue;
+    }
+    if(!meal){
+      cells.push(`<div class="month-cell no-meal-weekday" ${isToday?'style="border-color:#1a1a1a;border-width:2px"':""}>${datePill}<div class="month-cell-add">—</div></div>`); continue;
+    }
+    const {dp,source,entryIdx,weekKey,dayName}=meal;
+    const clickAttr=source==="history"?`onclick="openHistEdit(${entryIdx},'${dayName}')"`:`onclick="openHistEditFromCurrent('${weekKey}','${dayName}')"`;
+    if(dp.blank){
+      cells.push(`<div class="month-cell blank-meal" ${clickAttr}>${datePill}<span style="font-size:14px">⬜</span><div class="month-cell-blank-label">${dp.note||"Blank"}</div></div>`); continue;
+    }
+    if(!dp.main){
+      cells.push(`<div class="month-cell no-meal-weekday" ${clickAttr} ${isToday?'style="border-color:#1a1a1a;border-width:2px"':""}>${datePill}<div class="month-cell-add">+ add</div></div>`); continue;
+    }
+    const dc=getCuisineData(dp.main.cuisine);
+    const sideNames=(dp.sides||[]).map(s=>s.name).join(", ");
+    cells.push(`<div class="month-cell has-meal" style="border-color:${dc.color}33;${isToday?"border-color:#1a1a1a !important;border-width:2px;":""}" ${clickAttr}>
+      ${datePill}<span class="month-cell-flag">${dc.emoji}</span>
+      <div class="month-cell-dish">${dp.main.name}</div>
+      ${sideNames?`<div class="month-cell-sides">${sideNames}</div>`:""}
+    </div>`);
+  }
+  const rem=cells.length%7; if(rem>0) for(let i=0;i<7-rem;i++) cells.push(`<div class="month-cell empty"></div>`);
+  el.innerHTML=`<div class="month-cal-block">
+    <div class="month-cal-header"><span class="month-cal-title">${MONTH_NAMES[month]} ${year}</span></div>
+    <div class="month-cal-dow-row">${dowRow}</div>
+    <div class="month-cal-grid">${cells.join("")}</div>
+  </div>`;
 }
 
-// ── RENDER BY CUISINE ────────────────────────────────────────
-function renderByCuisine() {
-  const anchor=weekData.anchorCuisine;
-  document.getElementById("cuisine-sections").innerHTML=Object.keys(CUISINES).map(cuisine=>{
-    const ds=dishes.filter(d=>d.cuisine===cuisine); if(!ds.length) return "";
-    const c=getCuisineData(cuisine), mains=ds.filter(d=>d.type==="main"), sides=ds.filter(d=>d.type==="side");
-    return `<div class="cuisine-section">
-      <div class="cuisine-header" style="border-color:${c.color}">
-        <span class="ce">${c.emoji}</span><span class="cn">${cuisine}</span>
-        <span class="cc">${mains.length} mains · ${sides.length} sides</span>
-        ${cuisine===anchor?`<span class="this-week-badge" style="background:${c.color}">THIS WEEK</span>`:""}
-      </div>
-      ${mains.length?`<div class="cuisine-sublabel">MAINS</div><div class="cuisine-chips-row">
-        ${mains.map(d=>`<span class="cuisine-main-chip" style="background:${c.light};color:${c.color}">${d.name}${d.notes?` <span style="opacity:0.5;font-weight:400">· ${d.notes}</span>`:""}</span>`).join("")}
-      </div>`:""}
-      ${sides.length?`<div class="cuisine-sublabel">SIDES</div><div class="cuisine-chips-row">
-        ${sides.map(d=>`<span class="cuisine-side-chip">${d.name}</span>`).join("")}
-      </div>`:""}
-    </div>`;
-  }).join("");
-}
-
-// ── HISTORY ──────────────────────────────────────────────────
-function setHistoryView(v) {
+// ── HISTORY RENDERING ─────────────────────────────────────────
+function setHistoryView(v){
   historyView=v;
   document.getElementById("view-btn-list").classList.toggle("active",v==="list");
   document.getElementById("view-btn-cal").classList.toggle("active",v==="calendar");
   renderHistory();
 }
-
-function getWeekStartDate(entry) {
-  // Parse startDate string (YYYY-MM-DD) into a Monday Date
-  if(entry.startDate) {
-    const [y,m,d] = entry.startDate.split("-").map(Number);
-    return new Date(y,m-1,d);
-  }
-  return null;
+function getWeekStartDate(entry){
+  if(!entry.startDate) return null;
+  const [y,m,d]=entry.startDate.split("-").map(Number); return new Date(y,m-1,d);
 }
-
-function renderHistory() {
+function renderHistory(){
   const el=document.getElementById("history-content");
-  if(!history.length){ el.innerHTML=`<div class="history-empty">No past weeks saved yet.<br>Use "📦 Save Week to History" on the Week tab when you're done planning a week.</div>`; return; }
-  if(historyView==="list") {
-    el.innerHTML=history.map((entry,ei)=>{
-      const wd=entry.weekData||{}, plan=wd.plan||{}, anchor=wd.anchorCuisine||"";
-      const c=getCuisineData(anchor);
-      const dayRows=WEEKDAYS.map(day=>{
-        const dp=plan[day]||{};
-        const editBtn=`<button class="history-edit-btn" onclick="openHistEdit(${ei},'${day}')">✏️ Edit</button>`;
-        // Compute date for this weekday
-        const wStart=getWeekStartDate(entry);
-        const dayIdx=WEEKDAYS.indexOf(day);
-        let dayDateLabel="";
-        if(wStart){ const dd=new Date(wStart); dd.setDate(wStart.getDate()+dayIdx); dayDateLabel=dd.toLocaleDateString("en-US",{month:"short",day:"numeric"}); }
-        const dayNameHtml=`<span class="history-day-name">${DAY_SHORT[day]}<span class="history-day-date">${dayDateLabel}</span></span>`;
-        if(dp.blank) return `<div class="history-day-row" style="position:relative">
-          ${dayNameHtml}
-          <span class="history-day-emoji">⬜</span>
-          <div class="history-main-wrap"><div class="history-main" style="color:#ccc;font-weight:400">${dp.note||"No meal"}</div></div>
-          ${editBtn}</div>`;
-        if(!dp.main) return `<div class="history-day-row" style="position:relative">
-          ${dayNameHtml}
-          <span class="history-day-emoji" style="opacity:0.3">—</span>
-          <div class="history-main-wrap"><div class="history-main" style="color:#ccc;font-weight:400;font-style:italic">Not logged</div></div>
-          ${editBtn}</div>`;
-        const dc=getCuisineData(dp.main.cuisine);
-        return `<div class="history-day-row" style="position:relative">
-          ${dayNameHtml}
-          <span class="history-day-emoji">${dc.emoji}</span>
-          <div class="history-main-wrap">
-            <div class="history-main">${dp.main.name}</div>
-            ${(dp.sides||[]).length?`<div class="history-sides">${dp.sides.map(s=>`<span class="history-side-chip">${s.name}</span>`).join("")}</div>`:""}
-          </div>${editBtn}</div>`;
-      }).join("");
-      return `<div class="history-week-block">
-        <div class="history-week-header">
-          <span class="history-week-label">${entry.weekLabel}</span>
-          ${anchor?`<span class="history-anchor-badge" style="background:${c.light};color:${c.color}">${c.emoji} ${anchor}</span>`:""}
-        </div>${dayRows}</div>`;
-    }).join("");
-  } else {
-    // Full monthly calendar — group history entries by month
-    renderMonthlyCalendar(el);
-  }
+  if(!history.length){ el.innerHTML=`<div class="history-empty">No past weeks saved yet.<br>Use "📦 Save to History" on the Week tab.</div>`; return; }
+  if(historyView==="list") renderHistoryList(el);
+  else renderHistoryCalendar(el);
 }
-
-function renderMonthlyCalendar(el) {
-  // Build a map: "YYYY-MM-DD" -> { entryIdx, day, dp }
-  const mealMap = {};
-  history.forEach((entry, ei) => {
-    const wStart = getWeekStartDate(entry);
-    if(!wStart) return;
-    WEEKDAYS.forEach((day, di) => {
-      const d = new Date(wStart); d.setDate(wStart.getDate()+di);
-      const key = d.toISOString().split("T")[0];
-      mealMap[key] = { entryIdx: ei, day, dp: (entry.weekData?.plan||{})[day]||{}, anchor: entry.weekData?.anchorCuisine||"" };
-    });
+function renderHistoryList(el){
+  el.innerHTML=history.map((entry,ei)=>{
+    const wd=entry.weekData||{}, plan=wd.plan||{}, anchor=wd.anchorCuisine||"";
+    const c=getCuisineData(anchor);
+    const wStart=getWeekStartDate(entry);
+    const allDays=wStart?getWeekDays(wStart,7).map(d=>({date:d,name:ALL_DAYS[d.getDay()]})):[];
+    const dayRows=(allDays.length?allDays:Object.keys(plan).map(n=>({name:n,date:null}))).map(({name,date})=>{
+      const dp=plan[name]||{};
+      const dateLabel=date?fmt(date):"";
+      const dayShort=DAY_SHORT_7[date?date.getDay():0]||name.slice(0,3).toUpperCase();
+      const editBtn=`<button class="history-edit-btn" onclick="openHistEdit(${ei},'${name}')">✏️ Edit</button>`;
+      const nameHtml=`<span class="history-day-name">${dayShort}<span class="history-day-date">${dateLabel}</span></span>`;
+      if(dp.blank) return `<div class="history-day-row">${nameHtml}<span class="history-day-emoji">⬜</span><div class="history-main-wrap"><div class="history-main" style="color:#ccc;font-weight:400">${dp.note||"No meal"}</div></div>${editBtn}</div>`;
+      if(!dp.main) return `<div class="history-day-row">${nameHtml}<span class="history-day-emoji" style="opacity:0.3">—</span><div class="history-main-wrap"><div class="history-main" style="color:#ccc;font-style:italic">Not logged</div></div>${editBtn}</div>`;
+      const dc=getCuisineData(dp.main.cuisine);
+      return `<div class="history-day-row">${nameHtml}<span class="history-day-emoji">${dc.emoji}</span>
+        <div class="history-main-wrap"><div class="history-main">${dp.main.name}</div>
+        ${(dp.sides||[]).length?`<div class="history-sides">${dp.sides.map(s=>`<span class="history-side-chip">${s.name}</span>`).join("")}</div>`:""}
+        </div>${editBtn}</div>`;
+    }).join("");
+    return `<div class="history-week-block">
+      <div class="history-week-header">
+        <span class="history-week-label">${entry.weekLabel}</span>
+        ${anchor?`<span class="history-anchor-badge" style="background:${c.light};color:${c.color}">${c.emoji} ${anchor}</span>`:""}
+      </div>${dayRows}</div>`;
+  }).join("");
+}
+function renderHistoryCalendar(el){
+  // Build meal map from history
+  const mealMap={};
+  history.forEach((entry,ei)=>{
+    const wStart=getWeekStartDate(entry); if(!wStart) return;
+    for(let di=0;di<7;di++){
+      const d=addDays(wStart,di), key=dateKey(d);
+      const dayName=ALL_DAYS[d.getDay()];
+      const dp=(entry.weekData?.plan||{})[dayName]||{};
+      mealMap[key]={ dp, entryIdx:ei, dayName, anchor:entry.weekData?.anchorCuisine||"" };
+    }
   });
-
-  // Find date range: earliest to latest recorded Monday
-  const allStarts = history.map(e=>getWeekStartDate(e)).filter(Boolean);
-  if(!allStarts.length){ el.innerHTML=`<div class="history-empty">No past weeks saved yet.</div>`; return; }
-  allStarts.sort((a,b)=>a-b);
-  const earliest = allStarts[0];
-  const latest = allStarts[allStarts.length-1];
-  // Go from earliest month to current month
-  const now = new Date();
-  const startMonth = new Date(earliest.getFullYear(), earliest.getMonth(), 1);
-  const endMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-
-  const DOW_LABELS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-  const MONTH_NAMES = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-  const todayStr = now.toISOString().split("T")[0];
-
-  let months = [];
-  let cur = new Date(startMonth);
-  while(cur <= endMonth) {
-    months.push(new Date(cur));
-    cur.setMonth(cur.getMonth()+1);
+  // Render from Jan 2025 to current month
+  const startYear=2025, startMonth=0;
+  const now=new Date(), endYear=now.getFullYear(), endMonth=now.getMonth();
+  const cws=settings.calWeekStart;
+  const DOW_LABELS=cws===1?["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const todayStr=dateKey(now);
+  let months=[];
+  for(let y=startYear;y<=endYear;y++){
+    const ms=y===startYear?startMonth:0, me=y===endYear?endMonth:11;
+    for(let m=ms;m<=me;m++) months.push({y,m});
   }
-  // Reverse so newest month first
   months.reverse();
-
-  el.innerHTML = months.map(monthDate => {
-    const year = monthDate.getFullYear(), month = monthDate.getMonth();
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month+1, 0);
-    const startDow = firstDay.getDay(); // 0=Sun
-    const daysInMonth = lastDay.getDate();
-
-    // Collect anchor info for this month (most common anchor)
-    const anchorsThisMonth = [];
-    for(let d=1; d<=daysInMonth; d++){
-      const key=`${year}-${String(month+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+  el.innerHTML=months.map(({y,m})=>{
+    const firstDay=new Date(y,m,1), daysInMonth=new Date(y,m+1,0).getDate();
+    const firstDow=firstDay.getDay(), startOffset=(firstDow-cws+7)%7;
+    const dowRow=DOW_LABELS.map(l=>`<div class="month-cal-dow">${l}</div>`).join("");
+    // Find dominant anchor this month
+    const anchorsThisMonth=[];
+    for(let d=1;d<=daysInMonth;d++){
+      const key=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
       if(mealMap[key]?.anchor) anchorsThisMonth.push(mealMap[key].anchor);
     }
-    const anchorCounts = {};
-    anchorsThisMonth.forEach(a=>{ anchorCounts[a]=(anchorCounts[a]||0)+1; });
-    const dominantAnchor = Object.entries(anchorCounts).sort((a,b)=>b[1]-a[1])[0]?.[0]||"";
-    const ac = getCuisineData(dominantAnchor);
-
-    const dowRow = DOW_LABELS.map(d=>`<div class="month-cal-dow">${d}</div>`).join("");
-
-    // Build cells: empty slots before month starts, then all days
-    let cells = [];
-    for(let i=0; i<startDow; i++) cells.push(`<div class="month-cell empty"></div>`);
-
-    for(let d=1; d<=daysInMonth; d++){
-      const dateObj = new Date(year, month, d);
-      const dow = dateObj.getDay(); // 0=Sun,6=Sat
-      const isWeekend = dow===0 || dow===6;
-      const key = `${year}-${String(month+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
-      const isToday = key===todayStr;
-      const meal = mealMap[key];
-
-      const datePill = `<div class="month-cell-date">${d}${isToday?`<span class="month-cell-today-dot"></span>`:""}</div>`;
-
-      if(isWeekend) {
-        cells.push(`<div class="month-cell weekend">${datePill}</div>`);
-        continue;
-      }
-
-      // Weekday — check if we have meal data
-      if(!meal) {
-        // Future weekday or weekday not yet in any archived week
-        const isFuture = dateObj > now;
-        cells.push(`<div class="month-cell ${isFuture?"":"no-meal-weekday"}">${datePill}${!isFuture?`<div class="month-cell-add">—</div>`:""}</div>`);
-        continue;
-      }
-
-      const { entryIdx, day, dp } = meal;
-
-      if(dp.blank) {
-        cells.push(`<div class="month-cell blank-meal" onclick="openHistEdit(${entryIdx},'${day}')">
-          ${datePill}
-          <span class="month-cell-flag">⬜</span>
-          <div class="month-cell-blank-label">${dp.note||"Blank"}</div>
-        </div>`);
-        continue;
-      }
-
-      if(!dp.main) {
-        cells.push(`<div class="month-cell no-meal-weekday" onclick="openHistEdit(${entryIdx},'${day}')">
-          ${datePill}
-          <div class="month-cell-add">+ add meal</div>
-        </div>`);
-        continue;
-      }
-
-      const dc = getCuisineData(dp.main.cuisine);
-      const sideNames = (dp.sides||[]).map(s=>s.name).join(", ");
-      cells.push(`<div class="month-cell has-meal" style="border-color:${dc.color}33;border-width:1.5px" onclick="openHistEdit(${entryIdx},'${day}')">
-        ${datePill}
-        <span class="month-cell-flag">${dc.emoji}</span>
-        <div class="month-cell-dish">${dp.main.name}</div>
-        ${sideNames?`<div class="month-cell-sides">${sideNames}</div>`:""}
-      </div>`);
+    const ac2={}; anchorsThisMonth.forEach(a=>ac2[a]=(ac2[a]||0)+1);
+    const domAnchor=Object.entries(ac2).sort((a,b)=>b[1]-a[1])[0]?.[0]||"";
+    const ac=getCuisineData(domAnchor);
+    let cells=[];
+    for(let i=0;i<startOffset;i++) cells.push(`<div class="month-cell empty"></div>`);
+    for(let d=1;d<=daysInMonth;d++){
+      const dateObj=new Date(y,m,d), dow=dateObj.getDay();
+      const isWeekend=dow===0||dow===6;
+      const key=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+      const isToday=key===todayStr;
+      const meal=mealMap[key];
+      const datePill=`<div class="month-cell-date">${d}${isToday?`<span class="month-cell-today-dot"></span>`:""}</div>`;
+      if(isWeekend&&!meal){ cells.push(`<div class="month-cell weekend">${datePill}</div>`); continue; }
+      if(!meal){ cells.push(`<div class="month-cell no-meal-weekday">${datePill}<div class="month-cell-add">—</div></div>`); continue; }
+      const {dp,entryIdx,dayName}=meal;
+      if(dp.blank){ cells.push(`<div class="month-cell blank-meal" onclick="openHistEdit(${entryIdx},'${dayName}')">${datePill}<span style="font-size:14px">⬜</span><div class="month-cell-blank-label">${dp.note||"Blank"}</div></div>`); continue; }
+      if(!dp.main){ cells.push(`<div class="month-cell no-meal-weekday" onclick="openHistEdit(${entryIdx},'${dayName}')">${datePill}<div class="month-cell-add">+ add</div></div>`); continue; }
+      const dc=getCuisineData(dp.main.cuisine);
+      const sideNames=(dp.sides||[]).map(s=>s.name).join(", ");
+      cells.push(`<div class="month-cell has-meal" style="border-color:${dc.color}33" onclick="openHistEdit(${entryIdx},'${dayName}')">${datePill}<span class="month-cell-flag">${dc.emoji}</span><div class="month-cell-dish">${dp.main.name}</div>${sideNames?`<div class="month-cell-sides">${sideNames}</div>`:""}</div>`);
     }
-
-    // Fill trailing empty cells to complete the last row
-    const totalCells = cells.length;
-    const remainder = totalCells % 7;
-    if(remainder > 0) for(let i=0; i<7-remainder; i++) cells.push(`<div class="month-cell empty"></div>`);
-
+    const rem=cells.length%7; if(rem>0) for(let i=0;i<7-rem;i++) cells.push(`<div class="month-cell empty"></div>`);
     return `<div class="month-cal-block">
       <div class="month-cal-header">
-        <span class="month-cal-title">${MONTH_NAMES[month]} ${year}</span>
-        ${dominantAnchor?`<span class="month-cal-anchor" style="background:${ac.light};color:${ac.color}">${ac.emoji} ${dominantAnchor}</span>`:""}
+        <span class="month-cal-title">${MONTH_NAMES[m]} ${y}</span>
+        ${domAnchor?`<span class="month-cal-anchor" style="background:${ac.light};color:${ac.color}">${ac.emoji} ${domAnchor}</span>`:""}
       </div>
       <div class="month-cal-dow-row">${dowRow}</div>
       <div class="month-cal-grid">${cells.join("")}</div>
@@ -815,333 +869,145 @@ function renderMonthlyCalendar(el) {
   }).join("");
 }
 
-// ── HISTORY EDIT ──────────────────────────────────────────────
-function openHistEdit(entryIdx, day) {
-  const entry = history[entryIdx];
-  if(!entry) return;
-  histEditEntry = { entryIdx, day };
-  const dp = (entry.weekData?.plan||{})[day] || {};
-  histEditMain = dp.main || null;
-  histEditSides = [...(dp.sides||[])];
-  const isBlank = !!dp.blank;
-  document.getElementById("hist-edit-title").textContent = `Edit ${day} — ${entry.weekLabel}`;
-  document.getElementById("hist-edit-sub").textContent = histEditMain ? `Currently: ${histEditMain.name}` : "No meal logged yet.";
-  document.getElementById("hist-edit-blank").checked = isBlank;
-  document.getElementById("hist-edit-note").value = dp.note||"";
-  document.getElementById("hist-edit-search").value = "";
-  document.getElementById("hist-edit-side-search").value = "";
-  document.getElementById("hist-edit-main-section").style.display = isBlank ? "none" : "block";
-  renderHistEditList();
-  renderHistEditSideList();
-  renderHistEditSideChips();
-  document.getElementById("hist-edit-modal").classList.add("open");
-}
-function closeHistEdit() {
-  document.getElementById("hist-edit-modal").classList.remove("open");
-  histEditEntry = null; histEditMain = null; histEditSides = [];
-}
-function toggleHistEditBlank() {
-  const isBlank = document.getElementById("hist-edit-blank").checked;
-  document.getElementById("hist-edit-main-section").style.display = isBlank ? "none" : "block";
-}
-function renderHistEditList() {
-  const search = document.getElementById("hist-edit-search").value.toLowerCase();
-  const mains = dishes.filter(d=>d.type==="main"&&(!search||d.name.toLowerCase().includes(search)));
-  document.getElementById("hist-edit-dish-list").innerHTML = mains.map(d=>{
-    const isActive = histEditMain && Number(histEditMain.id)===Number(d.id);
-    const c = getCuisineData(d.cuisine);
-    return `<div class="hist-edit-dish-item ${isActive?"active":""}" style="${isActive?`background:${c.light}`:""}" onclick="selectHistMain(${d.id})">
-      <span>${d.name} <span style="color:${c.color};font-size:11px">${d.cuisine}</span></span>
-      ${isActive?`<span style="color:${c.color}">✓</span>`:""}
-    </div>`;
-  }).join("")||`<div style="padding:10px;font-family:sans-serif;font-size:12px;color:#bbb">No dishes found</div>`;
-}
-function selectHistMain(id) {
-  histEditMain = dishes.find(d=>Number(d.id)===Number(id));
-  document.getElementById("hist-edit-sub").textContent = `Selected: ${histEditMain?.name}`;
-  renderHistEditList();
-}
-function renderHistEditSideList() {
-  const search = document.getElementById("hist-edit-side-search").value.toLowerCase();
-  const sides = dishes.filter(d=>d.type==="side"&&(!search||d.name.toLowerCase().includes(search)));
-  document.getElementById("hist-edit-side-list").innerHTML = sides.map(d=>{
-    const alreadyAdded = histEditSides.some(s=>Number(s.id)===Number(d.id));
-    const c = getCuisineData(d.cuisine);
-    return `<div class="hist-edit-dish-item ${alreadyAdded?"active":""}" style="${alreadyAdded?`background:${c.light}`:""}" onclick="${alreadyAdded?`removeHistSide(${d.id})`:`addHistSide(${d.id})`}">
-      <span>${d.name} <span style="color:${c.color};font-size:11px">${d.cuisine}</span></span>
-      <span style="font-size:11px;color:${alreadyAdded?c.color:"#ccc"}">${alreadyAdded?"✓ added":"+ add"}</span>
-    </div>`;
-  }).join("")||`<div style="padding:10px;font-family:sans-serif;font-size:12px;color:#bbb">No sides found</div>`;
-}
-function addHistSide(id) {
-  const dish = dishes.find(d=>Number(d.id)===Number(id));
-  if(dish && !histEditSides.some(s=>Number(s.id)===Number(id))) histEditSides.push(dish);
-  renderHistEditSideList(); renderHistEditSideChips();
-}
-function removeHistSide(id) {
-  histEditSides = histEditSides.filter(s=>Number(s.id)!==Number(id));
-  renderHistEditSideList(); renderHistEditSideChips();
-}
-function renderHistEditSideChips() {
-  document.getElementById("hist-edit-sides-chips").innerHTML = histEditSides.map(s=>{
-    const c = getCuisineData(s.cuisine);
-    return `<span class="hist-edit-side-chip" style="background:${c.light};color:${c.color}">${s.name}<button onclick="removeHistSide(${s.id})">✕</button></span>`;
-  }).join("") || `<span style="font-family:sans-serif;font-size:11px;color:#ccc">None added</span>`;
-}
-async function saveHistEdit() {
-  if(!histEditEntry) return;
-  const { entryIdx, day } = histEditEntry;
-  const isBlank = document.getElementById("hist-edit-blank").checked;
-  const note = document.getElementById("hist-edit-note").value.trim();
-  const entry = history[entryIdx];
-  if(!entry.weekData) entry.weekData = { plan:{}, anchorCuisine:"" };
-  if(!entry.weekData.plan) entry.weekData.plan = {};
-  if(isBlank) {
-    entry.weekData.plan[day] = { main:null, sides:[], blank:true, locked:false, note:note||null };
-  } else {
-    if(!histEditMain) { alert("Please select a main dish."); return; }
-    entry.weekData.plan[day] = { main:histEditMain, sides:histEditSides, blank:false, locked:false, note:note||null };
-  }
-  closeHistEdit();
-  renderHistory();
-  try {
-    await apiPost({ action:"archiveWeek", weekRecord:{ weekLabel:entry.weekLabel, startDate:entry.startDate, weekData:entry.weekData } });
-    setStatus(`✓ ${day} updated in history`, "success");
-  } catch(e) { setStatus("⚠️ Sync error: "+e.message, "error"); }
-}
-
-async function archiveCurrentWeek() {
-  const now=new Date();
-  const monday=new Date(now); monday.setDate(now.getDate()-((now.getDay()+6)%7));
-  const friday=new Date(monday); friday.setDate(monday.getDate()+4);
-  const fmt=d=>d.toLocaleDateString("en-US",{month:"short",day:"numeric"});
-  const weekLabel=`${fmt(monday)} – ${fmt(friday)}, ${friday.getFullYear()}`;
-  const startDate=monday.toISOString().split("T")[0];
-  const record={ weekLabel, startDate, weekData };
-  // Add to local history (deduplicate)
-  const idx=history.findIndex(h=>h.startDate===startDate);
+// ── ARCHIVE ───────────────────────────────────────────────────
+async function archiveCurrentWeek(){
+  const weekKey=dateKey(currentWeekStart);
+  const wd=weekPlans[weekKey]; if(!wd) { setStatus("⚠️ No plan to save","error"); return; }
+  const weekDays=getWeekDays(currentWeekStart,7);
+  const endDate=weekDays[6];
+  const weekLabel=`${fmt(currentWeekStart)} – ${fmt(endDate)}, ${endDate.getFullYear()}`;
+  const record={ weekLabel, startDate:weekKey, weekData:wd };
+  // Deduplicate by startDate — overwrite if exists
+  const idx=history.findIndex(h=>h.startDate===weekKey);
   if(idx>=0) history[idx]=record; else history.unshift(record);
   renderHistory();
   try {
-    await apiPost({ action:"archiveWeek", weekRecord: record });
-    setStatus("✓ Week saved to history", "success");
-  } catch(e) { setStatus("⚠️ Could not save to Sheets: "+e.message,"error"); }
+    await apiPost({ action:"archiveWeek", weekRecord:record });
+    setStatus("✓ Week saved to history","success");
+  } catch(e){ setStatus("⚠️ Could not save: "+e.message,"error"); }
 }
 
-// ── BLANK DAY ────────────────────────────────────────────────
-function openBlankModal(day) {
-  blankTargetDay=day;
-  document.getElementById("blank-modal-title").textContent=`Mark ${day} as Blank`;
-  document.getElementById("blank-reason").value="";
-  document.getElementById("blank-modal").classList.add("open");
-}
-function closeBlankModal(){ document.getElementById("blank-modal").classList.remove("open"); blankTargetDay=null; }
-async function confirmBlank() {
+// ── BLANK DAY ─────────────────────────────────────────────────
+function openBlankModal(weekKey,day){ blankWeekKey=weekKey; blankTargetDay=day; document.getElementById("blank-modal-title").textContent=`Mark ${day} as Blank`; document.getElementById("blank-reason").value=""; document.getElementById("blank-modal").classList.add("open"); }
+function closeBlankModal(){ document.getElementById("blank-modal").classList.remove("open"); blankTargetDay=null; blankWeekKey=null; }
+async function confirmBlank(){
   if(!blankTargetDay) return;
   const reason=document.getElementById("blank-reason").value.trim();
-  weekData.plan[blankTargetDay]={ main:null,sides:[],locked:false,blank:true,note:reason||null };
-  closeBlankModal(); renderWeek(); await saveWeekToSheets();
+  getWeekPlan(blankWeekKey).plan[blankTargetDay]={ main:null,sides:[],locked:false,blank:true,note:reason||null };
+  closeBlankModal(); renderWeekPanel(); await saveWeekToSheets(blankWeekKey);
   setStatus(`✓ ${blankTargetDay} marked as blank`,"success");
 }
-async function unblankDay(day) {
-  const usedIds=new Set(WEEKDAYS.filter(d=>d!==day&&weekData.plan[d]?.main).map(d=>Number(weekData.plan[d].main.id)));
-  const pool=dishes.filter(d=>d.type==="main"&&!usedIds.has(Number(d.id))).sort(()=>Math.random()-0.5);
-  const main=pool[0]||null;
-  const sides=dishes.filter(d=>d.type==="side"&&(d.cuisine===main?.cuisine||d.cuisine==="American")).sort(()=>Math.random()-0.5).slice(0,2);
-  weekData.plan[day]={ main,sides,note:null,locked:false,blank:false };
-  renderWeek(); await saveWeekToSheets(); setStatus(`✓ ${day} restored`,"success");
+async function unblankDay(weekKey,day){
+  const wd=getWeekPlan(weekKey), isWeekend=["Saturday","Sunday"].includes(day);
+  if(isWeekend){ wd.plan[day]={ main:null,sides:[],note:null,locked:false,blank:true,weekend:true }; }
+  else {
+    const usedIds=new Set(Object.values(wd.plan).filter(d=>d.main).map(d=>Number(d.main.id)));
+    const pool=dishes.filter(d=>d.type==="main"&&!usedIds.has(Number(d.id))).sort(()=>Math.random()-0.5);
+    const main=pool[0]||null;
+    const sides=dishes.filter(d=>d.type==="side"&&(d.cuisine===main?.cuisine||d.cuisine==="American")).sort(()=>Math.random()-0.5).slice(0,2);
+    wd.plan[day]={ main,sides,note:null,locked:false,blank:false,weekend:false };
+  }
+  renderWeekPanel(); await saveWeekToSheets(weekKey); setStatus(`✓ ${day} restored`,"success");
 }
 
 // ── LOCK / UNLOCK ─────────────────────────────────────────────
-function openLockModal(day) {
-  lockTargetDay=day; lockSelectedDish=weekData.plan[day]?.main||null;
+function openLockModal(weekKey,day){
+  lockWeekKey=weekKey; lockTargetDay=day;
+  lockSelectedDish=getWeekPlan(weekKey).plan[day]?.main||null;
   document.getElementById("lock-modal-title").textContent=`🔒 Lock Meal for ${day}`;
-  document.getElementById("lock-modal-sub").textContent=lockSelectedDish?`Currently: ${lockSelectedDish.name}. Confirm or search to change.`:"Choose a dish to lock in.";
+  document.getElementById("lock-modal-sub").textContent=lockSelectedDish?`Currently: ${lockSelectedDish.name}. Confirm or search to change.`:"Choose a dish.";
   document.getElementById("lock-search").value="";
-  document.getElementById("lock-note").value=weekData.plan[day]?.note||"";
+  document.getElementById("lock-note").value=getWeekPlan(weekKey).plan[day]?.note||"";
   renderLockList(); document.getElementById("lock-modal").classList.add("open");
 }
-function closeLockModal(){ document.getElementById("lock-modal").classList.remove("open"); lockTargetDay=null; lockSelectedDish=null; }
-function renderLockList() {
+function closeLockModal(){ document.getElementById("lock-modal").classList.remove("open"); lockTargetDay=null; lockSelectedDish=null; lockWeekKey=null; }
+function renderLockList(){
   const search=document.getElementById("lock-search").value.toLowerCase();
   const mains=dishes.filter(d=>d.type==="main"&&(!search||d.name.toLowerCase().includes(search)));
   document.getElementById("lock-dish-list").innerHTML=mains.map(d=>{
     const isActive=lockSelectedDish&&Number(lockSelectedDish.id)===Number(d.id);
     const c=getCuisineData(d.cuisine);
-    return `<div class="lock-dish-item ${isActive?"active":""}" style="${isActive?`background:${c.light}`:""}" onclick="selectLockDish(${d.id})">
-      <span>${d.name} <span style="color:${c.color};font-size:11px">${d.cuisine}</span></span>
-      ${isActive?`<span style="color:${c.color}">✓</span>`:""}
-    </div>`;
-  }).join("")||`<div style="padding:12px;font-family:sans-serif;font-size:12px;color:#bbb">No dishes found</div>`;
+    return `<div class="lock-dish-item ${isActive?"active":""}" style="${isActive?`background:${c.light}`:""}" onclick="selectLockDish(${d.id})"><span>${d.name} <span style="color:${c.color};font-size:11px">${d.cuisine}</span></span>${isActive?`<span style="color:${c.color}">✓</span>`:""}</div>`;
+  }).join("")||`<div style="padding:10px;font-family:sans-serif;font-size:12px;color:#bbb">No dishes found</div>`;
 }
-function selectLockDish(id) {
-  lockSelectedDish=dishes.find(d=>Number(d.id)===Number(id));
-  document.getElementById("lock-modal-sub").textContent=`Selected: ${lockSelectedDish?.name}`;
-  renderLockList();
-}
-async function confirmLock() {
+function selectLockDish(id){ lockSelectedDish=dishes.find(d=>Number(d.id)===Number(id)); document.getElementById("lock-modal-sub").textContent=`Selected: ${lockSelectedDish?.name}`; renderLockList(); }
+async function confirmLock(){
   if(!lockTargetDay||!lockSelectedDish){ alert("Please select a dish."); return; }
   const note=document.getElementById("lock-note").value.trim();
-  weekData.plan[lockTargetDay]={ ...(weekData.plan[lockTargetDay]||{}), main:lockSelectedDish, sides:weekData.plan[lockTargetDay]?.sides||[], note:note||null, locked:true, blank:false };
-  closeLockModal(); renderWeek(); await saveWeekToSheets();
+  const wd=getWeekPlan(lockWeekKey);
+  wd.plan[lockTargetDay]={ ...(wd.plan[lockTargetDay]||{}), main:lockSelectedDish, sides:wd.plan[lockTargetDay]?.sides||[], note:note||null, locked:true, blank:false };
+  closeLockModal(); renderWeekPanel(); await saveWeekToSheets(lockWeekKey);
   setStatus(`✓ ${lockTargetDay} locked to ${lockSelectedDish.name}`,"success");
 }
-async function unlockDay(day) {
-  weekData.plan[day]={ ...weekData.plan[day], locked:false, note:null };
-  renderWeek(); await saveWeekToSheets(); setStatus(`✓ ${day} unlocked`,"success");
+async function unlockDay(weekKey,day){
+  getWeekPlan(weekKey).plan[day]={ ...getWeekPlan(weekKey).plan[day], locked:false, note:null };
+  renderWeekPanel(); await saveWeekToSheets(weekKey); setStatus(`✓ ${day} unlocked`,"success");
 }
 
-// ── ADD / EDIT DISH ──────────────────────────────────────────
-function openAddModal() {
-  editingDishId=null;
-  document.getElementById("dish-modal-title").textContent="Add New Dish";
-  document.getElementById("dish-modal-save-btn").textContent="Add";
-  document.getElementById("new-name").value="";
-  document.getElementById("new-notes").value="";
-  document.getElementById("new-cuisine").value=Object.keys(CUISINES)[0]||"Korean";
-  document.getElementById("new-type").value="main";
-  document.getElementById("add-modal").classList.add("open");
-}
-function openEditModal(id) {
-  const dish=dishes.find(d=>Number(d.id)===Number(id));
-  if(!dish) return;
-  editingDishId=Number(id);
-  document.getElementById("dish-modal-title").textContent="Edit Dish";
-  document.getElementById("dish-modal-save-btn").textContent="Save Changes";
-  document.getElementById("new-name").value=dish.name;
-  document.getElementById("new-notes").value=dish.notes||"";
-  document.getElementById("new-cuisine").value=dish.cuisine;
-  document.getElementById("new-type").value=dish.type;
-  document.getElementById("add-modal").classList.add("open");
-}
-function closeAddModal(){ document.getElementById("add-modal").classList.remove("open"); editingDishId=null; }
-async function saveDishModal() {
-  const name=document.getElementById("new-name").value.trim();
-  if(!name) return;
-  const cuisine=document.getElementById("new-cuisine").value;
-  const type=document.getElementById("new-type").value;
-  const notes=document.getElementById("new-notes").value.trim();
-  if(editingDishId!==null) {
-    // Edit existing
-    dishes=dishes.map(d=>Number(d.id)===editingDishId?{...d,name,cuisine,type,notes}:d);
-    // Also update any references in week plan
-    WEEKDAYS.forEach(day=>{
-      const dp=weekData.plan[day];
-      if(!dp) return;
-      if(dp.main&&Number(dp.main.id)===editingDishId) dp.main={...dp.main,name,cuisine,notes};
-      if(dp.sides) dp.sides=dp.sides.map(s=>Number(s.id)===editingDishId?{...s,name,cuisine,notes}:s);
-    });
-    closeAddModal(); renderAll();
-    const updated=dishes.find(d=>Number(d.id)===editingDishId);
-    await saveDishToSheets(updated);
-    await saveWeekToSheets();
-    setStatus("✓ Dish updated","success");
-  } else {
-    // Add new
-    const dish={ id:Date.now(), name, cuisine, type, notes, lastServed:"" };
-    dishes.push(dish); closeAddModal();
-    document.getElementById("new-name").value=""; document.getElementById("new-notes").value="";
-    renderAll(); await saveDishToSheets(dish);
-    setStatus("✓ Dish added to Google Sheets","success");
-  }
-}
-async function deleteDish(id) {
-  if(!confirm("Delete this dish?")) return;
-  dishes=dishes.filter(d=>Number(d.id)!==Number(id)); selectedDishId=null;
-  renderAll();
-  try { await apiPost({action:"deleteDish",id:String(id)}); setStatus("✓ Deleted","success"); }
-  catch(e){ setStatus("⚠️ Delete error","error"); }
+// ── LIBRARY ───────────────────────────────────────────────────
+function renderLibrary(){
+  const search=document.getElementById("search-input").value.toLowerCase();
+  const filterC=document.getElementById("filter-cuisine").value;
+  const filterT=document.getElementById("filter-type").value;
+  const filtered=dishes.filter(d=>(!filterC||d.cuisine===filterC)&&(!filterT||d.type===filterT)&&(!search||d.name.toLowerCase().includes(search)));
+  document.getElementById("swap-context").textContent=swapDay?`— tap to swap ${swapSlot==="main"?"main":"side"} for ${swapDay}`:"";
+  const inSwap=!!swapDay;
+  document.getElementById("dish-grid").innerHTML=filtered.map(dish=>{
+    const c=getCuisineData(dish.cuisine);
+    const canSwap=inSwap&&((swapSlot==="main"&&dish.type==="main")||(swapSlot!=="main"&&dish.type==="side"));
+    const isSelected=!inSwap&&selectedDishId===Number(dish.id);
+    const cardClick=inSwap?(canSwap?`doSwap(${dish.id})`:""):`selectDish(${dish.id})`;
+    return `<div class="dish-card ${canSwap?"swappable":""} ${isSelected?"selected":""}" style="${(canSwap||isSelected)?`border-color:${c.color};box-shadow:0 2px 10px ${c.color}22`:""}" onclick="${cardClick}">
+      <div class="dish-card-top">
+        <div class="dish-badges"><span class="badge" style="background:${c.light};color:${c.color}">${c.emoji} ${dish.cuisine}</span><span class="badge badge-type">${dish.type}</span></div>
+        <div class="dish-card-btns"><button class="dish-icon-btn" onclick="event.stopPropagation();openEditModal(${dish.id})">✏️</button><button class="dish-icon-btn" onclick="event.stopPropagation();deleteDish(${dish.id})">✕</button></div>
+      </div>
+      <div class="dish-name">${dish.name}</div>
+      ${dish.notes?`<div class="dish-notes">${dish.notes}</div>`:""}
+      ${dish.lastServed?`<div class="dish-served">Last: ${dish.lastServed}</div>`:""}
+      ${canSwap?`<div style="font-family:sans-serif;font-size:11px;font-weight:700;margin-top:4px;color:${c.color}">Tap to use →</div>`:""}
+      ${isSelected?`<button class="dish-confirm-btn" style="background:${c.color}" onclick="event.stopPropagation()">✓ Selected</button>`:""}
+    </div>`;
+  }).join("")||`<div style="font-family:sans-serif;color:#bbb;padding:20px;grid-column:1/-1">No dishes found.</div>`;
 }
 
-// ── CUISINE MANAGER ──────────────────────────────────────────
-function openCuisineManager() {
-  renderCuisineManageList(); renderColorPresets();
-  document.getElementById("new-cuisine-emoji").value="";
-  document.getElementById("new-cuisine-name").value="";
-  document.getElementById("cuisine-modal").classList.add("open");
-}
-function closeCuisineManager(){
-  document.getElementById("cuisine-modal").classList.remove("open");
-  populateCuisineSelects(); renderAll();
-}
-function renderCuisineManageList() {
-  document.getElementById("cuisine-manage-list").innerHTML=Object.entries(CUISINES).map(([name,c])=>`
-    <div class="cuisine-manage-item">
-      <div class="cuisine-color-swatch" style="background:${c.color}"></div>
-      <span style="font-size:16px">${c.emoji}</span>
-      <span>${name}</span>
-      ${name==="Other"?"":`<button class="cuisine-delete-btn" onclick="deleteCuisineType('${name}')">✕</button>`}
-    </div>`).join("");
-}
-function renderColorPresets() {
-  document.getElementById("color-presets").innerHTML=COLOR_OPTIONS.map(col=>`
-    <div class="color-preset ${selectedColor===col?"selected":""}" style="background:${col}" onclick="selectColor('${col}')"></div>`).join("");
-}
-function selectColor(col){ selectedColor=col; renderColorPresets(); }
-function addCuisineType() {
-  const name=document.getElementById("new-cuisine-name").value.trim();
-  const emoji=document.getElementById("new-cuisine-emoji").value.trim()||"🍽️";
-  if(!name){ alert("Please enter a cuisine name."); return; }
-  if(CUISINES[name]){ alert("That cuisine already exists."); return; }
-  CUISINES[name]={ color:selectedColor, light:computeLight(selectedColor), emoji };
-  saveCuisines();
-  document.getElementById("new-cuisine-name").value="";
-  document.getElementById("new-cuisine-emoji").value="";
-  renderCuisineManageList();
-  setStatus(`✓ ${emoji} ${name} added`,"success");
-}
-function deleteCuisineType(name) {
-  if(dishes.some(d=>d.cuisine===name)){ alert(`Can't delete "${name}" — it has dishes assigned to it. Reassign those dishes first.`); return; }
-  if(!confirm(`Remove cuisine "${name}"?`)) return;
-  delete CUISINES[name]; saveCuisines(); renderCuisineManageList();
+// ── BY CUISINE ────────────────────────────────────────────────
+function renderByCuisine(){
+  const anchor=weekPlans[dateKey(currentWeekStart)]?.anchorCuisine||"";
+  document.getElementById("cuisine-sections").innerHTML=Object.keys(CUISINES).map(cuisine=>{
+    const ds=dishes.filter(d=>d.cuisine===cuisine); if(!ds.length) return "";
+    const c=getCuisineData(cuisine), mains=ds.filter(d=>d.type==="main"), sides=ds.filter(d=>d.type==="side");
+    return `<div class="cuisine-section"><div class="cuisine-header" style="border-color:${c.color}">
+      <span class="ce">${c.emoji}</span><span class="cn">${cuisine}</span><span class="cc">${mains.length} mains · ${sides.length} sides</span>
+      ${cuisine===anchor?`<span class="this-week-badge" style="background:${c.color}">THIS WEEK</span>`:""}
+    </div>
+    ${mains.length?`<div class="cuisine-sublabel">MAINS</div><div class="cuisine-chips-row">${mains.map(d=>`<span class="cuisine-main-chip" style="background:${c.light};color:${c.color}">${d.name}${d.notes?` <span style="opacity:0.5;font-weight:400">· ${d.notes}</span>`:""}</span>`).join("")}</div>`:""}
+    ${sides.length?`<div class="cuisine-sublabel">SIDES</div><div class="cuisine-chips-row">${sides.map(d=>`<span class="cuisine-side-chip">${d.name}</span>`).join("")}</div>`:""}
+    </div>`;
+  }).join("");
 }
 
-// ── TAB / SWAP / SERVE ───────────────────────────────────────
-function switchTab(tab) {
-  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-  const panelId=tab==="history"?"history":tab==="cuisine"?"cuisine":tab==="library"?"library":"week";
-  document.getElementById("panel-"+panelId).classList.add("active");
-  document.querySelectorAll(".tab")[["week","library","cuisine","history"].indexOf(tab)].classList.add("active");
-  if(tab!=="library"){ if(swapDay) cancelSwap(); selectedDishId=null; }
-  if(tab==="history") renderHistory();
-}
-function toggleCuisinePicker(){ document.getElementById("cuisine-picker").classList.toggle("open"); }
-async function pickCuisine(cuisine) {
-  weekData=generateWeekPlan(dishes,cuisine); weekData.anchorCuisine=cuisine;
-  document.getElementById("cuisine-picker").classList.remove("open");
-  renderAll(); await saveWeekToSheets();
-}
-async function regenPlan(){ weekData=generateWeekPlan(dishes,weekData.anchorCuisine); renderAll(); await saveWeekToSheets(); }
-function startSwap(day,slot) {
-  swapDay=day; swapSlot=slot; selectedDishId=null;
-  document.getElementById("swap-toast-text").textContent=`🔄 Swapping ${slot==="main"?"main dish":"side"} for ${day} — pick from Library`;
+// ── SWAP ──────────────────────────────────────────────────────
+function startSwap(weekKey,day,slot){ swapWeekKey=weekKey; swapDay=day; swapSlot=slot; selectedDishId=null;
+  document.getElementById("swap-toast-text").textContent=`🔄 Swapping ${slot==="main"?"main":"side"} for ${day}`;
   document.getElementById("swap-toast").classList.add("visible"); switchTab("library");
 }
-function cancelSwap() {
-  swapDay=null; swapSlot=null;
-  document.getElementById("swap-toast").classList.remove("visible");
-  document.getElementById("swap-context").textContent=""; renderLibrary();
-}
-async function doSwap(dishId) {
+function cancelSwap(){ swapDay=null; swapSlot=null; swapWeekKey=null; document.getElementById("swap-toast").classList.remove("visible"); document.getElementById("swap-context").textContent=""; renderLibrary(); }
+async function doSwap(dishId){
   if(!swapDay) return;
   const dish=dishes.find(d=>Number(d.id)===Number(dishId));
-  const dp={...(weekData.plan[swapDay]||{})};
-  if(swapSlot==="main"){ dp.main=dish; } else {
-    const sides=[...(dp.sides||[])];
-    if(swapSlot<sides.length) sides[swapSlot]=dish; else sides.push(dish);
-    dp.sides=sides;
-  }
-  weekData.plan[swapDay]=dp; cancelSwap(); renderAll(); switchTab("week"); await saveWeekToSheets();
+  const wd=getWeekPlan(swapWeekKey), dp={...(wd.plan[swapDay]||{})};
+  if(swapSlot==="main"){ dp.main=dish; } else { const sides=[...(dp.sides||[])]; if(swapSlot<sides.length) sides[swapSlot]=dish; else sides.push(dish); dp.sides=sides; }
+  wd.plan[swapDay]=dp; cancelSwap(); renderAll(); switchTab("week"); await saveWeekToSheets(swapWeekKey);
 }
 function selectDish(id){ selectedDishId=(selectedDishId===Number(id))?null:Number(id); renderLibrary(); }
-async function removeSide(day,idx) {
-  const dp={...(weekData.plan[day]||{})}; const sides=[...(dp.sides||[])]; sides.splice(idx,1);
-  weekData.plan[day]={...dp,sides}; renderWeek(); await saveWeekToSheets();
+async function removeSide(weekKey,day,idx){
+  const wd=getWeekPlan(weekKey), dp={...(wd.plan[day]||{})}, sides=[...(dp.sides||[])];
+  sides.splice(idx,1); wd.plan[day]={...dp,sides}; renderWeekPanel(); await saveWeekToSheets(weekKey);
 }
-async function markServed(day) {
-  const dp=weekData.plan[day]; if(!dp||dp.blank) return;
-  const today=new Date().toISOString().split("T")[0];
+async function markServed(weekKey,day){
+  const dp=getWeekPlan(weekKey).plan[day]; if(!dp||dp.blank) return;
+  const today=dateKey(new Date());
   const ids=[dp.main?.id,...(dp.sides||[]).map(s=>s.id)].filter(Boolean).map(Number);
   dishes=dishes.map(d=>ids.includes(Number(d.id))?{...d,lastServed:today}:d);
   renderAll(); setStatus("Saving…");
@@ -1149,58 +1015,136 @@ async function markServed(day) {
   setStatus(`✓ Marked ${day} as served`,"success");
 }
 
-// ── SHEETS SYNC ──────────────────────────────────────────────
-async function saveDishToSheets(dish) {
-  try { await apiPost({action:"saveDish",dish}); } catch(e){ setStatus("⚠️ Sync error: "+e.message,"error"); }
+// ── CUISINE / WEEK ACTIONS ────────────────────────────────────
+function toggleCuisinePicker(){ const p=document.getElementById("cuisine-picker"); p.classList.toggle("open"); if(p.classList.contains("open")) p.style.display="block"; else p.style.display="none"; }
+async function pickCuisine(weekKey,cuisine){
+  weekPlans[weekKey]=generateWeekPlanForKey(weekKey,cuisine);
+  weekPlans[weekKey].anchorCuisine=cuisine;
+  document.getElementById("cuisine-picker").classList.remove("open"); document.getElementById("cuisine-picker").style.display="none";
+  renderAll(); await saveWeekToSheets(weekKey);
 }
-async function saveWeekToSheets() {
-  try { await apiPost({action:"saveWeekPlan",weekData}); } catch(e){ setStatus("⚠️ Sync error: "+e.message,"error"); }
+async function regenPlan(){
+  const weekKey=dateKey(currentWeekStart);
+  generateWeekPlanForKey(weekKey, weekPlans[weekKey]?.anchorCuisine||"Chinese");
+  renderAll(); await saveWeekToSheets(weekKey);
 }
 
-// ── UTILS ────────────────────────────────────────────────────
-function populateCuisineSelects() {
+// ── ADD/EDIT DISH ─────────────────────────────────────────────
+function openAddModal(){ editingDishId=null; document.getElementById("dish-modal-title").textContent="Add New Dish"; document.getElementById("dish-modal-save-btn").textContent="Add"; document.getElementById("new-name").value=""; document.getElementById("new-notes").value=""; document.getElementById("new-cuisine").value=Object.keys(CUISINES)[0]||"Korean"; document.getElementById("new-type").value="main"; document.getElementById("add-modal").classList.add("open"); }
+function openEditModal(id){ const dish=dishes.find(d=>Number(d.id)===Number(id)); if(!dish) return; editingDishId=Number(id); document.getElementById("dish-modal-title").textContent="Edit Dish"; document.getElementById("dish-modal-save-btn").textContent="Save Changes"; document.getElementById("new-name").value=dish.name; document.getElementById("new-notes").value=dish.notes||""; document.getElementById("new-cuisine").value=dish.cuisine; document.getElementById("new-type").value=dish.type; document.getElementById("add-modal").classList.add("open"); }
+function closeAddModal(){ document.getElementById("add-modal").classList.remove("open"); editingDishId=null; }
+async function saveDishModal(){
+  const name=document.getElementById("new-name").value.trim(); if(!name) return;
+  const cuisine=document.getElementById("new-cuisine").value, type=document.getElementById("new-type").value, notes=document.getElementById("new-notes").value.trim();
+  if(editingDishId!==null){
+    dishes=dishes.map(d=>Number(d.id)===editingDishId?{...d,name,cuisine,type,notes}:d);
+    Object.values(weekPlans).forEach(wd=>{ Object.values(wd.plan||{}).forEach(dp=>{ if(dp.main&&Number(dp.main.id)===editingDishId) dp.main={...dp.main,name,cuisine,notes}; if(dp.sides) dp.sides=dp.sides.map(s=>Number(s.id)===editingDishId?{...s,name,cuisine,notes}:s); }); });
+    closeAddModal(); renderAll();
+    const updated=dishes.find(d=>Number(d.id)===editingDishId);
+    await saveDishToSheets(updated);
+    await saveWeekToSheets(dateKey(currentWeekStart));
+    setStatus("✓ Dish updated","success");
+  } else {
+    const dish={ id:Date.now(),name,cuisine,type,notes,lastServed:"" };
+    dishes.push(dish); closeAddModal(); document.getElementById("new-name").value=""; document.getElementById("new-notes").value="";
+    renderAll(); await saveDishToSheets(dish); setStatus("✓ Dish added","success");
+  }
+}
+async function deleteDish(id){ if(!confirm("Delete this dish?")) return; dishes=dishes.filter(d=>Number(d.id)!==Number(id)); selectedDishId=null; renderAll(); try{ await apiPost({action:"deleteDish",id:String(id)}); setStatus("✓ Deleted","success"); }catch(e){ setStatus("⚠️ Delete error","error"); } }
+
+// ── CUISINE MANAGER ───────────────────────────────────────────
+function openCuisineManager(){ renderCuisineManageList(); renderColorPresets(); document.getElementById("new-cuisine-emoji").value=""; document.getElementById("new-cuisine-name").value=""; document.getElementById("cuisine-modal").classList.add("open"); }
+function closeCuisineManager(){ document.getElementById("cuisine-modal").classList.remove("open"); populateCuisineSelects(); renderAll(); }
+function renderCuisineManageList(){ document.getElementById("cuisine-manage-list").innerHTML=Object.entries(CUISINES).map(([name,c])=>`<div class="cuisine-manage-item"><div class="cuisine-color-swatch" style="background:${c.color}"></div><span style="font-size:15px">${c.emoji}</span><span>${name}</span>${name==="Other"?"":`<button class="cuisine-delete-btn" onclick="deleteCuisineType('${name}')">✕</button>`}</div>`).join(""); }
+function renderColorPresets(){ document.getElementById("color-presets").innerHTML=COLOR_OPTIONS.map(col=>`<div class="color-preset ${selectedColor===col?"selected":""}" style="background:${col}" onclick="selectColor('${col}')"></div>`).join(""); }
+function selectColor(col){ selectedColor=col; renderColorPresets(); }
+function addCuisineType(){ const name=document.getElementById("new-cuisine-name").value.trim(), emoji=document.getElementById("new-cuisine-emoji").value.trim()||"🍽️"; if(!name){ alert("Enter a cuisine name."); return; } if(CUISINES[name]){ alert("Already exists."); return; } CUISINES[name]={ color:selectedColor, light:computeLight(selectedColor), emoji }; saveCuisines(); document.getElementById("new-cuisine-name").value=""; document.getElementById("new-cuisine-emoji").value=""; renderCuisineManageList(); setStatus(`✓ ${emoji} ${name} added`,"success"); }
+function deleteCuisineType(name){ if(dishes.some(d=>d.cuisine===name)){ alert(`Can't delete "${name}" — reassign its dishes first.`); return; } if(!confirm(`Remove "${name}"?`)) return; delete CUISINES[name]; saveCuisines(); renderCuisineManageList(); }
+
+// ── HISTORY EDIT ──────────────────────────────────────────────
+function openHistEdit(entryIdx,day){
+  const entry=history[entryIdx]; if(!entry) return;
+  histEditEntry={entryIdx,day,source:"history"};
+  const dp=(entry.weekData?.plan||{})[day]||{};
+  histEditMain=dp.main||null; histEditSides=[...(dp.sides||[])];
+  document.getElementById("hist-edit-title").textContent=`Edit ${day} — ${entry.weekLabel}`;
+  document.getElementById("hist-edit-sub").textContent=histEditMain?`Currently: ${histEditMain.name}`:"No meal logged yet.";
+  document.getElementById("hist-edit-blank").checked=!!dp.blank;
+  document.getElementById("hist-edit-note").value=dp.note||"";
+  document.getElementById("hist-edit-search").value=""; document.getElementById("hist-edit-side-search").value="";
+  document.getElementById("hist-edit-main-section").style.display=dp.blank?"none":"block";
+  renderHistEditList(); renderHistEditSideList(); renderHistEditSideChips();
+  document.getElementById("hist-edit-modal").classList.add("open");
+}
+function openHistEditFromCurrent(weekKey,dayName){
+  // Open hist edit for a current week day in calendar view
+  const wd=getWeekPlan(weekKey), dp=(wd.plan||{})[dayName]||{};
+  histEditEntry={weekKey,dayName,source:"current"};
+  histEditMain=dp.main||null; histEditSides=[...(dp.sides||[])];
+  document.getElementById("hist-edit-title").textContent=`Edit ${dayName}`;
+  document.getElementById("hist-edit-sub").textContent=histEditMain?`Currently: ${histEditMain.name}`:"No meal set.";
+  document.getElementById("hist-edit-blank").checked=!!dp.blank;
+  document.getElementById("hist-edit-note").value=dp.note||"";
+  document.getElementById("hist-edit-search").value=""; document.getElementById("hist-edit-side-search").value="";
+  document.getElementById("hist-edit-main-section").style.display=dp.blank?"none":"block";
+  renderHistEditList(); renderHistEditSideList(); renderHistEditSideChips();
+  document.getElementById("hist-edit-modal").classList.add("open");
+}
+function closeHistEdit(){ document.getElementById("hist-edit-modal").classList.remove("open"); histEditEntry=null; histEditMain=null; histEditSides=[]; }
+function toggleHistEditBlank(){ document.getElementById("hist-edit-main-section").style.display=document.getElementById("hist-edit-blank").checked?"none":"block"; }
+function renderHistEditList(){ const search=document.getElementById("hist-edit-search").value.toLowerCase(); const mains=dishes.filter(d=>d.type==="main"&&(!search||d.name.toLowerCase().includes(search))); document.getElementById("hist-edit-dish-list").innerHTML=mains.map(d=>{ const isActive=histEditMain&&Number(histEditMain.id)===Number(d.id); const c=getCuisineData(d.cuisine); return `<div class="hist-edit-dish-item ${isActive?"active":""}" style="${isActive?`background:${c.light}`:""}" onclick="selectHistMain(${d.id})"><span>${d.name} <span style="color:${c.color};font-size:11px">${d.cuisine}</span></span>${isActive?`<span style="color:${c.color}">✓</span>`:""}</div>`; }).join("")||`<div style="padding:9px;font-family:sans-serif;font-size:12px;color:#bbb">No dishes found</div>`; }
+function selectHistMain(id){ histEditMain=dishes.find(d=>Number(d.id)===Number(id)); document.getElementById("hist-edit-sub").textContent=`Selected: ${histEditMain?.name}`; renderHistEditList(); }
+function renderHistEditSideList(){ const search=document.getElementById("hist-edit-side-search").value.toLowerCase(); const sides=dishes.filter(d=>d.type==="side"&&(!search||d.name.toLowerCase().includes(search))); document.getElementById("hist-edit-side-list").innerHTML=sides.map(d=>{ const added=histEditSides.some(s=>Number(s.id)===Number(d.id)); const c=getCuisineData(d.cuisine); return `<div class="hist-edit-dish-item ${added?"active":""}" style="${added?`background:${c.light}`:""}" onclick="${added?`removeHistSide(${d.id})`:`addHistSide(${d.id})`}"><span>${d.name} <span style="color:${c.color};font-size:11px">${d.cuisine}</span></span><span style="font-size:11px;color:${added?c.color:"#ccc"}">${added?"✓ added":"+ add"}</span></div>`; }).join("")||`<div style="padding:9px;font-family:sans-serif;font-size:12px;color:#bbb">No sides found</div>`; }
+function addHistSide(id){ const dish=dishes.find(d=>Number(d.id)===Number(id)); if(dish&&!histEditSides.some(s=>Number(s.id)===Number(id))) histEditSides.push(dish); renderHistEditSideList(); renderHistEditSideChips(); }
+function removeHistSide(id){ histEditSides=histEditSides.filter(s=>Number(s.id)!==Number(id)); renderHistEditSideList(); renderHistEditSideChips(); }
+function renderHistEditSideChips(){ document.getElementById("hist-edit-sides-chips").innerHTML=histEditSides.map(s=>{ const c=getCuisineData(s.cuisine); return `<span class="hist-edit-side-chip" style="background:${c.light};color:${c.color}">${s.name}<button onclick="removeHistSide(${s.id})">✕</button></span>`; }).join("")||`<span style="font-family:sans-serif;font-size:11px;color:#ccc">None added</span>`; }
+async function saveHistEdit(){
+  if(!histEditEntry) return;
+  const isBlank=document.getElementById("hist-edit-blank").checked;
+  const note=document.getElementById("hist-edit-note").value.trim();
+  if(!isBlank&&!histEditMain){ alert("Please select a main dish."); return; }
+  const newDp=isBlank?{ main:null,sides:[],blank:true,locked:false,note:note||null }:{ main:histEditMain,sides:histEditSides,blank:false,locked:false,note:note||null };
+  if(histEditEntry.source==="history"){
+    const entry=history[histEditEntry.entryIdx];
+    if(!entry.weekData) entry.weekData={plan:{},anchorCuisine:""};
+    entry.weekData.plan[histEditEntry.day]=newDp;
+    closeHistEdit(); renderHistory();
+    try { await apiPost({action:"archiveWeek",weekRecord:{weekLabel:entry.weekLabel,startDate:entry.startDate,weekData:entry.weekData}}); setStatus(`✓ ${histEditEntry.day} updated`,"success"); }
+    catch(e){ setStatus("⚠️ Sync error: "+e.message,"error"); }
+  } else {
+    const wd=getWeekPlan(histEditEntry.weekKey);
+    wd.plan[histEditEntry.dayName]=newDp;
+    closeHistEdit(); renderWeekPanel();
+    await saveWeekToSheets(histEditEntry.weekKey); setStatus(`✓ ${histEditEntry.dayName} updated`,"success");
+  }
+}
+
+// ── SHEETS SYNC ───────────────────────────────────────────────
+async function saveDishToSheets(dish){ try{ await apiPost({action:"saveDish",dish}); }catch(e){ setStatus("⚠️ Sync error: "+e.message,"error"); } }
+async function saveWeekToSheets(weekKey){ const wd=weekPlans[weekKey]; if(!wd) return; try{ await apiPost({action:"saveWeekPlan",weekData:wd}); }catch(e){ setStatus("⚠️ Sync error: "+e.message,"error"); } }
+
+// ── TAB SWITCHING ─────────────────────────────────────────────
+function switchTab(tab){
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  const ids={week:"panel-week",library:"panel-library",cuisine:"panel-cuisine",history:"panel-history"};
+  document.getElementById(ids[tab]||"panel-week").classList.add("active");
+  document.querySelectorAll(".tab")[["week","library","cuisine","history"].indexOf(tab)].classList.add("active");
+  if(tab!=="library"){ if(swapDay) cancelSwap(); selectedDishId=null; }
+  if(tab==="history") renderHistory();
+}
+
+// ── UTILS ─────────────────────────────────────────────────────
+function populateCuisineSelects(){
   ["filter-cuisine","new-cuisine"].forEach(id=>{
-    const sel=document.getElementById(id);
-    const current=sel.value;
+    const sel=document.getElementById(id), cur=sel.value;
     sel.innerHTML=id==="filter-cuisine"?`<option value="">All Cuisines</option>`:"";
-    Object.keys(CUISINES).forEach(c=>{ const opt=document.createElement("option"); opt.value=c; opt.textContent=c; sel.appendChild(opt); });
-    if(current&&CUISINES[current]) sel.value=current;
+    Object.keys(CUISINES).forEach(c=>{ const o=document.createElement("option"); o.value=c; o.textContent=c; sel.appendChild(o); });
+    if(cur&&CUISINES[cur]) sel.value=cur;
   });
 }
 
 init();
 </script>
-<!-- History Edit Modal -->
-<div id="hist-edit-modal" class="modal-overlay">
-  <div class="modal">
-    <h3 id="hist-edit-title">Edit Past Meal</h3>
-    <div class="modal-sub" id="hist-edit-sub"></div>
-    <label class="hist-edit-blank-toggle">
-      <input type="checkbox" id="hist-edit-blank" onchange="toggleHistEditBlank()"> Mark this day as blank
-    </label>
-    <div id="hist-edit-main-section">
-      <div class="form-group" style="margin-bottom:8px">
-        <label>Main dish</label>
-        <input class="lock-search" id="hist-edit-search" type="text" placeholder="Search dishes…" oninput="renderHistEditList()">
-      </div>
-      <div class="hist-edit-dish-list" id="hist-edit-dish-list"></div>
-      <div class="form-group">
-        <label>Sides <span style="font-weight:400;color:#bbb">(click dishes below to add)</span></label>
-        <div class="hist-edit-sides" id="hist-edit-sides-chips"></div>
-        <input class="lock-search" id="hist-edit-side-search" type="text" placeholder="Search sides to add…" oninput="renderHistEditSideList()" style="margin-top:4px">
-        <div class="hist-edit-dish-list" id="hist-edit-side-list"></div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Note (optional)</label>
-      <input id="hist-edit-note" type="text" placeholder="e.g. Family dinner 🎉">
-    </div>
-    <div class="modal-btns">
-      <button style="background:#1a1a1a;color:#fff;font-weight:700;" onclick="saveHistEdit()">Save</button>
-      <button style="background:#f5f5f5;color:#666;" onclick="closeHistEdit()">Cancel</button>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>

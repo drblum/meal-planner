@@ -242,7 +242,7 @@
 <script>
 // ── CONFIG ───────────────────────────────────────────────────
 // Paste your deployed Apps Script URL here:
-const API_URL = https://script.google.com/macros/s/AKfycbxn7Wyl12LMzmD1-roIdd5d6VnCTzEIdHbOBgTqRxzzDp0cPk0B21fGFDrbc5wmEhBZ/exec;
+const API_URL = https://script.google.com/macros/s/AKfycbyDhhfVM244e_5IHcPsorXi9LcqZxfLG0WAAb6_KnemeVxp-EBwNYjobjdoYp8B0cCq/exec;
 
 const CUISINES = {
   Korean:          { color: "#C0392B", light: "#FDEDEC", emoji: "🇰🇷" },
@@ -303,7 +303,7 @@ function setStatus(msg, type="") {
 async function init() {
   populateCuisineSelects();
 
-  if (!API_URL || API_URL === https://script.google.com/macros/s/AKfycbxn7Wyl12LMzmD1-roIdd5d6VnCTzEIdHbOBgTqRxzzDp0cPk0B21fGFDrbc5wmEhBZ/exec) {
+  if (!API_URL || API_URL === https://script.google.com/macros/s/AKfycbyDhhfVM244e_5IHcPsorXi9LcqZxfLG0WAAb6_KnemeVxp-EBwNYjobjdoYp8B0cCq/exec) {
     setStatus("⚠️ Paste your Apps Script URL into the API_URL variable at the top of this file to enable Google Sheets sync.", "error");
     return;
   }
@@ -628,7 +628,7 @@ async function addDish() {
 async function deleteDish(id) {
   dishes = dishes.filter(d => Number(d.id) !== Number(id));
   renderAll();
-  if (API_URL && API_URL !== https://script.google.com/macros/s/AKfycbxn7Wyl12LMzmD1-roIdd5d6VnCTzEIdHbOBgTqRxzzDp0cPk0B21fGFDrbc5wmEhBZ/exec) {
+  if (API_URL && API_URL !== https://script.google.com/macros/s/AKfycbyDhhfVM244e_5IHcPsorXi9LcqZxfLG0WAAb6_KnemeVxp-EBwNYjobjdoYp8B0cCq/exec) {
     await apiPost({ action: "deleteDish", id });
     setStatus("✓ Dish deleted", "success");
   }
@@ -636,12 +636,12 @@ async function deleteDish(id) {
 
 // ── SHEETS SYNC ──────────────────────────────────────────────
 async function saveDishToSheets(dish) {
-  if (!API_URL || API_URL === https://script.google.com/macros/s/AKfycbxn7Wyl12LMzmD1-roIdd5d6VnCTzEIdHbOBgTqRxzzDp0cPk0B21fGFDrbc5wmEhBZ/exec) return;
+  if (!API_URL || API_URL === https://script.google.com/macros/s/AKfycbyDhhfVM244e_5IHcPsorXi9LcqZxfLG0WAAb6_KnemeVxp-EBwNYjobjdoYp8B0cCq/exec) return;
   try { await apiPost({ action: "saveDish", dish }); } catch(e) { setStatus("⚠️ Sync error", "error"); }
 }
 
 async function saveWeekToSheets() {
-  if (!API_URL || API_URL === https://script.google.com/macros/s/AKfycbxn7Wyl12LMzmD1-roIdd5d6VnCTzEIdHbOBgTqRxzzDp0cPk0B21fGFDrbc5wmEhBZ/exec) return;
+  if (!API_URL || API_URL === https://script.google.com/macros/s/AKfycbyDhhfVM244e_5IHcPsorXi9LcqZxfLG0WAAb6_KnemeVxp-EBwNYjobjdoYp8B0cCq/exec) return;
   try { await apiPost({ action: "saveWeekPlan", weekData }); } catch(e) { setStatus("⚠️ Sync error", "error"); }
 }
 

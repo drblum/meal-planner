@@ -36,8 +36,10 @@
   .cuisine-chips { display: flex; flex-wrap: wrap; gap: 7px; }
   .cuisine-chip { padding: 7px 14px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1); font-family: sans-serif; font-size: 12px; cursor: pointer; font-weight: 600; }
 
+  /* Day rows */
   .day-row { background: #fff; border-radius: 12px; margin-bottom: 9px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
   .day-row.is-locked { border-width: 2px; }
+  .day-row.is-blank { opacity: 0.6; background: #f7f7f7; }
   .day-note { padding: 5px 14px; font-family: sans-serif; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid rgba(0,0,0,0.06); }
   .locked-badge { color: #fff; border-radius: 8px; padding: 1px 7px; font-size: 9px; font-weight: 700; }
   .day-inner { display: flex; align-items: stretch; flex-wrap: wrap; }
@@ -47,19 +49,22 @@
   .day-label .cuisine-sub { font-family: sans-serif; font-size: 8px; opacity: 0.85; margin-top: 1px; text-align: center; line-height: 1.2; }
   .day-main { flex: 1 1 150px; padding: 10px 13px; border-right: 1px solid #f0f0f0; }
   .day-sides { flex: 2 1 190px; padding: 10px 13px; }
-  .day-actions { padding: 10px 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; flex-shrink: 0; }
+  .day-actions { padding: 10px 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; flex-shrink: 0; }
   .section-label { font-family: sans-serif; font-size: 9px; color: #bbb; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; }
   .main-name { font-size: 14px; font-weight: bold; line-height: 1.3; }
   .main-notes { font-family: sans-serif; font-size: 10px; color: #bbb; margin-top: 2px; }
   .icon-btn { font-size: 10px; font-family: sans-serif; background: none; border: none; cursor: pointer; padding: 0; font-weight: 700; margin-top: 4px; display: inline-block; }
-  .lock-note { font-family: sans-serif; font-size: 9px; color: #ccc; margin-top: 4px; }
   .sides-row { display: flex; flex-wrap: wrap; gap: 5px; }
   .side-chip { display: inline-flex; align-items: center; gap: 3px; border-radius: 20px; padding: 3px 9px; font-family: sans-serif; font-size: 11px; font-weight: 600; }
   .side-chip button { background: none; border: none; cursor: pointer; font-size: 9px; opacity: 0.4; padding: 0; }
   .add-side-btn { background: none; border: 1px dashed #ddd; border-radius: 20px; padding: 3px 9px; font-family: sans-serif; font-size: 11px; color: #ccc; cursor: pointer; }
-  .served-btn { padding: 4px 9px; border-radius: 20px; border: 1px solid #eee; background: #fafafa; font-family: sans-serif; font-size: 10px; color: #aaa; cursor: pointer; white-space: nowrap; }
-  .lock-btn { padding: 4px 9px; border-radius: 20px; border: 1px solid #eee; background: #fafafa; font-family: sans-serif; font-size: 10px; color: #aaa; cursor: pointer; white-space: nowrap; }
-  .lock-btn.locked { background: #fff3e0; border-color: #E67E22; color: #E67E22; }
+  .action-btn { padding: 4px 8px; border-radius: 20px; border: 1px solid #eee; background: #fafafa; font-family: sans-serif; font-size: 10px; color: #888; cursor: pointer; white-space: nowrap; width: 72px; text-align: center; }
+  .action-btn.locked-style { background: #fff3e0; border-color: #E67E22; color: #E67E22; }
+  .action-btn.blank-style  { background: #f0f0f0; border-color: #bbb; color: #888; }
+
+  /* Blank day display */
+  .blank-day-content { flex: 1; padding: 10px 13px; display: flex; align-items: center; }
+  .blank-day-label { font-family: sans-serif; font-size: 12px; color: #bbb; font-style: italic; }
 
   .trip-banner { margin-top: 18px; background: #FFF9F0; border: 1px solid #F0C080; border-radius: 12px; padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
   .trip-banner .flag { font-size: 26px; }
@@ -75,9 +80,10 @@
   .filters select { padding: 7px 11px; border-radius: 20px; border: 1px solid #ddd; font-family: sans-serif; font-size: 12px; outline: none; background: #fff; }
 
   .dish-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 9px; }
-  .dish-card { background: #fff; border-radius: 10px; padding: 11px 13px; border: 1px solid #eee; box-shadow: 0 1px 4px rgba(0,0,0,0.04); transition: all 0.15s; }
-  .dish-card.swappable { border-width: 2px; cursor: pointer; }
-  .dish-card.swappable:hover { transform: translateY(-1px); }
+  .dish-card { background: #fff; border-radius: 10px; padding: 11px 13px; border: 1px solid #eee; box-shadow: 0 1px 4px rgba(0,0,0,0.04); transition: border-color 0.15s; cursor: pointer; }
+  .dish-card:hover { border-color: #ddd; }
+  .dish-card.selected { border-width: 2px; }
+  .dish-card.swappable { border-width: 2px; }
   .dish-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
   .dish-badges { display: flex; gap: 4px; flex-wrap: wrap; }
   .badge { border-radius: 10px; padding: 2px 7px; font-family: sans-serif; font-size: 10px; font-weight: 700; }
@@ -86,7 +92,7 @@
   .dish-name { margin-top: 6px; font-size: 13px; font-weight: bold; line-height: 1.3; }
   .dish-notes { font-family: sans-serif; font-size: 10px; color: #bbb; margin-top: 2px; }
   .dish-served { font-family: sans-serif; font-size: 10px; color: #ccc; margin-top: 4px; }
-  .dish-tap { font-family: sans-serif; font-size: 11px; font-weight: 700; margin-top: 5px; }
+  .dish-confirm-btn { margin-top: 8px; padding: 5px 14px; border-radius: 20px; border: none; font-family: sans-serif; font-size: 11px; font-weight: 700; cursor: pointer; color: #fff; display: block; width: 100%; }
 
   .lib-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
   .lib-header h2 { font-size: 18px; }
@@ -106,7 +112,8 @@
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300; display: none; align-items: center; justify-content: center; padding: 16px; }
   .modal-overlay.open { display: flex; }
   .modal { background: #fff; border-radius: 16px; padding: 24px; width: 100%; max-width: 400px; box-shadow: 0 8px 40px rgba(0,0,0,0.2); }
-  .modal h3 { font-size: 16px; margin-bottom: 16px; }
+  .modal h3 { font-size: 16px; margin-bottom: 6px; }
+  .modal-sub { font-family: sans-serif; font-size: 12px; color: #999; margin-bottom: 14px; }
   .form-group { margin-bottom: 11px; }
   .form-group label { font-family: sans-serif; font-size: 11px; color: #888; display: block; margin-bottom: 3px; }
   .form-group input, .form-group select { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; }
@@ -115,22 +122,20 @@
   .modal-btns { display: flex; gap: 8px; }
   .modal-btns button { flex: 1; padding: 10px; border: none; border-radius: 8px; font-family: sans-serif; cursor: pointer; }
 
-  /* Lock modal */
-  .lock-modal-day { font-family: sans-serif; font-size: 13px; color: #666; margin-bottom: 14px; }
-  .lock-dish-search { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; margin-bottom: 10px; }
-  .lock-dish-list { max-height: 220px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; }
+  /* Lock modal specifics */
+  .lock-search { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; margin-bottom: 8px; }
+  .lock-dish-list { max-height: 200px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; margin-bottom: 10px; }
   .lock-dish-item { padding: 9px 13px; cursor: pointer; border-bottom: 1px solid #f5f5f5; font-family: sans-serif; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
   .lock-dish-item:hover { background: #f9f9f9; }
+  .lock-dish-item.active { font-weight: 700; }
   .lock-dish-item:last-child { border-bottom: none; }
-  .lock-dish-badge { font-size: 10px; color: #bbb; }
-  .lock-note-input { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; margin-top: 10px; }
+  .lock-note-input { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; font-family: sans-serif; font-size: 13px; outline: none; }
 
   .status-bar { font-family: sans-serif; font-size: 11px; color: #aaa; text-align: center; padding: 8px; min-height: 28px; }
   .status-bar.error { color: #E74C3C; }
   .status-bar.success { color: #27AE60; }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
   .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #ddd; border-top-color: #E67E22; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 6px; vertical-align: middle; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
@@ -222,20 +227,38 @@
 <!-- Lock Meal Modal -->
 <div id="lock-modal" class="modal-overlay">
   <div class="modal">
-    <h3>🔒 Lock a Meal</h3>
-    <div class="lock-modal-day" id="lock-modal-day"></div>
-    <input class="lock-dish-search" id="lock-search" type="text" placeholder="Search dishes…" oninput="renderLockList()">
+    <h3 id="lock-modal-title">🔒 Lock a Meal</h3>
+    <div class="modal-sub" id="lock-modal-sub"></div>
+    <input class="lock-search" id="lock-search" type="text" placeholder="Search to change dish…" oninput="renderLockList()">
     <div class="lock-dish-list" id="lock-dish-list"></div>
-    <input class="lock-note-input" id="lock-note" type="text" placeholder="Note (e.g. Emily's mom arrives 🏠) — optional">
-    <div class="modal-btns" style="margin-top:14px;">
+    <div class="form-group">
+      <label>Note (optional)</label>
+      <input class="lock-note-input" id="lock-note" type="text" placeholder="e.g. Emily's mom arrives 🏠">
+    </div>
+    <div class="modal-btns" style="margin-top:4px;">
       <button style="background:#1a1a1a;color:#fff;font-weight:700;" onclick="confirmLock()">Lock This Meal</button>
       <button style="background:#f5f5f5;color:#666;" onclick="closeLockModal()">Cancel</button>
     </div>
   </div>
 </div>
 
+<!-- Blank Day Modal -->
+<div id="blank-modal" class="modal-overlay">
+  <div class="modal">
+    <h3 id="blank-modal-title">Mark Day as Blank</h3>
+    <div class="modal-sub" id="blank-modal-sub"></div>
+    <div class="form-group">
+      <label>Reason (optional)</label>
+      <input id="blank-reason" type="text" placeholder="e.g. Traveling ✈️, Eating out, etc.">
+    </div>
+    <div class="modal-btns" style="margin-top:4px;">
+      <button style="background:#888;color:#fff;font-weight:700;" onclick="confirmBlank()">Mark as Blank</button>
+      <button style="background:#f5f5f5;color:#666;" onclick="closeBlankModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <script>
-// ── CONFIG ───────────────────────────────────────────────────
 const API_URL = "https://script.google.com/macros/s/AKfycbyDhhfVM244e_5IHcPsorXi9LcqZxfLG0WAAb6_KnemeVxp-EBwNYjobjdoYp8B0cCq/exec";
 
 const CUISINES = {
@@ -255,7 +278,9 @@ const DAY_SHORT = { Monday:"MON", Tuesday:"TUE", Wednesday:"WED", Thursday:"THU"
 let dishes = [];
 let weekData = { plan: {}, anchorCuisine: "Chinese" };
 let swapDay = null, swapSlot = null;
+let selectedDishId = null;   // for library single-click highlight
 let lockTargetDay = null, lockSelectedDish = null;
+let blankTargetDay = null;
 
 // ── API ──────────────────────────────────────────────────────
 async function apiGet(action) {
@@ -266,7 +291,7 @@ async function apiGet(action) {
 async function apiPost(body) {
   const r = await fetch(API_URL, {
     method: "POST",
-    headers: { "Content-Type": "text/plain" }, // avoid CORS preflight
+    headers: { "Content-Type": "text/plain" },
     body: JSON.stringify(body),
   });
   if (!r.ok) throw new Error("HTTP " + r.status);
@@ -285,38 +310,37 @@ async function init() {
   populateCuisineSelects();
   setStatus('<span class="spinner"></span> Loading from Google Sheets…');
   try {
-    const [dishRes, weekRes] = await Promise.all([
-      apiGet("getDishes"),
-      apiGet("getWeekPlan")
-    ]);
+    const [dishRes, weekRes] = await Promise.all([apiGet("getDishes"), apiGet("getWeekPlan")]);
     if (dishRes.error) throw new Error(dishRes.error);
     dishes = dishRes.dishes || [];
-
     if (weekRes.weekData && weekRes.weekData.plan && Object.keys(weekRes.weekData.plan).length > 0) {
       weekData = weekRes.weekData;
     } else {
-      // No saved plan — generate fresh and save it
       weekData = generateWeekPlan(dishes, "Chinese");
       await saveWeekToSheets();
     }
     setStatus("✓ Synced with Google Sheets", "success");
   } catch(e) {
-    setStatus("⚠️ Could not load from Google Sheets: " + e.message, "error");
+    setStatus("⚠️ Could not load: " + e.message, "error");
   }
   renderAll();
 }
 
-// ── WEEK PLAN GENERATION ─────────────────────────────────────
+// ── GENERATE WEEK PLAN ───────────────────────────────────────
 function generateWeekPlan(dishList, anchorCuisine) {
-  const anchor = anchorCuisine || "Chinese";
-
-  // Preserve any currently locked days
+  const anchor = anchorCuisine || weekData?.anchorCuisine || "Chinese";
   const currentPlan = weekData?.plan || {};
-  const lockedDays = {};
+
+  // Preserve locked and blank days
+  const preservedDays = {};
   WEEKDAYS.forEach(day => {
-    if (currentPlan[day]?.locked) lockedDays[day] = currentPlan[day];
+    if (currentPlan[day]?.locked || currentPlan[day]?.blank) {
+      preservedDays[day] = currentPlan[day];
+    }
   });
-  const lockedIds = new Set(Object.values(lockedDays).filter(d => d.main).map(d => Number(d.main.id)));
+  const lockedIds = new Set(
+    Object.values(preservedDays).filter(d => d.main).map(d => Number(d.main.id))
+  );
 
   const anchorMains = dishList.filter(d => d.type==="main" && d.cuisine===anchor && !lockedIds.has(Number(d.id)))
     .sort(() => Math.random()-0.5);
@@ -332,19 +356,15 @@ function generateWeekPlan(dishList, anchorCuisine) {
   const plan = {};
 
   WEEKDAYS.forEach(day => {
-    // Preserve locked days exactly
-    if (lockedDays[day]) { plan[day] = lockedDays[day]; return; }
-
+    if (preservedDays[day]) { plan[day] = preservedDays[day]; return; }
     let main = null;
     for (const m of pool) {
       if (!used.has(Number(m.id))) { main = m; used.add(Number(m.id)); break; }
     }
-
     const sides = dishList
       .filter(d => d.type==="side" && (d.cuisine===main?.cuisine || d.cuisine==="American" || d.cuisine==="Other"))
       .sort(() => Math.random()-0.5).slice(0, 2);
-
-    plan[day] = { main, sides, note: null, locked: false };
+    plan[day] = { main, sides, note: null, locked: false, blank: false };
   });
 
   return { plan, anchorCuisine: anchor };
@@ -383,29 +403,60 @@ function renderWeek() {
 
   document.getElementById("day-rows").innerHTML = WEEKDAYS.map(day => {
     const dp = weekData.plan[day] || {};
+    const isBlank = !!dp.blank;
+    const isLocked = !!dp.locked && !isBlank;
     const cuisine = dp.main?.cuisine;
-    const col = CUISINES[cuisine] || CUISINES["Other"];
-    const isAnchor = cuisine === anchor;
-    const isLocked = !!dp.locked;
+    const col = isBlank ? { color: "#aaa", light: "#f5f5f5", emoji: "—" } : (CUISINES[cuisine] || CUISINES["Other"]);
+    const isAnchor = !isBlank && cuisine === anchor;
 
+    // Action buttons
+    const servedBtn = !isBlank
+      ? `<button class="action-btn" onclick="markServed('${day}')">✓ Done</button>` : "";
+
+    const lockBtn = isLocked
+      ? `<button class="action-btn locked-style" onclick="unlockDay('${day}')">🔓 Unlock</button>`
+      : (!isBlank ? `<button class="action-btn" onclick="openLockModal('${day}')">🔒 Lock</button>` : "");
+
+    const blankBtn = isBlank
+      ? `<button class="action-btn blank-style" onclick="unblankDay('${day}')">↩ Restore</button>`
+      : `<button class="action-btn" onclick="openBlankModal('${day}')" style="color:#bbb">✕ Blank</button>`;
+
+    // Note banner
     const noteHtml = dp.note ? `
       <div class="day-note" style="background:${col.light};color:${col.color}">
         ${isLocked ? `<span class="locked-badge" style="background:${col.color}">LOCKED</span>` : ""}
+        ${isBlank ? `<span class="locked-badge" style="background:#aaa">BLANK</span>` : ""}
         ${dp.note}
-      </div>` : "";
+      </div>` : (isBlank && !dp.note ? `
+      <div class="day-note" style="background:#f5f5f5;color:#bbb">
+        <span class="locked-badge" style="background:#bbb">BLANK</span>
+        No meal planned
+      </div>` : "");
+
+    if (isBlank) {
+      return `
+        <div class="day-row is-blank">
+          ${noteHtml}
+          <div class="day-inner">
+            <div class="day-label" style="background:#ccc">
+              <span class="emoji">⬜</span>
+              <span class="dname">${DAY_SHORT[day]}</span>
+            </div>
+            <div class="blank-day-content">
+              <span class="blank-day-label">${dp.note || "No meal planned"}</span>
+            </div>
+            <div class="day-actions">${blankBtn}</div>
+          </div>
+        </div>`;
+    }
 
     const sidesHtml = (dp.sides||[]).map((s,i) => `
       <span class="side-chip" style="background:${col.light};color:${col.color}">
         ${s.name}
         ${!isLocked ? `<button onclick="startSwap('${day}',${i})">⇄</button><button onclick="removeSide('${day}',${i})">✕</button>` : ""}
       </span>`).join("");
-
     const addSideBtn = (!isLocked && (dp.sides||[]).length < 4)
       ? `<button class="add-side-btn" onclick="startSwap('${day}',${(dp.sides||[]).length})">+ side</button>` : "";
-
-    const lockBtnLabel = isLocked ? "🔓 Unlock" : "🔒 Lock";
-    const lockBtnClass = isLocked ? "lock-btn locked" : "lock-btn";
-    const lockBtnAction = isLocked ? `unlockDay('${day}')` : `openLockModal('${day}')`;
 
     return `
       <div class="day-row ${isLocked?"is-locked":""}" style="border-color:${isLocked?col.color+"88":isAnchor?col.color+"44":"#eee"}">
@@ -427,74 +478,115 @@ function renderWeek() {
             <div class="sides-row">${sidesHtml}${addSideBtn}</div>
           </div>
           <div class="day-actions">
-            <button class="served-btn" onclick="markServed('${day}')">✓ Done</button>
-            <button class="${lockBtnClass}" onclick="${lockBtnAction}">${lockBtnLabel}</button>
+            ${servedBtn}
+            ${lockBtn}
+            ${blankBtn}
           </div>
         </div>
       </div>`;
   }).join("");
 }
 
+// ── BLANK DAY ────────────────────────────────────────────────
+function openBlankModal(day) {
+  blankTargetDay = day;
+  document.getElementById("blank-modal-title").textContent = `Mark ${day} as Blank`;
+  document.getElementById("blank-modal-sub").textContent = "This day won't have a planned meal.";
+  document.getElementById("blank-reason").value = "";
+  document.getElementById("blank-modal").classList.add("open");
+}
+function closeBlankModal() {
+  document.getElementById("blank-modal").classList.remove("open");
+  blankTargetDay = null;
+}
+async function confirmBlank() {
+  if (!blankTargetDay) return;
+  const reason = document.getElementById("blank-reason").value.trim();
+  weekData.plan[blankTargetDay] = {
+    main: null, sides: [], locked: false, blank: true,
+    note: reason || null,
+  };
+  closeBlankModal();
+  renderWeek();
+  await saveWeekToSheets();
+  setStatus(`✓ ${blankTargetDay} marked as blank`, "success");
+}
+async function unblankDay(day) {
+  // Restore with a fresh auto-picked meal
+  const anchor = weekData.anchorCuisine || "Chinese";
+  const usedIds = new Set(
+    WEEKDAYS.filter(d => d !== day && weekData.plan[d]?.main)
+      .map(d => Number(weekData.plan[d].main.id))
+  );
+  const pool = dishes.filter(d => d.type==="main" && !usedIds.has(Number(d.id)))
+    .sort(() => Math.random()-0.5);
+  const main = pool[0] || null;
+  const sides = dishes.filter(d => d.type==="side" && (d.cuisine===main?.cuisine || d.cuisine==="American"))
+    .sort(() => Math.random()-0.5).slice(0,2);
+  weekData.plan[day] = { main, sides, note: null, locked: false, blank: false };
+  renderWeek();
+  await saveWeekToSheets();
+  setStatus(`✓ ${day} restored`, "success");
+}
+
 // ── LOCK / UNLOCK ────────────────────────────────────────────
 function openLockModal(day) {
   lockTargetDay = day;
-  lockSelectedDish = null;
-  document.getElementById("lock-modal-day").textContent = "Locking meal for " + day;
+  // Default selection = whatever is currently on that day
+  lockSelectedDish = weekData.plan[day]?.main || null;
+  document.getElementById("lock-modal-title").textContent = `🔒 Lock Meal for ${day}`;
+  document.getElementById("lock-modal-sub").textContent = lockSelectedDish
+    ? `Currently: ${lockSelectedDish.name}. Confirm or search to change.`
+    : "Choose a dish to lock in.";
   document.getElementById("lock-search").value = "";
   document.getElementById("lock-note").value = weekData.plan[day]?.note || "";
   renderLockList();
   document.getElementById("lock-modal").classList.add("open");
 }
-
 function closeLockModal() {
   document.getElementById("lock-modal").classList.remove("open");
   lockTargetDay = null;
   lockSelectedDish = null;
 }
-
 function renderLockList() {
   const search = document.getElementById("lock-search").value.toLowerCase();
-  const mains = dishes.filter(d => d.type === "main" && d.name.toLowerCase().includes(search));
+  const mains = dishes.filter(d => d.type==="main" && (!search || d.name.toLowerCase().includes(search)));
   document.getElementById("lock-dish-list").innerHTML = mains.map(d => {
-    const isSelected = lockSelectedDish && Number(lockSelectedDish.id) === Number(d.id);
+    const isActive = lockSelectedDish && Number(lockSelectedDish.id) === Number(d.id);
     const c = CUISINES[d.cuisine] || CUISINES["Other"];
-    return `<div class="lock-dish-item" onclick="selectLockDish(${d.id})"
-      style="${isSelected ? `background:${c.light};font-weight:700` : ""}">
+    return `<div class="lock-dish-item ${isActive?"active":""}"
+      style="${isActive ? `background:${c.light}` : ""}"
+      onclick="selectLockDish(${d.id})">
       <span>${d.name} <span style="color:${c.color};font-size:11px">${d.cuisine}</span></span>
-      ${isSelected ? "✓" : ""}
+      ${isActive ? `<span style="color:${c.color}">✓</span>` : ""}
     </div>`;
-  }).join("") || '<div style="padding:12px;font-family:sans-serif;font-size:12px;color:#bbb;">No dishes found</div>';
+  }).join("") || `<div style="padding:12px;font-family:sans-serif;font-size:12px;color:#bbb">No dishes found</div>`;
 }
-
 function selectLockDish(id) {
   lockSelectedDish = dishes.find(d => Number(d.id) === Number(id));
+  document.getElementById("lock-modal-sub").textContent = `Selected: ${lockSelectedDish?.name}`;
   renderLockList();
 }
-
 async function confirmLock() {
-  if (!lockTargetDay || !lockSelectedDish) {
-    alert("Please select a dish to lock in.");
-    return;
-  }
+  if (!lockTargetDay || !lockSelectedDish) { alert("Please select a dish."); return; }
   const note = document.getElementById("lock-note").value.trim();
-  const dp = weekData.plan[lockTargetDay] || {};
   weekData.plan[lockTargetDay] = {
-    ...dp,
+    ...(weekData.plan[lockTargetDay] || {}),
     main: lockSelectedDish,
-    sides: dp.sides || [],
+    sides: weekData.plan[lockTargetDay]?.sides || [],
     note: note || null,
     locked: true,
+    blank: false,
   };
   closeLockModal();
-  await saveWeekToSheets();
   renderWeek();
+  await saveWeekToSheets();
   setStatus(`✓ ${lockTargetDay} locked to ${lockSelectedDish.name}`, "success");
 }
-
 async function unlockDay(day) {
   weekData.plan[day] = { ...weekData.plan[day], locked: false, note: null };
-  await saveWeekToSheets();
   renderWeek();
+  await saveWeekToSheets();
   setStatus(`✓ ${day} unlocked`, "success");
 }
 
@@ -506,17 +598,32 @@ function renderLibrary() {
   const filtered = dishes.filter(d =>
     (!filterC || d.cuisine===filterC) &&
     (!filterT || d.type===filterT) &&
-    d.name.toLowerCase().includes(search)
+    (!search || d.name.toLowerCase().includes(search))
   );
-  document.getElementById("swap-context").textContent = swapDay
+
+  const inSwapMode = !!swapDay;
+  document.getElementById("swap-context").textContent = inSwapMode
     ? `— tap to swap ${swapSlot==="main"?"main":"side"} for ${swapDay}` : "";
+
   document.getElementById("dish-grid").innerHTML = filtered.map(dish => {
     const c = CUISINES[dish.cuisine] || CUISINES["Other"];
-    const canSwap = swapDay && ((swapSlot==="main" && dish.type==="main") || (swapSlot!=="main" && dish.type==="side"));
+    const canSwap = inSwapMode && ((swapSlot==="main" && dish.type==="main") || (swapSlot!=="main" && dish.type==="side"));
+    const isSelected = !inSwapMode && selectedDishId === Number(dish.id);
+
+    // In normal (non-swap) mode: first click highlights, shows confirm button
+    // In swap mode: first click confirms immediately
+    const cardClick = inSwapMode
+      ? (canSwap ? `doSwap(${dish.id})` : "")
+      : `selectDish(${dish.id})`;
+
+    const confirmBtn = (isSelected && !inSwapMode)
+      ? `<button class="dish-confirm-btn" style="background:${c.color}" onclick="event.stopPropagation();confirmDishSelection(${dish.id})">✓ Use this dish</button>`
+      : "";
+
     return `
-      <div class="dish-card ${canSwap?"swappable":""}"
-        style="${canSwap?`border-color:${c.color};box-shadow:0 2px 12px ${c.color}33`:""}"
-        onclick="${canSwap?`doSwap(${dish.id})`:""}">
+      <div class="dish-card ${canSwap?"swappable":""} ${isSelected?"selected":""}"
+        style="${(canSwap||isSelected)?`border-color:${c.color};box-shadow:0 2px 12px ${c.color}22`:""}"
+        onclick="${cardClick}">
         <div class="dish-card-top">
           <div class="dish-badges">
             <span class="badge" style="background:${c.light};color:${c.color}">${dish.cuisine}</span>
@@ -527,9 +634,23 @@ function renderLibrary() {
         <div class="dish-name">${dish.name}</div>
         ${dish.notes ? `<div class="dish-notes">${dish.notes}</div>` : ""}
         ${dish.lastServed ? `<div class="dish-served">Last: ${dish.lastServed}</div>` : ""}
-        ${canSwap ? `<div class="dish-tap" style="color:${c.color}">Tap to use →</div>` : ""}
+        ${canSwap ? `<div class="dish-tap" style="color:${c.color}">Tap to swap →</div>` : ""}
+        ${confirmBtn}
       </div>`;
   }).join("");
+}
+
+function selectDish(id) {
+  // Toggle selection — clicking same card again deselects
+  selectedDishId = (selectedDishId === Number(id)) ? null : Number(id);
+  renderLibrary();
+}
+
+async function confirmDishSelection(id) {
+  // Used when not in swap mode — currently just deselects (placeholder for future use)
+  // Could be extended to e.g. assign to a day
+  selectedDishId = null;
+  renderLibrary();
 }
 
 // ── RENDER BY CUISINE ────────────────────────────────────────
@@ -557,19 +678,15 @@ function renderByCuisine() {
   }).join("");
 }
 
-// ── INTERACTIONS ─────────────────────────────────────────────
+// ── TAB / PICKER ─────────────────────────────────────────────
 function switchTab(tab) {
   document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   document.getElementById("panel-" + (tab==="cuisine"?"cuisine":tab==="library"?"library":"week")).classList.add("active");
   document.querySelectorAll(".tab")[["week","library","cuisine"].indexOf(tab)].classList.add("active");
-  if (tab !== "library" && swapDay) cancelSwap();
+  if (tab !== "library") { if (swapDay) cancelSwap(); selectedDishId = null; }
 }
-
-function toggleCuisinePicker() {
-  document.getElementById("cuisine-picker").classList.toggle("open");
-}
-
+function toggleCuisinePicker() { document.getElementById("cuisine-picker").classList.toggle("open"); }
 async function pickCuisine(cuisine) {
   weekData = generateWeekPlan(dishes, cuisine);
   weekData.anchorCuisine = cuisine;
@@ -577,28 +694,26 @@ async function pickCuisine(cuisine) {
   renderAll();
   await saveWeekToSheets();
 }
-
 async function regenPlan() {
   weekData = generateWeekPlan(dishes, weekData.anchorCuisine);
   renderAll();
   await saveWeekToSheets();
 }
 
+// ── SWAP ─────────────────────────────────────────────────────
 function startSwap(day, slot) {
-  swapDay = day; swapSlot = slot;
+  swapDay = day; swapSlot = slot; selectedDishId = null;
   document.getElementById("swap-toast-text").textContent =
     `🔄 Swapping ${slot==="main"?"main dish":"side"} for ${day} — pick from Library`;
   document.getElementById("swap-toast").classList.add("visible");
   switchTab("library");
 }
-
 function cancelSwap() {
   swapDay = null; swapSlot = null;
   document.getElementById("swap-toast").classList.remove("visible");
   document.getElementById("swap-context").textContent = "";
   renderLibrary();
 }
-
 async function doSwap(dishId) {
   if (!swapDay) return;
   const dish = dishes.find(d => Number(d.id)===Number(dishId));
@@ -616,20 +731,17 @@ async function doSwap(dishId) {
   switchTab("week");
   await saveWeekToSheets();
 }
-
 async function removeSide(day, idx) {
   const dp = { ...(weekData.plan[day]||{}) };
   const sides = [...(dp.sides||[])];
   sides.splice(idx, 1);
-  dp.sides = sides;
-  weekData.plan[day] = dp;
+  weekData.plan[day] = { ...dp, sides };
   renderWeek();
   await saveWeekToSheets();
 }
-
 async function markServed(day) {
   const dp = weekData.plan[day];
-  if (!dp) return;
+  if (!dp || dp.blank) return;
   const today = new Date().toISOString().split("T")[0];
   const idsToUpdate = [dp.main?.id, ...(dp.sides||[]).map(s=>s.id)].filter(Boolean).map(Number);
   dishes = dishes.map(d => idsToUpdate.includes(Number(d.id)) ? { ...d, lastServed: today } : d);
@@ -645,13 +757,11 @@ async function markServed(day) {
 // ── ADD / DELETE ─────────────────────────────────────────────
 function openAddModal() { document.getElementById("add-modal").classList.add("open"); }
 function closeAddModal() { document.getElementById("add-modal").classList.remove("open"); }
-
 async function addDish() {
   const name = document.getElementById("new-name").value.trim();
   if (!name) return;
   const dish = {
-    id: Date.now(),
-    name,
+    id: Date.now(), name,
     cuisine: document.getElementById("new-cuisine").value,
     type: document.getElementById("new-type").value,
     notes: document.getElementById("new-notes").value.trim(),
@@ -665,15 +775,13 @@ async function addDish() {
   await saveDishToSheets(dish);
   setStatus("✓ Dish added to Google Sheets", "success");
 }
-
 async function deleteDish(id) {
   if (!confirm("Delete this dish?")) return;
   dishes = dishes.filter(d => Number(d.id)!==Number(id));
+  selectedDishId = null;
   renderAll();
-  try {
-    await apiPost({ action: "deleteDish", id: String(id) });
-    setStatus("✓ Dish deleted", "success");
-  } catch(e) { setStatus("⚠️ Delete sync error", "error"); }
+  try { await apiPost({ action: "deleteDish", id: String(id) }); setStatus("✓ Deleted", "success"); }
+  catch(e) { setStatus("⚠️ Delete error", "error"); }
 }
 
 // ── SHEETS SYNC ──────────────────────────────────────────────
@@ -681,7 +789,6 @@ async function saveDishToSheets(dish) {
   try { await apiPost({ action: "saveDish", dish }); }
   catch(e) { setStatus("⚠️ Sync error: " + e.message, "error"); }
 }
-
 async function saveWeekToSheets() {
   try { await apiPost({ action: "saveWeekPlan", weekData }); }
   catch(e) { setStatus("⚠️ Sync error: " + e.message, "error"); }
@@ -693,8 +800,7 @@ function populateCuisineSelects() {
     const sel = document.getElementById(id);
     CUISINE_KEYS.forEach(c => {
       const opt = document.createElement("option");
-      opt.value = c; opt.textContent = c;
-      sel.appendChild(opt);
+      opt.value = c; opt.textContent = c; sel.appendChild(opt);
     });
   });
 }
